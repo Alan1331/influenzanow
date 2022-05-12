@@ -1,0 +1,38 @@
+.rectangle-left{
+position: fixed;
+width: 100%;
+height: 94.47px;
+left: -720px;
+top: 0px;
+background: #AEBAF8;
+transform: rotate(90.17deg);
+}
+
+.rectangle-right{
+position: fixed;
+width: 100%;
+height: 94.47px;
+left: 720px;
+top: 0px;
+background: #AEBAF8;
+transform: rotate(90.17deg);
+}
+
+.middletop-line{
+position: absolute;
+width: 100%;
+height: 11px;
+left: 0px;
+top: 92px;
+background: #AEBAF8;
+}
+
+.middle-line{
+position: absolute;
+width: 75%;
+height: 11px;
+left: 10%;
+top: 55%;
+background: #AEBAF8;
+transform: rotate(-89.68deg);
+}
