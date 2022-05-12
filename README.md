@@ -1,0 +1,2 @@
+# influenzanow
+InfluenZa Now is influencer marketing platform founded by AAA or Triple-A. AAA is a group consisting three people those have A at the first of their nickname. Members of AAA are Alan, Abdul, and Alfian. This platform name (InfluenZa Now) is inspired by YouTube Channel named "Programmer Zaman Now" and mixed it with "InfluenZa" word which stands for "Influencer Zaman", therefore the full name of this platform is "Influencer Zaman Now".
