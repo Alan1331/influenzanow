@@ -8,15 +8,15 @@
         <meta name="description" content="My new website" />
         <link rel="shortcut icon" href="ico/favicon.png"> 
         <!-- Core CSS -->         
-        <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet"> 
-        <link href="../style/css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet"> 
+        <link href="../../style/css/font-awesome.min.css" rel="stylesheet">
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700" rel="stylesheet">
         <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet">
         <!-- Style Library -->         
-        <link href="../style/css/style-library-1.css" rel="stylesheet">
-        <link href="../style/css/plugins.css" rel="stylesheet">
-        <link href="../style/css/blocks.css" rel="stylesheet">
-        <link href="../style/css/custom.css" rel="stylesheet">
+        <link href="../../style/css/style-library-1.css" rel="stylesheet">
+        <link href="../../style/css/plugins.css" rel="stylesheet">
+        <link href="../../style/css/blocks.css" rel="stylesheet">
+        <link href="../../style/css/custom.css" rel="stylesheet">
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->         
         <!--[if lt IE 9]>
       <script src="../style/js/html5shiv.js"></script>
@@ -42,24 +42,24 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a href="#">
-                        <img src="../images/logo.png" class="brand-img img-responsive">
+                        <img src="../../images/logo.png" class="brand-img img-responsive">
                     </a>
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="nav-item">
-                            <a href="index.php">Home</a>
+                            <a href="../../../index.php">Home</a>
                         </li>
                         <li class="nav-item active">
-                            <a href="SignUp.php">Get Started</a>
+                            <a href="loginas.php">Get Started</a>
                         </li>
                         <li class="nav-item">
                             <a href="#">Rating</a>
                         </li>
                         <!-- /.dropdown -->                             
                         <li class="nav-item">
-                            <a href="aboutUs.php">About Us</a>
+                            <a href="../aboutUs.php">About Us</a>
                         </li>
                     </ul>
                 </div>
@@ -75,7 +75,7 @@
         <div class="image-container col-sm-6 col-xs-12 pull-left">
             <div class="background-image-holder">
                 <center>
-                    <img src="../images/influencer.png" width="550" />
+                    <img src="../../images/influencer.png" width="550" />
                 </center>
             </div>
         </div>
@@ -96,7 +96,7 @@
         <div class="image-container col-sm-6 col-xs-12 pull-right">
             <div class="background-image-holder">
                 <center>
-                    <img src="../images/brand.png" width="600" />
+                    <img src="../../images/brand.png" width="600" />
                 </center>
             </div>
         </div>
