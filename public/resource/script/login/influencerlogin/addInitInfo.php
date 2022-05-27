@@ -1,6 +1,6 @@
 <?php
-require '../../../../includes/influencerlogin/functions.php';
 require '../../../../includes/connection.php';
+require '../../../../includes/influencerlogin/functions.php';
 
 $username = $_POST['inf_username'];
 $interests = query("SELECT * FROM inf_interest WHERE inf_username='$username'");
@@ -39,7 +39,7 @@ if( isset($_POST['add_interest']) ) {
 
 <h2>Interests</h2>
 <form action="" method="post">
-    <input type="hidded" name="inf_username" value="<?= $username ?>">
+    <input type="hidden" name="inf_username" value="<?= $username ?>">
     <ul>
         <li>
             <label for="interest">Add interest</label>

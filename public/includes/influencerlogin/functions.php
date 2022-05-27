@@ -1,5 +1,4 @@
 <?php
-require '../connection.php';
 
 function query( $sql ) {
     global $conn;
@@ -21,11 +20,11 @@ function signup($data) {
     $birthdate = $data['inf_birthdate'];
     $phone_number = test_input($data['inf_phone_number']);
     $address = trim(htmlspecialchars(mysqli_real_escape_string($conn, $data['inf_address'])));
-    $password = mysqli_real_escape_string($conn, $data['password']);
-    $password2 = mysqli_real_escape_string($conn, $data['password2']);
+    $password = mysqli_real_escape_string($conn, $data['inf_password']);
+    $password2 = mysqli_real_escape_string($conn, $data['inf_password2']);
 
     // cek username tersedia atau tidak
-    $result = mysqli_query($conn, "SELECT inf_username FROM influencer WHERE username='$username'");
+    $result = mysqli_query($conn, "SELECT inf_username FROM influencer WHERE inf_username='$username'");
     if( mysqli_fetch_assoc($result) ) {
         echo "
                 <script>
@@ -50,7 +49,7 @@ function signup($data) {
 
     // tambahkan user baru ke database
     mysqli_query($conn, "INSERT INTO influencer VALUES('$username', '$name', '$email',
-                '$password', '$gender', '$birthdate', '$address', '$phone_number')");
+                '$password', '$gender', '$birthdate', '$address', '$phone_number', '')");
     
     return mysqli_affected_rows($conn);
 

@@ -1,6 +1,6 @@
 <?php
-require '../../../../includes/influencerlogin/functions.php';
-require '../../../../includes/connection.php';
+require __DIR__.'../../../../../includes/connection.php';
+require __DIR__.'../../../../../includes/influencerlogin/functions.php';
 
 if( isset($_POST['inf_signup']) ) {
     
@@ -10,8 +10,14 @@ if( isset($_POST['inf_signup']) ) {
                     alert('user baru berhasil ditambahkan');
                 </script>
             ";
+            header('Location: addInitInfo.php');
     } else {
-        echo mysqli_error($conn);
+        echo "
+                <script>
+                    alert('user baru gagal ditambahkan');
+                </script>
+            ";
+        // echo mysqli_error($conn);
     }
 
 }
@@ -31,7 +37,7 @@ if( isset($_POST['inf_signup']) ) {
 <body>
     <div class="container">
         <div class="SignUp">
-            <form action="addInitInfo.php" method="post">
+            <form action="" method="post">
                 <h1>Sign Up</h1>
                 <h3>For Influencer</h3>
                 <hr>
