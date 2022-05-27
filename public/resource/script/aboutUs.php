@@ -43,17 +43,17 @@
                     <div class="collapse navbar-collapse" id="navbar-collapse">
                         <ul class="nav navbar-nav navbar-right">
                             <li class="nav-item">
-                                <a href="index.html">Home</a>
+                                <a href="index.php">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a href="SignUp.html">Get Started</a>
+                                <a href="SignUp.php">Get Started</a>
                             </li>
                             <li class="nav-item">
                                 <a href="#">Rating</a>
                             </li>
                             <!-- /.dropdown -->                             
                             <li class="nav-item active">
-                                <a href="aboutUs.html">About Us</a>
+                                <a href="aboutUs.php">About Us</a>
                             </li>
                         </ul>
                     </div>

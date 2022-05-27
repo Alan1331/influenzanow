@@ -50,17 +50,17 @@
                 <div class="collapse navbar-collapse" id="navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="nav-item active">
-                            <a href="index.html">Home</a>
+                            <a href="index.php">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a href="resource/script/SignUp.html">Get Started</a>
+                            <a href="resource/script/login/loginas.php">Get Started</a>
                         </li>
                         <li class="nav-item">
                             <a href="#">Rating</a>
                         </li>
                         <!-- /.dropdown -->                             
                         <li class="nav-item">
-                            <a href="resource/script/aboutUs.html">About Us</a>
+                            <a href="resource/script/aboutUs.php">About Us</a>
                         </li>
                     </ul>
                 </div>
@@ -79,7 +79,7 @@
                     Nikmati penawaran menarik dan fasilitas<br>yang disediakan oleh brand.<br>
                 </p>
                 <br>
-                <p><a href ="resource/script/SignUp.html"  class="tbl-biru">LET'S GET STARTED</a></p>
+                <p><a href ="resource/script/login/loginas.php"  class="tbl-biru">LET'S GET STARTED</a></p>
             </div>
             <img src="https://img.freepik.com/free-vector/online-concept-illustration_114360-1009.jpg?t=st=1652317603~exp=1652318203~hmac=c7f9f8c828df8be3580cce63a91930fde29a757a85eb57593f2d53b4fb4caf18&w=740">
         </section>

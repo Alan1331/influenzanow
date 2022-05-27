@@ -49,17 +49,17 @@
                 <div class="collapse navbar-collapse" id="navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="nav-item">
-                            <a href="index.html">Home</a>
+                            <a href="index.php">Home</a>
                         </li>
                         <li class="nav-item active">
-                            <a href="SignUp.html">Get Started</a>
+                            <a href="SignUp.php">Get Started</a>
                         </li>
                         <li class="nav-item">
                             <a href="#">Rating</a>
                         </li>
                         <!-- /.dropdown -->                             
                         <li class="nav-item">
-                            <a href="aboutUs.html">About Us</a>
+                            <a href="aboutUs.php">About Us</a>
                         </li>
                     </ul>
                 </div>
@@ -84,7 +84,7 @@
                 <div class="col-sm-6 col-sm-offset-6 col-xs-12 content">
                     <h3>For Influencers</h3>
                     <p>Jalin Kerja sama dengan berbagai macam Brands.</p>
-                    <a href="regInfluencer.html" class="btn btn-outline btn-outline outline-dark">Sign Up</a>
+                    <a href="regInfluencer.php" class="btn btn-outline btn-outline outline-dark">Sign Up</a>
                     <a href="#" class="btn btn-outline btn-outline outline-dark">Sign In</a>
                 </div>
             </div>
@@ -105,7 +105,7 @@
                 <div class="col-sm-6 col-xs-12 content pull-left">
                     <h3>For Brands</h3>
                     <p>Jalin Kerja Sama dengan berbagai macam Influencers.</p>
-                    <a href="regBrand.html" class="btn btn-outline btn-outline outline-dark">Sign up</a>
+                    <a href="regBrand.php" class="btn btn-outline btn-outline outline-dark">Sign up</a>
                     <a href="#" class="btn btn-outline btn-outline outline-dark">Sign In</a>
                 </div>
             </div>

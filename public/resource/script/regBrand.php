@@ -24,7 +24,7 @@
                 <input type="text" placeholder="example@gmail.com">
                 <label for="">Password</label>
                 <input type="password" placeholder="Your Password">
-                <button formaction="fbReg.html">Sign Up</button>
+                <button formaction="fbReg.php">Sign Up</button>
             </form>
         </div>
     </div>
