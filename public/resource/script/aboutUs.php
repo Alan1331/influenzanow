@@ -43,10 +43,10 @@
                     <div class="collapse navbar-collapse" id="navbar-collapse">
                         <ul class="nav navbar-nav navbar-right">
                             <li class="nav-item">
-                                <a href="index.php">Home</a>
+                                <a href="../../index.php">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a href="SignUp.php">Get Started</a>
+                                <a href="./login/loginas.php">Get Started</a>
                             </li>
                             <li class="nav-item">
                                 <a href="#">Rating</a>
@@ -138,7 +138,7 @@
                             <div class="team-thumb">
                                 <img src="../images/abdulist.jpg" class="img-responsive" alt="Member Image">
                                 <div class="image-overlay"></div>
-                                <a href="https://www.instagram.com/ahd.abd._/" class="team-link"><i class="fa fa-3x fa-instagram"></i></a>
+                                <a href="https://www.instagram.com/ahd.abd._/" class="team-link" target="_blank"><i class="fa fa-3x fa-instagram"></i></a>
                             </div>
                             <div class="team-details">
                                 <h4>Ahmad Abdul Fatah</h4>
@@ -151,7 +151,7 @@
                             <div class="team-thumb">
                                 <img src="../images/alan1331.jpg" class="img-responsive" alt="Member Image">
                                 <div class="image-overlay"></div>
-                                <a href="https://www.instagram.com/sahlan_wijaya/" class="team-link"><i class="fa fa-3x fa-instagram"></i></a>
+                                <a href="https://www.instagram.com/sahlan_wijaya/" class="team-link" target="_blank"><i class="fa fa-3x fa-instagram"></i></a>
                             </div>
                             <div class="team-details">
                                 <h4>Syekh Maulana Wijaya</h4>
@@ -164,7 +164,7 @@
                             <div class="team-thumb">
                                 <img src="../images/alfnmrz.jpg" class="img-responsive" alt="Member Image">
                                 <div class="image-overlay"></div>
-                                <a href="https://www.instagram.com/alfnmrz/" class="team-link"><i class="fa fa-3x fa-instagram"></i></a>
+                                <a href="https://www.instagram.com/alfnmrz/" class="team-link" target="_blank"><i class="fa fa-3x fa-instagram"></i></a>
                             </div>
                             <div class="team-details">
                                 <h4>Alfian Mohammad Rizki</h4>
