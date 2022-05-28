@@ -72,11 +72,10 @@
         <!--Homepage Awal-->
         <section id = "HOME">
             <div class="kolom">
-                <h2>---</h2>
-                <h2>---</h2>
+                <h2>--</h2>
                 <h2>Platform Digital Marketing<br>Influencer & Brand</h2>
                 <p>Wujudkan impian dan keinginan kalian bersama InfluenZa Now,<br>Untuk menjadi seorang Influencer yang dapat bekerjasama<br>dengan berbagai macam melalui platform kami.<br><br>
-                    Nikmati penawaran menarik dan fasilitas<br>yang disediakan oleh brand.<br>
+                    Nikmati penawaran menarik dan fasilitas<br>yang disediakan oleh brand.
                 </p>
                 <br>
                 <p><a href ="resource/script/login/loginas.php"  class="tbl-biru">LET'S GET STARTED</a></p>

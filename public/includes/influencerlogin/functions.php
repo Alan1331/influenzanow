@@ -19,7 +19,7 @@ function signup($data) {
     $gender = $data['inf_gender'];
     $birthdate = $data['inf_birthdate'];
     $phone_number = test_input($data['inf_phone_number']);
-    $address = trim(htmlspecialchars(mysqli_real_escape_string($conn, $data['inf_address'])));
+    $address = mysqli_real_escape_string($conn, $data['inf_address']);
     $password = mysqli_real_escape_string($conn, $data['inf_password']);
     $password2 = mysqli_real_escape_string($conn, $data['inf_password2']);
 
@@ -48,11 +48,11 @@ function signup($data) {
     $password = password_hash($password, PASSWORD_DEFAULT);
 
     // tambahkan user baru ke database
-    mysqli_query($conn, "INSERT INTO influencer VALUES('$username', '$name', '$email',
-                '$password', '$gender', '$birthdate', '$address', '$phone_number', '')");
-    
-    return mysqli_affected_rows($conn);
+    $signup_sql = "INSERT INTO influencer VALUES('$username', '$name', '$email', '$password', '$gender', '$birthdate', '$address', '$phone_number')";
+    mysqli_query($conn, $signup_sql);
 
+
+    return mysqli_affected_rows($conn);
 }
 
 function test_input($input) {

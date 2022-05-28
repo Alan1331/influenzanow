@@ -1,23 +1,25 @@
 <?php
+session_start();
+
 require __DIR__.'../../../../../includes/connection.php';
 require __DIR__.'../../../../../includes/influencerlogin/functions.php';
 
 if( isset($_POST['inf_signup']) ) {
-    
+
     if( signup($_POST) > 0 ) {
         echo "
                 <script>
                     alert('user baru berhasil ditambahkan');
                 </script>
             ";
-            header('Location: addInitInfo.php');
+        header('Location: addInitInfo.php');
     } else {
         echo "
                 <script>
                     alert('user baru gagal ditambahkan');
                 </script>
             ";
-        // echo mysqli_error($conn);
+        echo mysqli_error($conn);
     }
 
 }
