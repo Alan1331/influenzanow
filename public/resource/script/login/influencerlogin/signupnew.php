@@ -1,23 +1,27 @@
 <?php
+session_start();
+
 require __DIR__.'../../../../../includes/connection.php';
 require __DIR__.'../../../../../includes/influencerlogin/functions.php';
 
 if( isset($_POST['inf_signup']) ) {
-    
+
     if( signup($_POST) > 0 ) {
         echo "
                 <script>
                     alert('user baru berhasil ditambahkan');
                 </script>
             ";
-            header('Location: addInitInfo.php');
+        $_SESSION['login'] = true;
+        $_SESSION['inf_username'] = $_POST['inf_username'];
+        header('Location: addInitInfo.php');
     } else {
         echo "
                 <script>
                     alert('user baru gagal ditambahkan');
                 </script>
             ";
-        // echo mysqli_error($conn);
+        echo mysqli_error($conn);
     }
 
 }
@@ -59,7 +63,7 @@ if( isset($_POST['inf_signup']) ) {
                     </div>
                     <div id="contact" class="form-container">
                         <div id="message"></div>
-                        <form method="post" action="js/contact-form.php" name="contactform" id="contactform">
+                        <form method="post" action="">
                             <!-- /.row -->
                             <div class="row">
                                 <div class="col-sm-4">
@@ -109,7 +113,7 @@ if( isset($_POST['inf_signup']) ) {
                             </div>
                             <!-- /.Birthdate -->
                             <label for="inf_birthdate">Birthdate</label>
-                            <input name="inf_birthdate" id="birthdate" type="date" placeholder="" class="form-control" />
+                            <input name="inf_birthdate" id="birthdate" type="date" class="form-control" />
                             <!-- /.Gender -->
                             <label for="inf_gender">Gender</label>
                             <div class="row">
@@ -117,13 +121,13 @@ if( isset($_POST['inf_signup']) ) {
                                     <div class="radio"> 
                                 </div>
                                     <label class="control-label"> 
-                                        <input type="radio" name="group" value="M" checked>Male        
+                                        <input type="radio" id="inf_gender" name="inf_gender" value="M" checked>Male        
                                     </label>
                                     <label class="control-label"> 
-                                        <input type="radio" name="group" value="F" checked>Female      
+                                        <input type="radio" id="inf_gender" name="inf_gender" value="F" checked>Female      
                                     </label>
                                     <label class="control-label"> 
-                                        <input type="radio" name="group" value="O" checked>Others        
+                                        <input type="radio" id="inf_gender" name="inf_gender" value="O" checked>Others        
                                     </label>                                     
                                 </div>
                             </div>
@@ -131,7 +135,7 @@ if( isset($_POST['inf_signup']) ) {
                                 <!-- /.Address -->
                                 <label for="inf_address">Address</label>
                                 <textarea name="inf_address" id="inf_address" class="form-control" rows="3" placeholder="Address" id="textArea"></textarea>
-                                <p class="small text-muted"><span class="guardsman">* All fields are required.</span> Once we receive your message we will respond as soon as possible.</p>
+                                <p class="small text-muted"><span class="guardsman">All fields are required.</span> Once we receive your message we will respond as soon as possible.</p>
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-primary" type="submit" id="inf_signup" name="inf_signup">Sign Up</button>
