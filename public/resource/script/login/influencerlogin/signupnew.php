@@ -131,7 +131,7 @@ if( isset($_POST['inf_signup']) ) {
                                 <!-- /.Address -->
                                 <label for="inf_address">Address</label>
                                 <textarea name="inf_address" id="inf_address" class="form-control" rows="3" placeholder="Address" id="textArea"></textarea>
-                                <p class="small text-muted"><span class="guardsman">* All fields are required.</span> Once we receive your message we will respond as soon as possible.</p>
+                                <p class="small text-muted"><span class="guardsman">All fields are required.</span> Once we receive your message we will respond as soon as possible.</p>
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-primary" type="submit" id="inf_signup" name="inf_signup">Sign Up</button>
