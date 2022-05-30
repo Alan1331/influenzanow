@@ -109,7 +109,7 @@ if( isset($_POST['inf_signup']) ) {
                             </div>
                             <!-- /.Birthdate -->
                             <label for="inf_birthdate">Birthdate</label>
-                            <input name="inf_birthdate" id="birthdate" type="date" placeholder="" class="form-control" />
+                            <input name="inf_birthdate" id="birthdate" type="date" class="form-control" />
                             <!-- /.Gender -->
                             <label for="inf_gender">Gender</label>
                             <div class="row">
