@@ -117,13 +117,13 @@ if( isset($_POST['inf_signup']) ) {
                                     <div class="radio"> 
                                 </div>
                                     <label class="control-label"> 
-                                        <input type="radio" name="group" value="M" checked>Male        
+                                        <input type="radio" id="inf_gender" name="inf_gender" value="M" checked>Male        
                                     </label>
                                     <label class="control-label"> 
-                                        <input type="radio" name="group" value="F" checked>Female      
+                                        <input type="radio" id="inf_gender" name="inf_gender" value="F" checked>Female      
                                     </label>
                                     <label class="control-label"> 
-                                        <input type="radio" name="group" value="O" checked>Others        
+                                        <input type="radio" id="inf_gender" name="inf_gender" value="O" checked>Others        
                                     </label>                                     
                                 </div>
                             </div>
