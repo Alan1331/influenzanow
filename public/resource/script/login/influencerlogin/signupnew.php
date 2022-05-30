@@ -1,23 +1,27 @@
 <?php
+session_start();
+
 require __DIR__.'../../../../../includes/connection.php';
 require __DIR__.'../../../../../includes/influencerlogin/functions.php';
 
 if( isset($_POST['inf_signup']) ) {
-    
+
     if( signup($_POST) > 0 ) {
         echo "
                 <script>
                     alert('user baru berhasil ditambahkan');
                 </script>
             ";
-            header('Location: addInitInfo.php');
+        $_SESSION['login'] = true;
+        $_SESSION['inf_username'] = $_POST['inf_username'];
+        header('Location: addInitInfo.php');
     } else {
         echo "
                 <script>
                     alert('user baru gagal ditambahkan');
                 </script>
             ";
-        // echo mysqli_error($conn);
+        echo mysqli_error($conn);
     }
 
 }
@@ -59,7 +63,7 @@ if( isset($_POST['inf_signup']) ) {
                     </div>
                     <div id="contact" class="form-container">
                         <div id="message"></div>
-                        <form method="post" action="js/contact-form.php" name="contactform" id="contactform">
+                        <form method="post" action="">
                             <!-- /.row -->
                             <div class="row">
                                 <div class="col-sm-4">

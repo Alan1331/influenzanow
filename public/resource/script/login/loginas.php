@@ -84,7 +84,7 @@
                 <div class="col-sm-6 col-sm-offset-6 col-xs-12 content">
                     <h3>For Influencers</h3>
                     <p>Jalin Kerja sama dengan berbagai macam Brands.</p>
-                    <a href="./influencerlogin/signup.php" class="btn btn-outline btn-outline outline-dark">Sign Up</a>
+                    <a href="./influencerlogin/signupnew.php" class="btn btn-outline btn-outline outline-dark">Sign Up</a>
                     <a href="./influencerlogin/login.php" class="btn btn-outline btn-outline outline-dark">Sign In</a>
                 </div>
             </div>
