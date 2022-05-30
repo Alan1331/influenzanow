@@ -66,21 +66,21 @@ if( isset($_POST['inf_signup']) ) {
                                     <div class="form-group">
                                         <!-- /.Fullname -->
                                         <label for="inf_name">Full Name</label>
-                                        <input name="inf_name" id="inf_name" type="text" value="" placeholder="Full Name" class="form-control" />
+                                        <input name="inf_name" id="inf_name" type="text" placeholder="Full Name" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <!-- /.Username -->
                                         <label for="inf_username">Username</label>
-                                        <input name="inf_username" id="inf_username" type="text" value="" placeholder="Username" class="form-control" />
+                                        <input name="inf_username" id="inf_username" type="text" placeholder="Username" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <!-- /.Email -->
                                         <label for="inf_email">Email</label>
-                                        <input name="inf_email" id="inf_email" type="text" value="" placeholder="example@example.com" class="form-control" />
+                                        <input name="inf_email" id="inf_email" type="text" placeholder="example@example.com" class="form-control" />
                                     </div>
                                 </div>
                             </div>
@@ -89,27 +89,27 @@ if( isset($_POST['inf_signup']) ) {
                                     <div class="form-group">
                                         <!-- /.Phone Number -->
                                         <label for="inf_phone_number">Phone Number</label>
-                                        <input name="inf_phone_number" id="inf_phone_number" type="text" value="" placeholder="Phone Number" class="form-control" />
+                                        <input name="inf_phone_number" id="inf_phone_number" type="text" placeholder="Phone Number" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <!-- /.Password -->
                                         <label for="inf_password">Password</label>
-                                        <input name="inf_password" id="inf_password" type="password" value="" placeholder="Password" class="form-control" />
+                                        <input name="inf_password" id="inf_password" type="password" placeholder="Password" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <!-- /.Password Confirmation -->
                                         <label for="inf_password2">Confirm Password</label>
-                                        <input name="inf_password2" id="inf_password2" type="password" value="" placeholder="Password Confirmation" class="form-control" />
+                                        <input name="inf_password2" id="inf_password2" type="password" placeholder="Password Confirmation" class="form-control" />
                                     </div>
                                 </div>
                             </div>
                             <!-- /.Birthdate -->
                             <label for="inf_birthdate">Birthdate</label>
-                            <input name="inf_birthdate" id="birthdate" type="date" value="" placeholder="" class="form-control" />
+                            <input name="inf_birthdate" id="birthdate" type="date" placeholder="" class="form-control" />
                             <!-- /.Gender -->
                             <label for="inf_gender">Gender</label>
                             <div class="row">
@@ -134,7 +134,7 @@ if( isset($_POST['inf_signup']) ) {
                                 <p class="small text-muted"><span class="guardsman">* All fields are required.</span> Once we receive your message we will respond as soon as possible.</p>
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-primary" type="submit" id="cf-submit" name="inf_signup">Sign Up</button>
+                                <button class="btn btn-primary" type="submit" id="inf_signup" name="inf_signup">Sign Up</button>
                             </div>
                         </form>
                     </div>
