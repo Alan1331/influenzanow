@@ -48,9 +48,8 @@ function signup($data) {
     $password = password_hash($password, PASSWORD_DEFAULT);
 
     // tambahkan user baru ke database
-    $signup_sql = "INSERT INTO influencer VALUES('$username', '$name', '$email', '$password', '$gender', '$birthdate', '$address', '$phone_number')";
+    $signup_sql = "INSERT INTO influencer VALUES(\"$username\", \"$name\", \"$email\", \"$password\", \"$gender\", \"$birthdate\", \"$address\", \"$phone_number\")";
     mysqli_query($conn, $signup_sql);
-
 
     return mysqli_affected_rows($conn);
 }
@@ -69,9 +68,22 @@ function addInterest($data) {
     $username = test_input($data['inf_username']);
     $interest = test_input($data['interest']);
 
-    $sql = "INSERT INTO inf_interest VALUES(
-            '$username', '$interest')";
-    mysqli_query($conn, $sql);
+    // cek apakah interest sudah ada atau belum
+    $sql_check = "SELECT * FROM inf_interest WHERE inf_username = \"$username\" AND interest = \"$interest\"";
+    $result = mysqli_query($conn, $sql_check);
+    if( mysqli_num_rows($result) > 0 ) {
+        echo "
+                <script>
+                    alert('interest yang sama sudah ditambahkan');
+                </script>
+            ";
+        return false;
+    }
+
+    // tambahkan interest sesuai dengan username nya
+    $sql_insert = "INSERT INTO inf_interest VALUES(
+            \"$username\", \"$interest\")";
+    mysqli_query($conn, $sql_insert);
 
     return mysqli_affected_rows($conn);
 }
