@@ -2,6 +2,7 @@
 session_start();
 
 require __DIR__.'../../../../../includes/connection.php';
+require __DIR__.'../../../../../includes/globalFunctions.php';
 require __DIR__.'../../../../../includes/influencerlogin/functions.php';
 
 $username = $_SESSION['inf_username'];
