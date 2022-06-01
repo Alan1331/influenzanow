@@ -8,27 +8,32 @@ function addSNS($data) {
     $sns_username = test_input($data['sns_username']);
     $sns_followers = test_input($data['sns_followers']);
     $sns_link = $data['sns_link'];
-    $sns_er = $data['sns_er'];
+    if( isset($data['sns_er']) ) {
+        $sns_er = $data['sns_er'];
+    }
 
     // validasi link
-    if( filter_var($sns_link, FILTER_VALIDATE_URL) === false) {
-        echo "
-                <script>
-                    alert('link sns tidak valid');
-                </script>
-            ";
-        return false;
-    }
+    // if( !filter_var($sns_link, FILTER_VALIDATE_URL) ) {
+    //     echo "
+    //             <script>
+    //                 alert('link sns tidak valid');
+    //             </script>
+    //         ";
+    //     return false;
+    // }
 
     // validasi er
-    if( is_numeric($sns_er) === false ) {
-        echo "
-                <script>
-                    alert('er yang dimasukkan tidak valid');
-                </script>
-            ";
-        return false;
+    if( isset($data['sns_er']) ) {
+        if( is_numeric($sns_er) === false ) {
+            echo "
+                    <script>
+                        alert('er yang dimasukkan tidak valid');
+                    </script>
+                ";
+            return false;
+        }
     }
+
 
     // cek tipe sns tersedia atau tidak
     $sns_type_sql = "SELECT sns_type FROM sns WHERE inf_username = \"$inf_username\" AND sns_type = \"$sns_type\"";

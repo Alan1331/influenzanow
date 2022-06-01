@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-require __DIR__.'../../../../../includes/connection.php';
-require __DIR__.'../../../../../includes/globalFunctions.php';
-require __DIR__.'../../../../../includes/sns/functions.php';
+require __DIR__.'/../../../includes/connection.php';
+require __DIR__.'/../../../includes/globalFunctions.php';
+require __DIR__.'/../../../includes/sns/functions.php';
 
 $inf_username = $_SESSION['inf_username'];
 $sns_type = "facebook";

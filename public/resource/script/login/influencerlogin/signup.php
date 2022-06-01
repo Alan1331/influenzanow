@@ -11,11 +11,11 @@ if( isset($_POST['inf_signup']) ) {
         echo "
                 <script>
                     alert('user baru berhasil ditambahkan');
+                    window.location = 'addInitInfo.php';
                 </script>
             ";
         $_SESSION['login'] = true;
         $_SESSION['inf_username'] = $_POST['inf_username'];
-        header('Location: addInitInfo.php');
     } else {
         echo "
                 <script>

@@ -1,35 +1,47 @@
 <?php
 session_start();
 
-include("connection.php");
-include("functions.php");
+require __DIR__.'../../../../../includes/connection.php';
+require __DIR__.'../../../../../includes/globalFunctions.php';
+require __DIR__.'../../../../../includes/brandlogin/functions.php';
 
-if($_SERVER['REQUEST_METHOD'] == "POST") {
-    //something was posted
-    $user_name = $_POST['user_name'];
-    $password = $_POST['password'];
+if( isset($_POST['brand_login']) ) {
 
-    if(!empty($user_name) && !empty($password) && !is_numeric($user_name)) {
+    $brand_name = $_POST['brand_name'];
+    $brand_password = $_POST['brand_password'];
+    $sql = "SELECT * FROM brand WHERE brand_name = '$brand_name'";
 
-        //read to database
-        $query = "select * from users where user_name = '$user_name' limit 1";
-        $result = mysqli_query($con, $query);
+    $result = mysqli_query($conn, $sql);
 
-        if($result) {
-            if($result && mysqli_num_rows($result) > 0) {
-                $user_data = mysqli_fetch_assoc($result);
-                if($user_data['password'] === $password) {
-                    $_SESSION['user_id'] = $user_data['user_id'];
-                    header("Location: index.php");
-                    die;
-                }
-            }
-        }
+    // cek name
+    if( mysqli_num_rows($result) === 1 ) {
         
-        echo "wrong username or password";
-    } else {
-        echo "Please enter some valid information!";
+        // cek password
+        $row = mysqli_fetch_assoc($result);
+        if( password_verify($brand_password, $row['brand_password']) ) {
+            echo "password valid";
+            // set session
+            $_SESSION['login'] = true;
+            $_SESSION['brand_username'] = $brand_name;
+
+            // cek remember me
+            // if( isset($_POST['remember']) ) {
+            //     // buat cookie
+                
+            //     setcookie('ghlf', $row['id'], time()+60);
+            //     setcookie('ksla', hash('sha256', $row['username']), time()+60);
+            // }
+
+            header("Location: ../../dashboard/brand/home.php");
+            exit;
+        } else {
+            echo "password invalid";
+        }
+
     }
+
+    // echo $sql;
+
 }
 ?>
 
@@ -70,11 +82,12 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
 
         <form method="post" action="">
             <div style="font-size: 20px;margin: 10px;color: white;">Login</div>
+            <label for="brand_name">Brand Name: </label>
+            <input id="brand_name" type="text" name="brand_name" placeholder="Input your brand name"><br><br>
+            <label for="brand_password">Password: </label>
+            <input id="brand_password" type="password" name="brand_password" placeholder="Input your password"><br><br>
 
-            <input id="text" type="text" name="user_name"><br><br>
-            <input id="text" type="password" name="password"><br><br>
-
-            <input id="button" type="submit" value="login"><br><br>
+            <input id="button" type="submit" name="brand_login" value="login"><br><br>
 
             <a href="signup.php">Click to Sign up</a>
         </form>

@@ -1,35 +1,44 @@
 <?php
 session_start();
 
-include("connection.php");
-include("functions.php");
+require __DIR__.'../../../../../includes/connection.php';
+require __DIR__.'../../../../../includes/globalFunctions.php';
+require __DIR__.'../../../../../includes/influencerlogin/functions.php';
 
-if($_SERVER['REQUEST_METHOD'] == "POST") {
-    //something was posted
-    $user_name = $_POST['user_name'];
-    $password = $_POST['password'];
+if( isset($_POST['inf_login']) ) {
 
-    if(!empty($user_name) && !empty($password) && !is_numeric($user_name)) {
+    $inf_username = $_POST['inf_username'];
+    $inf_password = $_POST['inf_password'];
 
-        //read to database
-        $query = "select * from users where user_name = '$user_name' limit 1";
-        $result = mysqli_query($con, $query);
+    $result = mysqli_query($conn, "SELECT * FROM influencer WHERE inf_username = '$inf_username'");
 
-        if($result) {
-            if($result && mysqli_num_rows($result) > 0) {
-                $user_data = mysqli_fetch_assoc($result);
-                if($user_data['password'] === $password) {
-                    $_SESSION['user_id'] = $user_data['user_id'];
-                    header("Location: index.php");
-                    die;
-                }
-            }
-        }
+    // cek username
+    if( mysqli_num_rows($result) === 1 ) {
         
-        echo "wrong username or password";
-    } else {
-        echo "Please enter some valid information!";
+        // cek password
+        $row = mysqli_fetch_assoc($result);
+        if( password_verify($inf_password, $row['inf_password']) ) {
+            echo password_verify($inf_password, $row['inf_password']);
+            // set session
+            // $_SESSION['login'] = true;
+            // $_SESSION['inf_username'] = $inf_username;
+
+            // // // cek remember me
+            // // if( isset($_POST['remember']) ) {
+            // //     // buat cookie
+                
+            // //     setcookie('ghlf', $row['id'], time()+60);
+            // //     setcookie('ksla', hash('sha256', $row['username']), time()+60);
+            // // }
+
+            // header("Location: ../../dashboard/influencer/home.php");
+            // exit;
+        }
+
     }
+
+    $error = true;
+
 }
 ?>
 
@@ -70,11 +79,12 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
 
         <form method="post" action="">
             <div style="font-size: 20px;margin: 10px;color: white;">Login</div>
+            <label for="inf_username">Username: </label>
+            <input id="inf_username" type="text" name="inf_username" placeholder="Input your username"><br><br>
+            <label for="inf_password">Password: </label>
+            <input id="inf_password" type="password" name="inf_password" placeholder="Input your password"><br><br>
 
-            <input id="text" type="text" name="user_name"><br><br>
-            <input id="text" type="password" name="password"><br><br>
-
-            <input id="button" type="submit" value="login"><br><br>
+            <input id="button" type="submit" name="inf_login" value="login"><br><br>
 
             <a href="signup.php">Click to Sign up</a>
         </form>

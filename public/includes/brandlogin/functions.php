@@ -1,34 +1,45 @@
 <?php
 
-function check_login($con) {
-    if(isset($_SESSION['user_id'])) {
-        $id = $_SESSION['user_id'];
-        $query = "select * from users where user_id = '$id' limit 1";
+function signup($data) {
+    global $conn;
+    
+    $brand_name = test_input($data['brand_name']);
+    $brand_email = test_input($data['brand_email']);
+    $brand_phone_number = test_input($data['brand_phone_number']);
+    $brand_sector = test_input($data['brand_sector']);
+    $brand_description = test_input($data['brand_description']);
+    $brand_password = mysqli_real_escape_string($conn, $data['brand_password']);
+    $brand_password2 = mysqli_real_escape_string($conn, $data['brand_password2']);
 
-        $result = mysqli_query($con,$query);
-        if($result && mysqli_num_rows($result) > 0) {
-            $user_data = mysqli_fetch_assoc($result);
-            return $user_data;
-        }
+    // cek brand name tersedia atau tidak
+    $result = mysqli_query($conn, "SELECT brand_name FROM brand WHERE brand_name=\"$brand_name\"");
+    if( mysqli_fetch_assoc($result) ) {
+        echo "
+                <script>
+                    alert('brand name tidak tersedia');
+                </script>
+            ";
+        return false;
     }
 
-    //redirect to login 
-    header("Location: login.php");
-    die;
+    // cek konfirmasi password
+    if( $brand_password !== $brand_password2 ) {
+        echo "
+                <script>
+                    alert('konfirmasi password tidak sesuai');
+                </script>
+            ";
+        return false;
+    }
 
+    // enkripsi password
+    $brand_password = password_hash($brand_password, PASSWORD_DEFAULT);
+
+    // tambahkan user baru ke database
+    $signup_sql = "INSERT INTO brand VALUES(\"\", \"$brand_name\", \"$brand_email\", \"$brand_password\", \"$brand_sector\", \"$brand_phone_number\", \"$brand_description\")";
+    mysqli_query($conn, $signup_sql);
+
+    return mysqli_affected_rows($conn);
 }
 
-function random_num($length) {
-    $text = "";
-    if($length < 5) {
-        $length = 5;
-    }
-
-    $len = rand(4,$length);
-
-    for ($i = 0; $i < $len; $i++) {
-        $text .= rand(0,9);
-    }
-
-    return $text;
-}
+?>

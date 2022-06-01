@@ -141,6 +141,8 @@ if( isset($_POST['add_sns']) ) {
     
 </table>
 
+<a href="../../dashboard/influencer/home.php">Continue to dashboard</a>
+
 
 </body>
 </html>
