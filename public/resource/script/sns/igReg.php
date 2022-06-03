@@ -10,6 +10,7 @@ $sns_type = "instagram";
 
 // cek apakah tombol submit sudah diklik
 if( isset($_POST['add_instagram']) ) {
+    $_POST['sns_link'] = "https://instagram.com/" . $_POST['sns_username'];
 
     // cek apakah instagram berhasil ditambahkan atau tidak
     if( addSNS($_POST) > 0 ) {
@@ -55,10 +56,8 @@ if( isset($_POST['add_instagram']) ) {
                 <input type="text" name="sns_username" id="sns_username" placeholder="input instagram username" required>
                 <label for="sns_followers">Followers</label>
                 <input type="text" name="sns_followers" id="sns_followers" placeholder="input followers" required>
-                <label for="sns_link">Link</label>
-                <input type="url" name="sns_link" id="sns_link" placeholder="input sns link" required>
                 <label for="sns_er">Engagement Rate</label>
-                <input type="number" name="sns_link" id="sns_link" placeholder="input sns er (optional)">
+                <input type="number" name="sns_er" id="sns_er" min="0" max="100" step="0.01" placeholder="ex: 5.25 (optional)">
                 <button type="submit" name="add_instagram">Submit</button>
                 <p>
                     <p>You don't have Instagram?</p>

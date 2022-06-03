@@ -13,14 +13,14 @@ function addSNS($data) {
     }
 
     // validasi link
-    // if( !filter_var($sns_link, FILTER_VALIDATE_URL) ) {
-    //     echo "
-    //             <script>
-    //                 alert('link sns tidak valid');
-    //             </script>
-    //         ";
-    //     return false;
-    // }
+    if( !filter_var($sns_link, FILTER_VALIDATE_URL) ) {
+        echo "
+                <script>
+                    alert('link sns tidak valid');
+                </script>
+            ";
+        return false;
+    }
 
     // validasi er
     if( isset($data['sns_er']) ) {
