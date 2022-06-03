@@ -14,8 +14,24 @@ if( isset($_POST['brand_signup']) ) {
                     window.location = '../../dashboard/brand/home.php';
                 </script>
             ";
+
+        $brand_name = $_POST['brand_name'];
+        
         $_SESSION['login'] = true;
-        $_SESSION['brand_username'] = $_POST['brand_name'];
+        $_SESSION['brand_username'] = $brand_name;
+
+        // cek remember me
+        $sql = "SELECT * FROM brand WHERE brand_name = '$brand_name'";
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+
+        if( isset($_POST['remember']) ) {
+            // buat cookie
+                            
+            setcookie('ghlf', $row['id'], time()+60);
+            setcookie('ksla', hash('sha256', $row['brand_name']), time()+60);
+        }
+
     } else {
         echo "
                 <script>
@@ -121,6 +137,10 @@ if( isset($_POST['brand_signup']) ) {
                                 <label for="brand_description">Brand Description</label>
                                 <textarea name="brand_description" id="brand_description" class="form-control" rows="3" placeholder="Input brand description" id="textArea" required></textarea>
                                 <p class="small text-muted"><span class="guardsman">All fields are required.</span> Once we receive your message we will respond as soon as possible.</p>
+                            </div>
+                            <div>
+                            <input type="checkbox" name="remember" id="remember">
+                            <label for="remember">Remember me</label>
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-primary" type="submit" id="brand_signup" name="brand_signup">Sign Up</button>

@@ -5,6 +5,22 @@ require __DIR__.'../../../../../includes/connection.php';
 require __DIR__.'../../../../../includes/globalFunctions.php';
 require __DIR__.'../../../../../includes/brandlogin/functions.php';
 
+// cek cookie
+if( isset($_COOKIE['ghlf']) && isset($_COOKIE['ksla']) ) {
+    $id = $_COOKIE['ghlf'];
+    $key = $_COOKIE['ksla'];
+
+    // ambil username berdasarkan cookie nya
+    $result = mysqli_query($conn, "SELECT brand_name FROM brand WHERE id = $id");
+    $row = mysqli_fetch_assoc($result);
+
+    // cek cookie dan username
+    if( $key === hash('sha256', $row['brand_name']) ) {
+        $_SESSION['login'] = true;
+        $_SESSION['brand_username'] = $row['brand_name'];
+    }
+}
+
 if( isset($_POST['brand_login']) ) {
 
     $brand_name = $_POST['brand_name'];
@@ -25,12 +41,12 @@ if( isset($_POST['brand_login']) ) {
             $_SESSION['brand_username'] = $brand_name;
 
             // cek remember me
-            // if( isset($_POST['remember']) ) {
-            //     // buat cookie
+            if( isset($_POST['remember']) ) {
+                // buat cookie
                 
-            //     setcookie('ghlf', $row['id'], time()+60);
-            //     setcookie('ksla', hash('sha256', $row['username']), time()+60);
-            // }
+                setcookie('ghlf', $row['id'], time()+60);
+                setcookie('ksla', hash('sha256', $row['brand_name']), time()+60);
+            }
 
             header("Location: ../../dashboard/brand/home.php");
             exit;
@@ -40,7 +56,7 @@ if( isset($_POST['brand_login']) ) {
 
     }
 
-    // echo $sql;
+    $error = true;
 
 }
 ?>
@@ -86,6 +102,8 @@ if( isset($_POST['brand_login']) ) {
             <input id="brand_name" type="text" name="brand_name" placeholder="Input your brand name"><br><br>
             <label for="brand_password">Password: </label>
             <input id="brand_password" type="password" name="brand_password" placeholder="Input your password"><br><br>
+            <input type="checkbox" name="remember" id="remember">
+            <label for="remember">Remember me</label>
 
             <input id="button" type="submit" name="brand_login" value="login"><br><br>
 

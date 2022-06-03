@@ -14,8 +14,21 @@ if( isset($_POST['inf_signup']) ) {
                     window.location = 'addInitInfo.php';
                 </script>
             ";
+        
+        $inf_username = $_POST['inf_username'];
+        
         $_SESSION['login'] = true;
-        $_SESSION['inf_username'] = $_POST['inf_username'];
+        $_SESSION['inf_username'] = $inf_username;
+
+        // cek remember me        
+        if( isset($_POST['remember']) ) {
+            // buat cookie
+            $result = mysqli_query($conn, "SELECT * FROM influencer WHERE inf_username = '$inf_username'");
+            $row = mysqli_fetch_assoc($result);
+            setcookie('ghlf', $row['inf_username'], time()+60);
+            setcookie('ksla', hash('sha256', $row['inf_name']), time()+60);
+        }
+        
     } else {
         echo "
                 <script>
@@ -136,7 +149,10 @@ if( isset($_POST['inf_signup']) ) {
                                 <!-- /.Address -->
                                 <label for="inf_address">Address</label>
                                 <textarea name="inf_address" id="inf_address" class="form-control" rows="3" placeholder="Address" id="textArea" required></textarea>
-                                <p class="small text-muted"><span class="guardsman">All fields are required.</span> Once we receive your message we will respond as soon as possible.</p>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="remember" id="remember">
+                                <label for="remember">Remember me</label>
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-primary" type="submit" id="inf_signup" name="inf_signup">Sign Up</button>
