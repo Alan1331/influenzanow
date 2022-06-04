@@ -1111,13 +1111,13 @@ p .btn
 
 .btn.btn-primary
 {
-    background: #1abc9c;
-    box-shadow: 0 2px #16a085;
+    background: #e8aeae;
+    box-shadow: 0 2px #cb9292;
 }
 
 .btn.btn-primary:hover
 {
-    background: #16a085;
+    background: #af7777;
 }
 
 /* Button WARNING */
