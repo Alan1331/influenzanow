@@ -140,7 +140,7 @@
                                 <div class="gallery-thumb">
                                     <img src="../../../images/brands/brand1.png" class="img-responsive" alt="1st gallery Thumb">
                                     <div class="image-overlay"></div>
-                                    <a href="http://placehold.it/800x600" class="gallery-zoom"><i class="fa fa-shopping-cart" alt="This is the title"></i></a>
+                                    <a href="" class="gallery-zoom"><i class="fa fa-shopping-cart" alt="This is the title"></i></a>
                                     <a href="erfDetail.php" class="gallery-link"><i class="fa fa-arrow-right"></i></a>
                                 </div>
                                 <div class="gallery-details">
