@@ -5,6 +5,45 @@ require __DIR__.'../../../../../includes/connection.php';
 require __DIR__.'../../../../../includes/globalFunctions.php';
 require __DIR__.'../../../../../includes/influencerlogin/functions.php';
 
+// cek cookie
+if( isset($_COOKIE['ghlf']) && isset($_COOKIE['ksla']) && isset($_COOKIE['tp']) ) {
+    // jika akun influencer
+    if( $_COOKIE['tp'] === hash('sha256', 'influencer') ) {
+        $id = $_COOKIE['ghlf'];
+        $key = $_COOKIE['ksla'];
+    
+        // ambil username berdasarkan cookie nya
+        $result = mysqli_query($conn, "SELECT * FROM influencer WHERE inf_username = '$id'");
+        $row = mysqli_fetch_assoc($result);
+    
+        // cek cookie dan username
+        if( $key === hash('sha256', $row['inf_name']) ) {
+            $_SESSION['login'] = true;
+            $_SESSION['inf_username'] = $row['inf_username'];
+        }
+    }
+    // jika akun brand
+    if( $_COOKIE['tp'] === hash('sha256', 'brand')) {
+        $id = $_COOKIE['ghlf'];
+        $key = $_COOKIE['ksla'];
+    
+        // ambil username berdasarkan cookie nya
+        $result = mysqli_query($conn, "SELECT * FROM brand WHERE id = '$id'");
+        $row = mysqli_fetch_assoc($result);
+    
+        // cek cookie dan username
+        if( $key === hash('sha256', $row['brand_name']) ) {
+            $_SESSION['login'] = true;
+            $_SESSION['brand_username'] = $row['brand_name'];
+        }
+    }
+}
+
+// cek login
+if( !isset($_SESSION['login']) || !isset($_SESSION['inf_username']) ) {
+    header('Location: ../loginas.php');
+}
+
 $username = $_SESSION['inf_username'];
 $interests = query("SELECT * FROM inf_interest WHERE inf_username=\"$username\"");
 $snslist = query("SELECT * FROM sns WHERE inf_username=\"$username\"");
