@@ -56,7 +56,7 @@
                             <li class="nav-item dropdown">
                                 <a href="#">Message </a> 
                             </li>
-                            <!--//dropdown-->                     
+                            <!--//ADD TO CART-->                     
                             <li class="nav-item">
                                 <a href="#">Cart</a>
                             </li>
@@ -96,19 +96,26 @@
                 <div class="row">
                     <div class="isotope-gallery-container">
                         <!-- /.gallery-item-wrapper -->
+                                                                    <!-- /.ERF1 -->
                         <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper ERF">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
+                                    <!-- /.gambar -->
                                     <img src="../../../images/brands/brand1.png" class="img-responsive" alt="1st gallery Thumb">
                                     <div class="image-overlay"></div>
-                                    <a href="http://placehold.it/800x600" class="gallery-zoom"><i class="fa fa-shopping-cart" alt="This is the title"></i></a>
+                                    <!-- /.add to cart -->
+                                    <a href="" class="gallery-link"><i class="fa fa-shopping-cart" alt="This is the title"></i></a>
+                                    <!-- /.target icon -->
                                     <a href="erfDetail.php" class="gallery-link" target="_blank"><i class="fa fa-arrow-right"></i></a>
                                 </div>
                                 <div class="gallery-details">
+                                    <!-- /.erf name -->
                                     <h5>1st ERF</h5>
                                 </div>
                             </div>
                         </div>
+                                                                <!-- /.ERF1 END -->
+                                                                <!-- /.ERF2 -->
                         <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper ERF">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
@@ -122,7 +129,9 @@
                                 </div>
                             </div>
                         </div>
+                                                                <!-- /.ERF2 END -->
                         <!-- /.gallery-item-wrapper -->
+                                                                <!-- /.ERF3 -->
                         <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper ERF">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
@@ -136,6 +145,8 @@
                                 </div>
                             </div>
                         </div>
+                                                                <!-- /.ERF3 END -->
+                                                                <!-- /.ERF4 -->
                         <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper ERF">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
@@ -149,6 +160,7 @@
                                 </div>
                             </div>
                         </div>
+                                                                <!-- /.ERF4 END -->
                         <!-- /.gallery-item-wrapper -->
                         <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
                             <div class="gallery-item">
@@ -163,6 +175,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- /.gallery-item-wrapper -->
                         <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
@@ -176,6 +189,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- /.gallery-item-wrapper -->
                         <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
@@ -189,6 +203,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- /.gallery-item-wrapper -->
                         <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
@@ -202,6 +217,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- /.gallery-item-wrapper -->
                         <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper HISTORY">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
@@ -215,6 +231,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- /.gallery-item-wrapper -->
                         <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper HISTORY">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
@@ -228,6 +245,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- /.gallery-item-wrapper -->
                         <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper HISTORY">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
@@ -241,6 +259,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- /.gallery-item-wrapper -->
                         <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper HISTORY">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
@@ -254,6 +273,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- /.gallery-item-wrapper -->
                         <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper PAYMENT">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
@@ -266,6 +286,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- /.gallery-item-wrapper -->
                         <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper PAYMENT">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
@@ -279,6 +300,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- /.gallery-item-wrapper -->
                         <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper PAYMENT">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
@@ -292,10 +314,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /.gallery-item-wrapper -->
-                        <!-- /.gallery-item-wrapper -->
-                        <!-- /.gallery-item-wrapper -->
-                        <!-- /.gallery-item-wrapper -->
+                        <!-- /.gallery-item-wrapper END -->
                     </div>
                     <!-- /.isotope-gallery-container -->
                 </div>
