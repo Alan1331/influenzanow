@@ -81,7 +81,7 @@
                             <div class="form-group">
                                 <!-- /.Address -->
                                 <p class="small text-muted"><span class="guardsman">* All fields are required.</span> Once we receive your message we will respond as soon as possible.</p>
-                                <p class="small text-muted" style=""><font color="#d90000">Don't have an Account? <a href="login.html">Register Here</a></font></p>
+                                <p class="small text-muted"><font color="#d90000">Don't have an Account? <a href="login.html">Register Here</a></font></p>
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-primary" type="submit" id="cf-submit" name="inf_signup">Sign IN</button>

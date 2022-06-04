@@ -38,7 +38,7 @@
                             <span class="icon-bar"></span>
                         </button>
                         <a href="#">
-                            <img src="../../../images/logo-white.png" class="brand-img img-responsive">
+                            <img src="../../../images/logo.png" class="brand-img img-responsive">
                         </a>
                     </div>
                     <!-- Navigation -->
@@ -76,7 +76,7 @@
             <div class="container">
                 <div class="col-sm-12">
                     <div class="underlined-title">
-                        <h1>Task List</h1>
+                        <h1>Task Step</h1>
                         <hr>
                         <h2>- you reap what you sow -</h2>
                     </div>
@@ -88,33 +88,27 @@
         <div class="col-sm-12">
             <div class="underlined-title">
             <center>
-            <a href="erfDetail.php">
+            <a href="erfTask.php">
             <button class="button button1"><i class="fa fa-arrow-left">Back</i></button>
             </a>
             <table class="styled-table">
             <thead>
                 <tr>
-                    <th>Task ID</th>
-                    <th>Task Name</th>
-                    <th>Task Deadline</th>
-                    <th>Task Status</th>
-                    <th>Task Details</th>
+                    <th>Step Number</th>
+                    <th>What To Do</th>
+                    <th>Submission</th>
                 </tr>
             </thead>
             <tbody>
-                <tr class="active-row">
+                <tr class="bold">
                     <td>1</td>
-                    <td>Make a Purchase</td>
-                    <td>(02-15-2022) - (02-25-2022)</td>
-                    <td>Completed</td>
-                    <td><a href="taskStep.php">Click Here</a></td>
+                    <td>Go To Your Favorite Market, and Make a Purchase</td>
+                    <td>Submit</td>
                 </tr>
-                <tr>
+                <tr class="bold">
                     <td>2</td>
                     <td>Make a Promotion</td>
-                    <td>(02-15-2022) - (02-25-2022)</td>
-                    <td>Uncompleted</td>
-                    <td><a href="taskStep.php">Click Here</a></td>
+                    <td>Submit</td>
                 </tr>
                 </tbody>
             </table>

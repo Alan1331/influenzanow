@@ -104,7 +104,7 @@
                                     <img src="../../../images/brands/brand1.png" class="img-responsive" alt="1st gallery Thumb">
                                     <div class="image-overlay"></div>
                                     <!-- /.add to cart -->
-                                    <a href="" class="gallery-link"><i class="fa fa-shopping-cart" alt="This is the title"></i></a>
+                                    <a href="erfDetail.php" class="gallery-link"><i class="fa fa-shopping-cart" alt="This is the title"></i></a>
                                     <!-- /.target icon -->
                                     <a href="erfDetail.php" class="gallery-link" target="_blank"><i class="fa fa-arrow-right"></i></a>
                                 </div>
