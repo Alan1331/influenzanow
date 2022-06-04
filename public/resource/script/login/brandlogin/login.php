@@ -139,7 +139,7 @@ if( isset($_POST['brand_login']) ) {
                     </div>
                     <div id="contact" class="form-container">
                         <div id="message"></div>
-                        <form method="post" action="js/contact-form.php" name="contactform" id="contactform">
+                        <form method="post" action="">
                             <!-- /.row -->
                             <div class="row">
                                 <div class="col-sm-4">
@@ -184,7 +184,7 @@ if( isset($_POST['brand_login']) ) {
                                 <p class="small text-muted"><font color="#d90000">Don't have an Account? <a href="signup.php">Register Here</a></font></p>
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-primary" type="submit" id="cf-submit" name="inf_signup">SIGN IN</button>
+                                <button class="btn btn-primary" type="submit" id="cf-submit" name="brand_login">SIGN IN</button>
                             </div>
                         </form>
                     </div>
