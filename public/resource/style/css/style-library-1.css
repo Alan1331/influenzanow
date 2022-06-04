@@ -1113,6 +1113,7 @@ p .btn
 {
     background: #1abc9c;
     box-shadow: 0 2px #16a085;
+    color: white;
 }
 
 .btn.btn-primary:hover
