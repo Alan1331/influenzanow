@@ -61,7 +61,8 @@
                                 <a href="#">Cart</a>
                             </li>
                             <li class="nav-item">
-        </li>
+                                <a href="#">Log Out</a>
+                            </li>
                         </ul>
                         <!--//nav-->
                     </div>
@@ -89,7 +90,7 @@
             <div class="underlined-title">
             <center>
             <a href="erfTask.php">
-            <button class="button button1"><i class="fa fa-arrow-left">Back</i></button>
+            <button class="btn btn-primary"><i class="fa fa-arrow-left">Back</i></button>
             </a>
             <table class="styled-table">
             <thead>
@@ -100,15 +101,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="bold">
+                <tr class="bold-approved">
                     <td>1</td>
                     <td>Go To Your Favorite Market, and Make a Purchase</td>
-                    <td>Submit</td>
+                    <td><button class="button button2"><a href="submit">Done</a></button></td>
                 </tr>
-                <tr class="bold">
+                <tr class="bold-declined">
                     <td>2</td>
                     <td>Make a Promotion</td>
-                    <td>Submit</td>
+                    <td><button class="button button2"><a href="submit">Undone</a></button></td>
                 </tr>
                 </tbody>
             </table>

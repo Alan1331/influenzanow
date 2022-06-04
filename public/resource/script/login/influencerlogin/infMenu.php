@@ -18,11 +18,13 @@
         <link href="../../../style/css/plugins.css" rel="stylesheet">
         <link href="../../../style/css/blocks.css" rel="stylesheet">
         <link href="../../../style/css/custom.css" rel="stylesheet">
+        <link href="../../../style/css/table.css" rel="stylesheet">
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->         
         <!--[if lt IE 9]>
       <script src="../../../style/js/html5shiv.js"></script>
       <script src="../../../style/js/respond.min.js"></script>
-    <![endif]-->         
+    <![endif]--> 
+          
     </head>     
     <body data-spy="scroll" data-target="nav">
     <header id="header-1" class="soft-scroll header-1">
@@ -61,7 +63,8 @@
                                 <a href="#">Cart</a>
                             </li>
                             <li class="nav-item">
-        </li>
+                                <a href="#">Log Out</a>
+                            </li>
                         </ul>
                         <!--//nav-->
                     </div>
@@ -137,7 +140,7 @@
                                 <div class="gallery-thumb">
                                     <img src="../../../images/brands/brand1.png" class="img-responsive" alt="1st gallery Thumb">
                                     <div class="image-overlay"></div>
-                                    <a href="http://placehold.it/800x600" class="gallery-zoom"><i class="fa fa-shopping-cart" alt="This is the title"></i></a>
+                                    <a href="" class="gallery-zoom"><i class="fa fa-shopping-cart" alt="This is the title"></i></a>
                                     <a href="erfDetail.php" class="gallery-link"><i class="fa fa-arrow-right"></i></a>
                                 </div>
                                 <div class="gallery-details">
@@ -162,13 +165,29 @@
                         </div>
                                                                 <!-- /.ERF4 END -->
                         <!-- /.gallery-item-wrapper -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
+                        <div class="col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
-                                    <img src="../../../images/brands/brand1.png" class="img-responsive" alt="1st gallery Thumb">
-                                    <div class="image-overlay"></div>
-                                    
-                                    <a href="erfTask.php" class="gallery-link"><i class="fa fa-eye"></i></a>
+                                <table class="styled-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Task ID</th>
+                                            <th>Task Name</th>
+                                            <th>Task Deadline</th>
+                                            <th>Task Status</th>
+                                            <th>Task Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="bold-approved">
+                                            <td>1</td>
+                                            <td>Make a Purchase</td>
+                                            <td>(02-15-2022) - (02-25-2022)</td>
+                                            <td>Approved</td>
+                                            <td><button class="button button2"><a href="taskStep.php">View Task</a></button></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div class="gallery-details">
                                     <h5>1st Process</h5>
@@ -176,13 +195,29 @@
                             </div>
                         </div>
                         <!-- /.gallery-item-wrapper -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
+                        <div class="col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
-                                    <img src="../../../images/brands/brand1.png" class="img-responsive" alt="1st gallery Thumb">
-                                    <div class="image-overlay"></div>
-                                    
-                                    <a href="erfTask.php" class="gallery-link"><i class="fa fa-eye"></i></a>
+                                    <table class="styled-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Task ID</th>
+                                                <th>Task Name</th>
+                                                <th>Task Deadline</th>
+                                                <th>Task Status</th>
+                                                <th>Task Details</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="bold-approval">
+                                                <td>1</td>
+                                                <td>Make a Purchase</td>
+                                                <td>(02-15-2022) - (02-25-2022)</td>
+                                                <td>Waiting for Approval</td>
+                                                <td><button class="button button2"><a href="taskStep.php">View Task</a></button></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                 </div>
                                 <div class="gallery-details">
                                     <h5>2nd Process</h5>
@@ -190,13 +225,29 @@
                             </div>
                         </div>
                         <!-- /.gallery-item-wrapper -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
+                        <div class="col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
-                                    <img src="../../../images/brands/brand1.png" class="img-responsive" alt="1st gallery Thumb">
-                                    <div class="image-overlay"></div>
-                                    
-                                    <a href="erfTask.php" class="gallery-link"><i class="fa fa-eye"></i></a>
+                                <table class="styled-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Task ID</th>
+                                            <th>Task Name</th>
+                                            <th>Task Deadline</th>
+                                            <th>Task Status</th>
+                                            <th>Task Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="bold-declined">
+                                            <td>1</td>
+                                            <td>Make a Purchase</td>
+                                            <td>(02-15-2022) - (02-25-2022)</td>
+                                            <td>Declined<br><button class="button button2"><a href="chat.php" style="color: #edb873;">Negotiate</a></button></td>
+                                            <td><button class="button button2"><a href="taskStep.php">View Task</a></button></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div class="gallery-details">
                                     <h5>3rd Process</h5>
@@ -204,13 +255,29 @@
                             </div>
                         </div>
                         <!-- /.gallery-item-wrapper -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
+                        <div class="col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
-                                    <img src="../../../images/brands/brand1.png" class="img-responsive" alt="1st gallery Thumb">
-                                    <div class="image-overlay"></div>
-                                    
-                                    <a href="erfTask.php" class="gallery-link"><i class="fa fa-eye"></i></a>
+                                <table class="styled-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Task ID</th>
+                                            <th>Task Name</th>
+                                            <th>Task Deadline</th>
+                                            <th>Task Status</th>
+                                            <th>Task Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="bold-approved">
+                                            <td>1</td>
+                                            <td>Make a Purchase</td>
+                                            <td>(02-15-2022) - (02-25-2022)</td>
+                                            <td>Approved</td>
+                                            <td><button class="button button2"><a href="taskStep.php">View Task</a></button></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div class="gallery-details">
                                     <h5>4th Process</h5>
@@ -221,7 +288,7 @@
                         <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper HISTORY">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
-                                    <img src="../../../images/brands/brand1.png" class="img-responsive" alt="1st gallery Thumb">
+                                <img src="../../../images/brands/brand1.png" class="img-responsive" alt="1st gallery Thumb">
                                     <div class="image-overlay"></div>
                                     
                                     <a href="#" class="gallery-link"><i class="fa fa-arrow-right"></i></a>

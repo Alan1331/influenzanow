@@ -1,8 +1,8 @@
 <?php
 
 $dbhost = "localhost";
-$dbuser = "phpmyadmin";
-$dbpass = "P@ssw0rd1";
+$dbuser = "root";
+$dbpass = "";
 $dbname = "influenzanow";
 
 if(!$conn = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname)) {

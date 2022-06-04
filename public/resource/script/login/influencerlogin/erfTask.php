@@ -61,7 +61,8 @@
                                 <a href="#">Cart</a>
                             </li>
                             <li class="nav-item">
-        </li>
+                                <a href="#">Log Out</a>
+                            </li>
                         </ul>
                         <!--//nav-->
                     </div>
@@ -88,8 +89,8 @@
         <div class="col-sm-12">
             <div class="underlined-title">
             <center>
-            <a href="erfDetail.php">
-            <button class="button button1"><i class="fa fa-arrow-left">Back</i></button>
+            <a class="text-light" href="erfDetail.php">
+            <button class="btn btn-primary"><i class="fa fa-arrow-left">Back</i></button>
             </a>
             <table class="styled-table">
             <thead>
@@ -102,19 +103,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="active-row">
-                    <td>1</td>
-                    <td>Make a Purchase</td>
-                    <td>(02-15-2022) - (02-25-2022)</td>
-                    <td>Completed</td>
-                    <td><a href="taskStep.php">Click Here</a></td>
+            <tr class="bold-approved">
+                <td>1</td>
+                <td>Make a Purchase</td>
+                <td>(02-15-2022) - (02-25-2022)</td>
+                <td>Approved</td>
+                <td><button class="button button2"><a href="taskStep.php">View Task</a></button></td>
                 </tr>
-                <tr>
+                <tr class="bold-approved">
                     <td>2</td>
                     <td>Make a Promotion</td>
                     <td>(02-15-2022) - (02-25-2022)</td>
                     <td>Uncompleted</td>
-                    <td><a href="taskStep.php">Click Here</a></td>
+                    <td><button class="button button2"><a href="taskStep.php">View Task</a></button></td>
                 </tr>
                 </tbody>
             </table>

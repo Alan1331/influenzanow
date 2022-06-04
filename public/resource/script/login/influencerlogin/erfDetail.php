@@ -61,7 +61,8 @@
                                 <a href="#">Cart</a>
                             </li>
                             <li class="nav-item">
-        </li>
+                                <a href="#">Log Out</a>
+                            </li>
                         </ul>
                         <!--//nav-->
                     </div>

@@ -37,6 +37,21 @@
     color: #000000;
 }
 
+.styled-table tbody tr.bold-approved {
+    font-weight: bold;
+    color: #738DED;
+}
+
+.styled-table tbody tr.bold-declined {
+    font-weight: bold;
+    color: #ed7373;
+}
+
+.styled-table tbody tr.bold-approval {
+    font-weight: bold;
+    color: #edb873;
+}
+
 .button1 {
     background-color: white; 
     color: black; 
@@ -47,6 +62,21 @@
   }
   
   .button1:hover {
+    background-color: #F1DFC3;
+    color: rgb(0, 0, 0);
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  }
+
+  .button2 {
+    background-color: white; 
+    color: black; 
+    border: 2px solid #F1DFC3;
+    border-radius: 4px;
+    font-size: 1.0em;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  }
+  
+  .button2:hover {
     background-color: #F1DFC3;
     color: rgb(0, 0, 0);
     font-family: "Open Sans", Helvetica, Arial, sans-serif;
