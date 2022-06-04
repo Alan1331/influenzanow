@@ -82,6 +82,7 @@
                         <div class="row">
                             <div class="col-sm-5 col-xs-12">
                                 <a href="erfTask.php" class="btn btn-block btn-warning"><span class="fa fa-check"></span>&nbsp;Apply now</a>
+                                <a href="erfTask.php" class="btn btn-block btn-warning"><span class="fa fa-eye"></span>&nbsp;View Task List</a>
                             </div>
                         </div>
                     </div>

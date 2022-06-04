@@ -142,7 +142,7 @@ body
 
 .bg-pomegranate
 {
-    background-color: #C0392B !important;
+    background-color: #E8AEAE !important;
 }
 
 .bg-finn
@@ -155,7 +155,9 @@ body
     background-color: #31152B !important;
 }
 
-
+.bg-pink{
+    background-color: #E8AEAE !important;
+}
 
 .bg-transparent-hover:hover
 {
@@ -926,6 +928,7 @@ p
 {
     /*font-family: "Open Sans", Helvetica, Arial, sans-serif;*/
     font-size: 14px;
+    font-weight: bold;
     line-height: 1.6;
     margin: 15px 0;
     color: #515157;
@@ -1039,7 +1042,7 @@ img
 
 .btn
 {
-    color: #FFF;
+    color: #738DED;
     padding: 10px 20px;
     margin: 15px 0;
     /*font-family: "Open Sans", Helvetica, Arial, sans-serif;*/
@@ -1121,13 +1124,13 @@ p .btn
 
 .btn.btn-warning
 {
-    background: #f1c40f;
-    box-shadow: 0 2px #f39c12;
+    background: #F1DFC3;
+    box-shadow: 0 2px #dbc8aa;
 }
 
 .btn.btn-warning:hover
 {
-    background: #f39c12;
+    background: #696256;
 }
 
 /* Button DANGER */
