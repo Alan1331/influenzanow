@@ -14,21 +14,32 @@ body {
 }
 
 .container {
-    width: 100%;
+    width: 80%;
     display: flex;
-    max-width: 400px;
+    /* max-width: 600px; */
     background: #ffffff;
     border-radius: 15px;
     box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.1);
+    padding-bottom: 70px;
 }
 
 .profile {
-    width: 400px;
+    width: 100%;
 }
 
 form {
-    width: 350px;
+    width: 95%;
     margin : 60px auto;
+}
+
+.input-left {
+    width: 45%;
+    float: left;
+}
+
+.input-right {
+    width: 45%;
+    float: right;
 }
 
 h1 {
@@ -60,6 +71,55 @@ h2{
     font-size: 10px;
     font-weight: 2px;
 }
+
+.radio{
+    width: 100%;
+}
+
+.radio-label {
+    width: 100%;
+    display: block;
+    text-align: center;
+}
+
+.radio-input {
+    width: 33.33%;
+    display: block;
+    float: left;
+}
+
+.radio-input input {
+    width: 10%;
+    display: block;
+    float: left;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 5px;
+    margin-top: 9px;
+    margin-bottom: 0px;
+}
+
+.radio-input label {
+    /* width: 40%; */
+    display: block;
+    float: left;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 5px;
+
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 12px 12px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    resize: none;
+  }
 
 form label {
     display: block;

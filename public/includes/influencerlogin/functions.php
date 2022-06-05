@@ -87,5 +87,59 @@ function check_login($conn) {
     //redirect to login 
     header("Location: login.php");
     die;
+}
 
+function hapusInterest($username, $interest) {
+    global $conn;
+    mysqli_query($conn, "DELETE FROM inf_interest WHERE inf_username = \"$username\" AND interest = \"$interest\"");
+    return mysqli_affected_rows($conn);
+}
+
+function hapusSns($username, $sns_type) {
+    global $conn;
+    mysqli_query($conn, "DELETE FROM sns WHERE inf_username = \"$username\" AND sns_type = \"$sns_type\"");
+    return mysqli_affected_rows($conn);
+}
+
+function updateInfProfile($data) {
+    global $conn;
+    
+    $username = strtolower(test_input($data['inf_username']));
+    $name = test_input($data['inf_name']);
+    $email = test_input($data['inf_email']);
+    $gender = $data['inf_gender'];
+    $birthdate = $data['inf_birthdate'];
+    $phone_number = test_input($data['inf_phone_number']);
+    $address = mysqli_real_escape_string($conn, $data['inf_address']);
+    $password = $data['inf_password'];
+    $reg_date = $data['inf_reg_date'];
+
+    // cek username tersedia atau tidak
+    $result = mysqli_query($conn, "SELECT inf_username FROM influencer WHERE inf_username='$username'");
+    if( mysqli_fetch_assoc($result) ) {
+        echo "
+                <script>
+                    alert('username tidak tersedia');
+                </script>
+            ";
+        return false;
+    }
+
+    // update data user
+    // INSERT INTO influencer VALUES(\"$username\", \"$name\", \"$email\", \"$password\", \"$gender\", \"$birthdate\", \"$address\", \"$phone_number\", \"\")
+    $update_sql = "UPDATE influencer SET
+                        inf_username = \"$username\",
+                        inf_name = \"$name\",
+                        inf_email = \"$email\",
+                        inf_password = \"$password\",
+                        inf_gender = \"$gender\",
+                        inf_birthdate = \"$birthdate\",
+                        inf_address = \"$address\",
+                        inf_phone_number = \"$phone_number\",
+                        inf_reg_date = \"$reg_date\"
+                    WHERE inf_username = \"$username\"
+                    ";
+    mysqli_query($conn, $update_sql);
+
+    return mysqli_affected_rows($conn);
 }

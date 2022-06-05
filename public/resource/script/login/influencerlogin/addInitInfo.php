@@ -4,6 +4,7 @@ session_start();
 require __DIR__.'../../../../../includes/connection.php';
 require __DIR__.'../../../../../includes/globalFunctions.php';
 require __DIR__.'../../../../../includes/influencerlogin/functions.php';
+require __DIR__.'../../../../../includes/sns/functions.php';
 
 // cek cookie
 if( isset($_COOKIE['ghlf']) && isset($_COOKIE['ksla']) && isset($_COOKIE['tp']) ) {
@@ -75,29 +76,8 @@ if( isset($_POST['add_interest']) ) {
 if( isset($_POST['add_sns']) ) {
 
     // cek akan masuk ke halaman tambah sns tipe apa
-    switch ($_POST['sns_type']) {
-        case "facebook":
-            header("Location: ../../sns/fbReg.php");
-            break;
-        case "instagram":
-            header("Location: ../../sns/igReg.php");
-            break;
-        case "tiktok":
-            header("Location: ../../sns/ttReg.php");
-            break;
-        case "twitter":
-            header("Location: ../../sns/twtReg.php");
-            break;
-        case "youtube":
-            header("Location: ../../sns/ytReg.php");
-            break;
-        default:
-        echo "
-                <script>
-                    alert('sns type not found');
-                </script>
-            ";
-      }
+    $sns_page = getSnsPage($_POST['sns_type']);
+    header('Location: ../../sns/'.$sns_page);
 }
 
 ?>
@@ -130,12 +110,14 @@ if( isset($_POST['add_sns']) ) {
     <tr>
         <th>No.</th>
         <th>Interest</th>
+        <th>Action</th>
     </tr>
     <?php $i = 1; ?>
     <?php foreach( $interests as $interest ): ?>
     <tr>
         <td><?= $i; ?></td>
         <td><?= $interest['interest'] ?></td>
+        <td><a href="../../delete/hapusInterest.php?interest=<?= $interest['interest']; ?>" onclick="return confirm('Do you really want to delete this?');">Delete</a></td>
     </tr>
     <?php $i++; ?>
     <?php endforeach; ?>
@@ -167,6 +149,7 @@ if( isset($_POST['add_sns']) ) {
         <th>SNS Followers/Subscribers</th>
         <th>SNS Link</th>
         <th>SNS ER</th>
+        <th>Action</th>
     </tr>
     <?php foreach( $snslist as $sns ): ?>
     <tr>
@@ -175,6 +158,10 @@ if( isset($_POST['add_sns']) ) {
         <td><?= $sns['sns_followers'] ?></td>
         <td><?= $sns['sns_link'] ?></td>
         <td><?= $sns['sns_er'] ?></td>
+        <td>
+            <a href="../../delete/hapusSns.php?sns_type=<?= $sns['sns_type']; ?>" onclick="return confirm('Do you really want to delete this?');">Delete</a>
+            <a href="../../update/sns/<?= getSnsPage($sns['sns_type']); ?>">Edit</a>
+        </td>
     </tr>
     <?php endforeach; ?>
     
