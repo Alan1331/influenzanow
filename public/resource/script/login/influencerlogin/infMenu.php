@@ -364,6 +364,7 @@
                                 </div>
                                 <div class="gallery-details">
                                     <h5>Bank Virtual Account</h5>
+                                    <h5>1 % Fee</h5>
                                 </div>
                             </div>
                         </div>
@@ -378,6 +379,7 @@
                                 </div>
                                 <div class="gallery-details">
                                     <h5>e-Wallet<br></h5>
+                                    <h5>1 % Fee</h5>
                                 </div>
                             </div>
                         </div>
