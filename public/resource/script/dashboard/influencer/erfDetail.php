@@ -45,7 +45,7 @@
                     <div class="collapse navbar-collapse">
                         <ul class="nav navbar-nav navbar-right">
                             <li class="active nav-item">
-                                <a href="infMenu.php">Home</a>
+                                <a href="home.php">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a href="infProfile.php">Profile</a>
