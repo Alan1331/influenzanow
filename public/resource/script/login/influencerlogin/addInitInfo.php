@@ -130,12 +130,14 @@ if( isset($_POST['add_sns']) ) {
     <tr>
         <th>No.</th>
         <th>Interest</th>
+        <th>Action</th>
     </tr>
     <?php $i = 1; ?>
     <?php foreach( $interests as $interest ): ?>
     <tr>
         <td><?= $i; ?></td>
         <td><?= $interest['interest'] ?></td>
+        <td><a href="../../delete/hapusInterest.php?interest=<?= $interest['interest']; ?>" onclick="return confirm('Do you really want to delete this?');">Delete</a></td>
     </tr>
     <?php $i++; ?>
     <?php endforeach; ?>
@@ -167,6 +169,7 @@ if( isset($_POST['add_sns']) ) {
         <th>SNS Followers/Subscribers</th>
         <th>SNS Link</th>
         <th>SNS ER</th>
+        <th>Action</th>
     </tr>
     <?php foreach( $snslist as $sns ): ?>
     <tr>
@@ -175,6 +178,7 @@ if( isset($_POST['add_sns']) ) {
         <td><?= $sns['sns_followers'] ?></td>
         <td><?= $sns['sns_link'] ?></td>
         <td><?= $sns['sns_er'] ?></td>
+        <td><a href="../../delete/hapusSns.php?sns_type=<?= $sns['sns_type']; ?>" onclick="return confirm('Do you really want to delete this?');">Delete</a></td>
     </tr>
     <?php endforeach; ?>
     

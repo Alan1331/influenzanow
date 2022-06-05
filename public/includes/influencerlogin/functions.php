@@ -87,5 +87,16 @@ function check_login($conn) {
     //redirect to login 
     header("Location: login.php");
     die;
+}
 
+function hapusInterest($username, $interest) {
+    global $conn;
+    mysqli_query($conn, "DELETE FROM inf_interest WHERE inf_username = \"$username\" AND interest = \"$interest\"");
+    return mysqli_affected_rows($conn);
+}
+
+function hapusSns($username, $sns_type) {
+    global $conn;
+    mysqli_query($conn, "DELETE FROM sns WHERE inf_username = \"$username\" AND sns_type = \"$sns_type\"");
+    return mysqli_affected_rows($conn);
 }
