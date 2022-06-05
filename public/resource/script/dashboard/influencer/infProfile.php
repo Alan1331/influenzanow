@@ -66,30 +66,14 @@ if( isset($_POST['update_profile']) ) {
         // }
         echo "
                 <script>
-                    alert('user baru berhasil ditambahkan');
-                    window.location = 'addInitInfo.php';
+                    alert('user berhasil diubah');
+                    window.location = 'infProfile.php';
                 </script>
             ";
-        
-        $inf_username = $_POST['inf_username'];
-        
-        $_SESSION['login'] = true;
-        $_SESSION['inf_username'] = $inf_username;
-
-        // cek remember me        
-        if( isset($_POST['remember']) ) {
-            // buat cookie
-            $result = mysqli_query($conn, "SELECT * FROM influencer WHERE inf_username = '$inf_username'");
-            $row = mysqli_fetch_assoc($result);
-            setcookie('ghlf', $row['inf_username'], time()+(60*60*60*24*30*12), '/');
-            setcookie('ksla', hash('sha256', $row['inf_name']), time()+(60*60*60*24*30*12), '/');
-            setcookie('tp', hash('sha256', 'influencer'), time()+(60*60*60*24*30*12), '/');
-        }
-        
     } else {
         echo "
                 <script>
-                    alert('user baru gagal ditambahkan');
+                    alert('user gagal diubah');
                 </script>
             ";
         echo mysqli_error($conn);
@@ -125,14 +109,15 @@ if( isset($_POST['update_profile']) ) {
                 <input type="hidden" name="inf_password" value="<?= $influencer['inf_password']; ?>">
                 <input type="hidden" name="inf_reg_date" value="<?= $influencer['inf_reg_date']; ?>">
                 <div class="input-left">
+                    <input type="hidden" name="inf_username" value="<?= $influencer['inf_username'] ?>">
                     <!-- <label for="inf_username">Username</label>
-                    <input type="text" id="inf_username" name="inf_username" value="<?= $influencer['inf_username'] ?>" placeholder="<?= $influencer['inf_username'] ?>"> -->
+                    <input type="text" id="inf_username" name="inf_username" value="" placeholder=""> -->
                     <label for="inf_name">Full Name</label>
                     <input type="text" id="inf_name" name="inf_name" value="<?= $influencer['inf_name'] ?>" placeholder="<?= $influencer['inf_name'] ?>">
                     <label for="inf_email">Email</label>
-                    <input type="text" id="inf_email" name="inf_email" value="<?= $influencer['inf_email'] ?>" placeholder="Input your email address">
+                    <input type="text" id="inf_email" name="inf_email" value="<?= $influencer['inf_email'] ?>" placeholder="<?= $influencer['inf_email'] ?>">
                     <label for="inf_phone_number">Phone Number</label>
-                    <input type="text" id="inf_phone_number" name="inf_phone_number" value="<?= $influencer['inf_phone_number'] ?>" placeholder="<?= $influencer['inf_email'] ?>">
+                    <input type="text" id="inf_phone_number" name="inf_phone_number" value="<?= $influencer['inf_phone_number'] ?>" placeholder="<?= $influencer['inf_phone_number'] ?>">
                     <center><button type="submit" name="update_profile">Save Profile Updates</button></center>
                 </div>
                 <div class="input-right">
