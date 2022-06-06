@@ -16,13 +16,14 @@ if( isset($_POST['add_facebook']) ) {
         echo "
                 <script>
                     alert('facebook berhasil ditambahkan');
-                    window.location = '../login/influencerlogin/addInitInfo.php';
+                    history.go(-2);
                 </script>
             ";
     } else {
         echo "
                 <script>
                     alert('facebook gagal ditambahkan');
+                    history.go(-1);
                 </script>
             ";
     }
@@ -62,7 +63,7 @@ if( isset($_POST['add_facebook']) ) {
                 <button type="submit" name="add_facebook">Submit</button>
                 <p>
                     <p>You don't have facebook?</p>
-                    <center><a href="../login/influencerlogin/addInitInfo.php">Back to Additional Information Page</a></center>
+                    <center><input type="button" value="Back to Additional Information Page" onclick="history.back()"></center>
                 </p>
             </form>
         </div>

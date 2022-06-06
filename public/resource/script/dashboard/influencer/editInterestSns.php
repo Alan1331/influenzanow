@@ -43,18 +43,18 @@ if( isset($_POST['add_interest']) ) {
         echo "
                 <script>
                     alert('interest berhasil ditambahkan');
-                    window.location = 'addInitInfo.php';
+                    window.location = 'editInterestSns.php';
                 </script>
             ";
-        // header('Location: addInitInfo.php');
+        // header('Location: editInterestSns.php');
     } else {
         echo "
                 <script>
                     alert('interest gagal ditambahkan');
-                    window.location = 'addInitInfo.php';
+                    window.location = 'editInterestSns.php';
                 </script>
             ";
-        // header('Location: addInitInfo.php');
+        // header('Location: editInterestSns.php');
     }
 }
 

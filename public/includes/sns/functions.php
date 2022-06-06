@@ -37,7 +37,7 @@ function addSNS($data) {
 
     // cek tipe sns tersedia atau tidak
     $sns_type_sql = "SELECT sns_type FROM sns WHERE inf_username = \"$inf_username\" AND sns_type = \"$sns_type\"";
-    $sns_type_query = query($sns_type_sql);
+    $sns_type_query = mysqli_query($conn, $sns_type_sql);
     if( mysqli_fetch_assoc($sns_type_query) ) {
         echo "
                 <script>
@@ -112,19 +112,6 @@ function updateSNS($data) {
                 ";
             return false;
         }
-    }
-
-
-    // cek tipe sns tersedia atau tidak
-    $sns_type_sql = "SELECT sns_type FROM sns WHERE inf_username = \"$inf_username\" AND sns_type = \"$sns_type\"";
-    $sns_type_query = query($sns_type_sql);
-    if( mysqli_fetch_assoc($sns_type_query) ) {
-        echo "
-                <script>
-                    alert('anda pernah menambahkan tipe sns ini');
-                </script>
-            ";
-        return false;
     }
     
     // tambahkan sns baru ke database
