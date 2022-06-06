@@ -59,7 +59,7 @@ $influecer = query("SELECT * FROM influencer WHERE inf_username=\"$inf_username\
         <link href="../../../style/css/style-library-1.css" rel="stylesheet">
         <link href="../../../style/css/plugins.css" rel="stylesheet">
         <link href="../../../style/css/blocks.css" rel="stylesheet">
-        <link href="../../../style/css/custom.css" rel="stylesheet">
+        <link href="../../../style/css/table.css" rel="stylesheet">
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->         
         <!--[if lt IE 9]>
       <script src="../../../style/js/html5shiv.js"></script>
@@ -103,7 +103,8 @@ $influecer = query("SELECT * FROM influencer WHERE inf_username=\"$inf_username\
                                 <a href="#">Cart</a>
                             </li>
                             <li class="nav-item">
-        </li>
+                            <a href="#">Log Out</a>
+                            </li>
                         </ul>
                         <!--//nav-->
                     </div>
