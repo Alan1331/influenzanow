@@ -1,0 +1,125 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #f1caf7;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    max-width: 400px;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.1);
+}
+
+.SignUp {
+    width: 100%;
+}
+
+form {
+    width: 350px;
+    margin : 60px auto;
+}
+
+h1 {
+    margin: 20px;
+    text-align: center;
+    font-weight: bolder;
+}
+
+
+hr {
+    border-top: 2px solid #f1caf7 ;
+}
+
+.img{
+    background-image: url(https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg?t=st=1653298875~exp=1653299475~hmac=3ec9143a32cc5d13d73e1a313eca1662329f8477c0443dfdbd27921214db4061&w=740);
+    background-color: #ffffff;
+    background-size: cover;
+    border-radius: 100px;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    border: 1px solid #eaeaea;
+}
+
+h2{
+    text-align: center;
+    margin: 0;
+    color: #000000;
+    font-size: 10px;
+    font-weight: 2px;
+}
+
+form label {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 5px;
+}
+
+input {
+    width: 100%;
+    margin: 2px;
+    border: none;
+    outline: none;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+
+button {
+    border: none;
+    outline: none;
+    padding: 8px;
+    width: 252px;
+    color: #000000;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    border-radius: 5px;
+    background: rgb(233, 120, 100) ;
+}
+
+button:hover {
+    background: #b37cf1;
+}
+
+
+@media (max-width : 880px) {
+    .container {
+        width: 100%;
+        max-width: 750px;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    form {
+        width: 300px;
+        margin: 20px auto;
+    }
+
+    .login{
+        width: 400px;
+        padding: 20px;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    .right{
+        width: 100%;
+        height: 100%;
+    }
+}

@@ -130,7 +130,7 @@ if( isset($_POST['inf_login']) ) {
                     <div class="underlined-title">
                         <h1>Sign In</h1>
                         <hr>
-                        <h2>influenza now</h2>
+                        <h2>as influencer</h2>
                     </div>
                     <div id="contact" class="form-container">
                         <div id="message"></div>
@@ -175,8 +175,10 @@ if( isset($_POST['inf_login']) ) {
                                 </div>
                             </div>
                             <div class="form-group">
-                                <!-- /.Address -->
-                                <p class="small text-muted"><font color="#d90000">Don't have an Account? <a href="signup.php">Register Here</a></font></p>
+                                <p class="small text-muted"><font color="black">Don't have an Account? <a href="signup.php">Register Here</a></font></p>
+                            </div>
+                            <div class="form-group">
+                                <p class="small text-muted"><font color="black">Have Brand Account? <a href="../brandlogin/login.php">Log In as Brand</a></font></p>
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-primary" type="submit" id="cf-submit" name="inf_login">SIGN IN</button>

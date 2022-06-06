@@ -135,7 +135,7 @@ if( isset($_POST['brand_login']) ) {
                     <div class="underlined-title">
                         <h1>Sign In</h1>
                         <hr>
-                        <h2>influenza now</h2>
+                        <h2>as brand</h2>
                     </div>
                     <div id="contact" class="form-container">
                         <div id="message"></div>
@@ -172,7 +172,6 @@ if( isset($_POST['brand_login']) ) {
                             
                                 <br>
                             </label>
-                            <div class="row">
                             <div>
                                 <input type="checkbox" name="remember" id="remember">
                                 <label for="remember">Remember me</label>
@@ -181,7 +180,10 @@ if( isset($_POST['brand_login']) ) {
                             </div>
                             <div class="form-group">
                                 <!-- /.Address -->
-                                <p class="small text-muted"><font color="#d90000">Don't have an Account? <a href="signup.php">Register Here</a></font></p>
+                                <p class="small text-muted"><font color="black">Don't have an Account? <a href="signup.php">Register Here</a></font></p>
+                            </div>
+                            <div class="form-group">
+                                <p class="small text-muted"><font color="black">Have Influencer Account? <a href="../influencerlogin/login.php">Log In as Influencer</a></font></p>
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-primary" type="submit" id="cf-submit" name="brand_login">SIGN IN</button>
