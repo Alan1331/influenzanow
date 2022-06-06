@@ -143,9 +143,11 @@ if( isset($_POST['update_profile']) ) {
                     <input type="date" id="inf_birthdate" name="inf_birthdate" value="<?= $influencer['inf_birthdate']; ?>" >
                     <label for="inf_address">Address</label>
                     <textarea name="inf_address" id="inf_address" name="inf_address" cols="60" rows="4" placeholder="<?= $influencer['inf_address']; ?>"><?= $influencer['inf_address']; ?></textarea>
-                    <center><a href=""><button>Edit Interest or SNS</button></center>
                 </div>
             </form>
+            <div class="row">
+                <a href="editInterestSns.php"><button>Edit Interest or SNS</button></a>
+            </div>
         </div>
     </div>
 
