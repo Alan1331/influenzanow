@@ -183,7 +183,7 @@ if( isset($_POST['add_sns']) ) {
     <?php endforeach; ?>
     
 </table>
-<button class="btn btn-primary"><a href="../../dashboard/influencer/home.php">Continue to dashboard</a></button>
+<button class="btn btn-primary"><a href="../../../script/dashboard/influencer/home.php">Continue to dashboard</a></button>
 
 <script type="text/javascript" src="../../../style/js/jquery-1.11.1.min.js"></script>         
         <script type="text/javascript" src="../../../style/js/bootstrap.min.js"></script>         
