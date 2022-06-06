@@ -26,11 +26,6 @@
     <![endif]-->
 </head>
 <body data-spy="scroll" data-target="nav">
-    <script type="text/javascript" src="resource/style/js/jquery-1.11.1.min.js"></script>         
-    <script type="text/javascript" src="resource/style/js/bootstrap.min.js"></script>         
-    <script type="text/javascript" src="resource/style/js/plugins.js"></script>
-    <script src="https://maps.google.com/maps/api/js?sensor=true"></script>
-    <script type="text/javascript" src="resource/style/js/bskit-scripts.js"></script> 
     <header id="header-2" class="soft-scroll header-2">
         <nav class="main-nav navbar navbar-default navbar-fixed-top">
             <div class="container">
@@ -89,5 +84,10 @@
             <p class="pull-right small">By Triple AAA</p>
         </div>
     </div>
+    <script type="text/javascript" src="resource/style/js/jquery-1.11.1.min.js"></script>         
+    <script type="text/javascript" src="resource/style/js/bootstrap.min.js"></script>         
+    <script type="text/javascript" src="resource/style/js/plugins.js"></script>
+    <script src="https://maps.google.com/maps/api/js?sensor=true"></script>
+    <script type="text/javascript" src="resource/style/js/bskit-scripts.js"></script> 
 </body>
 </html>

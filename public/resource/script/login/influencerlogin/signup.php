@@ -130,7 +130,7 @@ if( isset($_POST['inf_signup']) ) {
                     <div class="underlined-title">
                         <h1>Sign Up</h1>
                         <hr>
-                        <h2>influenza now</h2>
+                        <h2>as Influencer</h2>
                     </div>
                     <div id="contact" class="form-container">
                         <div id="message"></div>
@@ -206,6 +206,15 @@ if( isset($_POST['inf_signup']) ) {
                                 <!-- /.Address -->
                                 <label for="inf_address">Address</label>
                                 <textarea name="inf_address" id="inf_address" class="form-control" rows="3" placeholder="Address" id="textArea" required></textarea>
+                            </div>
+                            <div class="row">
+                            <p class="small text-muted"><span class="guardsman">All fields are required.</span> Once we receive your message we will respond as soon as possible.</p>
+                            </div>
+                            <div class="form-group">
+                                <p class="small text-muted"><font color="black">Already Have One?<a href="../influencerlogin/login.php"> Sign In</a></font></p>
+                            </div>
+                            <div class="form-group">
+                                <p class="small text-muted"><font color="black">You're a Brand Owner? <a href="../brandlogin/signup.php">Sign Up as Brand</a></font></p>
                             </div>
                             <div>
                                 <input type="checkbox" name="remember" id="remember">
