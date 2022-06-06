@@ -76,8 +76,25 @@ if( isset($_POST['add_sns']) ) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Interest or SNS</title>
+    <link href="../../../bootstrap/css/bootstrap.min.css" rel="stylesheet"> 
+        <link href="../../../style/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700" rel="stylesheet">
+        <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet">
+        <!-- Style Library -->         
+        <link href="../../../style/css/style-library-1.css" rel="stylesheet">
+        <link href="../../../style/css/plugins.css" rel="stylesheet">
+        <link href="../../../style/css/blocks.css" rel="stylesheet">
+        <link href="../../../style/css/custom.css" rel="stylesheet">
+        <link href="../../../style/css/table.css" rel="stylesheet">
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->         
+        <!--[if lt IE 9]>
+      <script src="../../../style/js/html5shiv.js"></script>
+      <script src="../../../style/js/respond.min.js"></script>
+    <![endif]-->
 </head>
 <body>
+    <center>
 <h1>Additional Information</h1>
 
 <h2>Interests</h2>
@@ -89,11 +106,11 @@ if( isset($_POST['add_sns']) ) {
             <input type="text" placeholder="type new interest here!" name="interest" id="interest" required>
         </li>
         <li>
-            <button type="submit" name="add_interest">Add Interest!</button>
+            <button class="btn btn-primary" type="submit" name="add_interest">Add Interest!</button>
         </li>
     </ul>
 </form>
-<table border="1" cellpadding="10" cellspacing="0">
+<table class="styled-table">
     <tr>
         <th>No.</th>
         <th>Interest</th>
@@ -125,11 +142,11 @@ if( isset($_POST['add_sns']) ) {
             </select>
         </li>
         <li>
-            <button type="submit" name="add_sns">Add SNS!</button>
+            <button class="btn btn-primary" type="submit" name="add_sns">Add SNS!</button>
         </li>
     </ul>
 </form>
-<table border="1" cellpadding="10" cellspacing="0">
+<table class="styled-table">
     <tr>
         <th>SNS Type</th>
         <th>SNS Username</th>
@@ -154,7 +171,12 @@ if( isset($_POST['add_sns']) ) {
     
 </table>
 
-<a href="infProfile.php">Back to profile</a>
-
+<button class="btn btn-primary"><a href="infProfile.php">Back to profile</a></button>
+<script type="text/javascript" src="../../../style/js/jquery-1.11.1.min.js"></script>         
+        <script type="text/javascript" src="../../../style/js/bootstrap.min.js"></script>         
+        <script type="text/javascript" src="../../../style/js/plugins.js"></script>
+        <script src="https://maps.google.com/maps/api/js?sensor=true"></script>
+        <script type="text/javascript" src="../../../style/js/bskit-scripts.js"></script>
+        </center>
 </body>
 </html>
