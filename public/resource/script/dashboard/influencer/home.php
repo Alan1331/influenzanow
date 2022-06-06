@@ -103,7 +103,7 @@ $influecer = query("SELECT * FROM influencer WHERE inf_username=\"$inf_username\
                                 <a href="#">Cart</a>
                             </li>
                             <li class="nav-item">
-                            <a href="#">Log Out</a>
+                            <a href="../../login/influencerlogin/logout.php">Log Out</a>
                             </li>
                         </ul>
                         <!--//nav-->
