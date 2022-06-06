@@ -204,13 +204,29 @@ $influecer = query("SELECT * FROM influencer WHERE inf_username=\"$inf_username\
                         </div>
                                                                 <!-- /.ERF4 END -->
                         <!-- /.gallery-item-wrapper -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
+                        <div class="col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
-                                    <img src="../../../images/brands/brand1.png" class="img-responsive" alt="1st gallery Thumb">
-                                    <div class="image-overlay"></div>
-                                    
-                                    <a href="erfTask.php" class="gallery-link"><i class="fa fa-eye"></i></a>
+                                <table class="styled-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Task ID</th>
+                                            <th>Task Name</th>
+                                            <th>Task Deadline</th>
+                                            <th>Task Status</th>
+                                            <th>Task Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="bold-approved">
+                                            <td>1</td>
+                                            <td>Make a Purchase</td>
+                                            <td>(02-15-2022) - (02-25-2022)</td>
+                                            <td>Approved</td>
+                                            <td><button class="button button2"><a href="taskStep.php">View Task</a></button></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div class="gallery-details">
                                     <h5>1st Process</h5>
@@ -218,13 +234,29 @@ $influecer = query("SELECT * FROM influencer WHERE inf_username=\"$inf_username\
                             </div>
                         </div>
                         <!-- /.gallery-item-wrapper -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
+                        <div class="col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
-                                    <img src="../../../images/brands/brand1.png" class="img-responsive" alt="1st gallery Thumb">
-                                    <div class="image-overlay"></div>
-                                    
-                                    <a href="erfTask.php" class="gallery-link"><i class="fa fa-eye"></i></a>
+                                <table class="styled-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Task ID</th>
+                                                <th>Task Name</th>
+                                                <th>Task Deadline</th>
+                                                <th>Task Status</th>
+                                                <th>Task Details</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="bold-approval">
+                                                <td>1</td>
+                                                <td>Make a Purchase</td>
+                                                <td>(02-15-2022) - (02-25-2022)</td>
+                                                <td>Waiting for Approval</td>
+                                                <td><button class="button button2"><a href="taskStep.php">View Task</a></button></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                 </div>
                                 <div class="gallery-details">
                                     <h5>2nd Process</h5>
@@ -232,13 +264,29 @@ $influecer = query("SELECT * FROM influencer WHERE inf_username=\"$inf_username\
                             </div>
                         </div>
                         <!-- /.gallery-item-wrapper -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
+                        <div class="col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
-                                    <img src="../../../images/brands/brand1.png" class="img-responsive" alt="1st gallery Thumb">
-                                    <div class="image-overlay"></div>
-                                    
-                                    <a href="erfTask.php" class="gallery-link"><i class="fa fa-eye"></i></a>
+                                <table class="styled-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Task ID</th>
+                                                <th>Task Name</th>
+                                                <th>Task Deadline</th>
+                                                <th>Task Status</th>
+                                                <th>Task Details</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="bold-approval">
+                                                <td>1</td>
+                                                <td>Make a Purchase</td>
+                                                <td>(02-15-2022) - (02-25-2022)</td>
+                                                <td>Waiting for Approval</td>
+                                                <td><button class="button button2"><a href="taskStep.php">View Task</a></button></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                 </div>
                                 <div class="gallery-details">
                                     <h5>3rd Process</h5>
@@ -246,13 +294,29 @@ $influecer = query("SELECT * FROM influencer WHERE inf_username=\"$inf_username\
                             </div>
                         </div>
                         <!-- /.gallery-item-wrapper -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
+                        <div class="col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
-                                    <img src="../../../images/brands/brand1.png" class="img-responsive" alt="1st gallery Thumb">
-                                    <div class="image-overlay"></div>
-                                    
-                                    <a href="erfTask.php" class="gallery-link"><i class="fa fa-eye"></i></a>
+                                <table class="styled-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Task ID</th>
+                                                <th>Task Name</th>
+                                                <th>Task Deadline</th>
+                                                <th>Task Status</th>
+                                                <th>Task Details</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="bold-approval">
+                                                <td>1</td>
+                                                <td>Make a Purchase</td>
+                                                <td>(02-15-2022) - (02-25-2022)</td>
+                                                <td>Waiting for Approval</td>
+                                                <td><button class="button button2"><a href="taskStep.php">View Task</a></button></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                 </div>
                                 <div class="gallery-details">
                                     <h5>4th Process</h5>
