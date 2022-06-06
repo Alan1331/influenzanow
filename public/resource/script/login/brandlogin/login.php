@@ -172,18 +172,17 @@ if( isset($_POST['brand_login']) ) {
                             
                                 <br>
                             </label>
+                            <div class="form-group">
+                                <p class="small text-muted"><font color="black">Don't have an Account? <a href="signup.php">Register Here</a></font></p>
+                            </div>
+                            <div class="form-group">
+                                <p class="small text-muted"><font color="black">Have Influencer Account? <a href="../influencerlogin/login.php">Log In as Influencer</a></font></p>
+                            </div>
                             <div>
                                 <input type="checkbox" name="remember" id="remember">
                                 <label for="remember">Remember me</label>
                             </div>                                 
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <!-- /.Address -->
-                                <p class="small text-muted"><font color="black">Don't have an Account? <a href="signup.php">Register Here</a></font></p>
-                            </div>
-                            <div class="form-group">
-                                <p class="small text-muted"><font color="black">Have Influencer Account? <a href="../influencerlogin/login.php">Log In as Influencer</a></font></p>
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-primary" type="submit" id="cf-submit" name="brand_login">SIGN IN</button>
