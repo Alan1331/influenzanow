@@ -17,13 +17,14 @@ if( isset($_POST['add_twitter']) ) {
         echo "
                 <script>
                     alert('twitter berhasil ditambahkan');
-                    window.location = '../login/influencerlogin/addInitInfo.php';
+                    history.go(-2);
                 </script>
             ";
     } else {
         echo "
                 <script>
                     alert('twitter gagal ditambahkan');
+                    history.go(-1);
                 </script>
             ";
     }
@@ -63,7 +64,7 @@ if( isset($_POST['add_twitter']) ) {
                 <button type="submit" name="add_twitter">Submit</button>
                 <p>
                     <p>You don't have Twitter?</p>
-                    <center><a href="../login/influencerlogin/addInitInfo.php">Back to Additional Information Page</a></center>
+                    <center><input type="button" value="Back to Additional Information Page" onclick="history.back()"></center>
                 </p>
             </form>
         </div>

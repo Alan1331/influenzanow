@@ -42,6 +42,18 @@ form {
     float: right;
 }
 
+.row {
+    width: 100%;
+    display: block;
+    float: right;
+}
+
+.row a {
+    margin-right: 100px;
+    display: block;
+    float: right;
+}
+
 h1 {
     margin: 20px;
     text-align: center;
