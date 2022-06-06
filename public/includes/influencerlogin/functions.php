@@ -115,15 +115,15 @@ function updateInfProfile($data) {
     $reg_date = $data['inf_reg_date'];
 
     // cek username tersedia atau tidak
-    $result = mysqli_query($conn, "SELECT inf_username FROM influencer WHERE inf_username='$username'");
-    if( mysqli_fetch_assoc($result) ) {
-        echo "
-                <script>
-                    alert('username tidak tersedia');
-                </script>
-            ";
-        return false;
-    }
+    // $result = mysqli_query($conn, "SELECT inf_username FROM influencer WHERE inf_username='$username'");
+    // if( mysqli_fetch_assoc($result) ) {
+    //     echo "
+    //             <script>
+    //                 alert('username tidak tersedia');
+    //             </script>
+    //         ";
+    //     return false;
+    // }
 
     // update data user
     // INSERT INTO influencer VALUES(\"$username\", \"$name\", \"$email\", \"$password\", \"$gender\", \"$birthdate\", \"$address\", \"$phone_number\", \"\")
