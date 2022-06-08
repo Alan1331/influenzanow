@@ -58,8 +58,8 @@ if( !isset($_SESSION['login']) || !isset($_SESSION['brand_username']) ) {
     <![endif]-->         
     </head>     
     <body data-spy="scroll" data-target="nav">
-        <header id="header-2" class="soft-scroll header-2">
-        <nav class="main-nav navbar navbar-default navbar-fixed-top">
+        <header id="header-1" class="soft-scroll header-1">
+        <nav class="main-nav navbar-fixed-top headroom headroom--pinned">
                 <div class="container">
                     <!-- Brand and toggle -->
                     <div class="navbar-header">
