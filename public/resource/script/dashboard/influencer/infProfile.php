@@ -38,6 +38,7 @@ if( $_SESSION['login'] && isset($_SESSION['inf_username']) ) {
 
 $inf_username = $_SESSION['inf_username'];
 $influencer = query("SELECT * FROM influencer WHERE inf_username=\"$inf_username\"")[0];
+$inf_pict = "../../../images/influencer/data/" . $influencer['inf_pict'];
 
 if( isset($_POST['update_profile']) ) {
 
@@ -78,7 +79,6 @@ if( isset($_POST['update_profile']) ) {
             ";
         echo mysqli_error($conn);
     }
-
 }
 
 ?>
@@ -96,18 +96,22 @@ if( isset($_POST['update_profile']) ) {
     <div class="container">
         <div class="profile">
             <form action="" method="post">
-                <h1>About Influencer</h1>
+                <h1>Profile Settings</h1>
                 <hr>
                 <br>
-                <br>
-                <div class="img"></div>
+                <a href="home.php"><--Back to home</a>
                 <br>
                 <center>
-                <a href="changeprofile.php">Change Picture ></a>
+                    <img class="img" src="<?= $inf_pict; ?>" alt="<?= $inf_pict; ?>">
+                </center>
+                <br>
+                <center>
+                    <a href="changeprofile.php">Change Picture ></a>
                 </center>
                 <br>
                 <input type="hidden" name="inf_password" value="<?= $influencer['inf_password']; ?>">
                 <input type="hidden" name="inf_reg_date" value="<?= $influencer['inf_reg_date']; ?>">
+                <input type="hidden" name="inf_pict" value="<?= $influencer['inf_pict']; ?>">
                 <div class="input-left">
                     <input type="hidden" name="inf_username" value="<?= $influencer['inf_username'] ?>">
                     <!-- <label for="inf_username">Username</label>

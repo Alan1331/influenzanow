@@ -38,9 +38,12 @@ if( $_SESSION['login'] && isset($_SESSION['inf_username']) ) {
 
 $inf_username = $_SESSION['inf_username'];
 $influencer = query("SELECT * FROM influencer WHERE inf_username=\"$inf_username\"")[0];
+$inf_pict = $influencer['inf_pict'];
+$path = '../../../images/influencer/data/';
 
 if( isset($_POST['submit']) ) {
-    upload($_FILES);
+    $inf_pict = upload($_FILES['inf_pict'], $path);
+    $result = mysqli_query($conn, "UPDATE influencer SET inf_pict = \"$inf_pict\" WHERE inf_username = \"$inf_username\"");
 }
 
 ?>
@@ -58,14 +61,17 @@ if( isset($_POST['submit']) ) {
     <div class="container">
         <div class="profile">
             <form action="" method="post" enctype="multipart/form-data">
-                <h1>About Influencer</h1>
+                <h1>Change Profie Picture</h1>
                 <hr>
                 <br>
+                <a href="infProfile.php"><--Back to profile settings</a>
                 <br>
-                <div class="img"></div>
+                <center>
+                    <img class="img" src="<?= $path . $inf_pict; ?>" alt="Profile Picture">
+                </center>
                 <br>
                 <input type="file" name="inf_pict" id="inf_pict">
-                <center><button type="submit" name="submit">Update Profile</button></center>
+                <center><button type="submit" name="submit">Upload Profile Picture</button></center>
             </form>
         </div>
     </div>

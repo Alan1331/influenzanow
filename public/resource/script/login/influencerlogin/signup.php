@@ -135,6 +135,7 @@ if( isset($_POST['inf_signup']) ) {
                     <div id="contact" class="form-container">
                         <div id="message"></div>
                         <form method="post" action="">
+                            <input type="hidden" name="inf_pict" value="default.png">
                             <!-- /.row -->
                             <div class="row">
                                 <div class="col-sm-4">

@@ -12,6 +12,7 @@ function signup($data) {
     $address = mysqli_real_escape_string($conn, $data['inf_address']);
     $password = mysqli_real_escape_string($conn, $data['inf_password']);
     $password2 = mysqli_real_escape_string($conn, $data['inf_password2']);
+    $pict = $data['inf_pict'];
 
     // cek username tersedia atau tidak
     $result = mysqli_query($conn, "SELECT inf_username FROM influencer WHERE inf_username='$username'");
@@ -38,7 +39,7 @@ function signup($data) {
     $password = password_hash($password, PASSWORD_DEFAULT);
 
     // tambahkan user baru ke database
-    $signup_sql = "INSERT INTO influencer VALUES(\"$username\", \"$name\", \"$email\", \"$password\", \"$gender\", \"$birthdate\", \"$address\", \"$phone_number\", \"\")";
+    $signup_sql = "INSERT INTO influencer VALUES(\"$username\", \"$name\", \"$email\", \"$password\", \"$gender\", \"$birthdate\", \"$address\", \"$phone_number\", NOW(), \"$pict\")";
     mysqli_query($conn, $signup_sql);
 
     return mysqli_affected_rows($conn);
@@ -113,6 +114,7 @@ function updateInfProfile($data) {
     $address = mysqli_real_escape_string($conn, $data['inf_address']);
     $password = $data['inf_password'];
     $reg_date = $data['inf_reg_date'];
+    $pict = $data['inf_pict'];
 
     // cek username tersedia atau tidak
     // $result = mysqli_query($conn, "SELECT inf_username FROM influencer WHERE inf_username='$username'");
@@ -136,58 +138,11 @@ function updateInfProfile($data) {
                         inf_birthdate = \"$birthdate\",
                         inf_address = \"$address\",
                         inf_phone_number = \"$phone_number\",
-                        inf_reg_date = \"$reg_date\"
+                        inf_reg_date = \"$reg_date\",
+                        inf_pict = \"$pict\"
                     WHERE inf_username = \"$username\"
                     ";
     mysqli_query($conn, $update_sql);
 
     return mysqli_affected_rows($conn);
-}
-
-function upload($inf_pict) {
-
-    $namaFile = $inf_pict['inf_pict']['name'];
-    $ukuranFile = $inf_pict['inf_pict']['size'];
-    $error = $inf_pict['inf_pict']['error'];
-    $tmpName = $inf_pict['inf_pict']['tmp_name'];
-
-    // cek apakah tidak ada gambar yang diupload
-    if($error === 4) {
-        echo "
-                <script>
-                    alert('pilih gambar terlebih dahulu');
-                </script>
-            ";
-        return false;
-    }
-
-    // cek apakah yang diupload adalah gambar
-    $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
-    $ekstensiGambar = explode('.', $namaFile);
-    $ekstensiGambar = strtolower(end($ekstensiGambar));
-    if( !in_array($ekstensiGambar, $ekstensiGambarValid) ) {
-        echo "
-                <script>
-                    alert('hanya diperbolehkan upload gambar');
-                </script>
-            ";
-        return false;
-    }
-
-    // cek jika ukurannya terlalu besar
-    if( $ukuranFile > (5*1000*1000) ) {
-        echo "
-                <script>
-                    alert('ukuran gambar terlalu besar (maksimal: 5MB)');
-                </script>
-            ";
-        return false;
-    }
-
-    // lolos pengecekan, gambar siap diupload
-    move_uploaded_file($tmp, '../../../images/influencer/data/' . $namaFile);
-
-    return $namaFile;
-
-
 }
