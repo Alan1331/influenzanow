@@ -143,3 +143,51 @@ function updateInfProfile($data) {
 
     return mysqli_affected_rows($conn);
 }
+
+function upload($inf_pict) {
+
+    $namaFile = $inf_pict['inf_pict']['name'];
+    $ukuranFile = $inf_pict['inf_pict']['size'];
+    $error = $inf_pict['inf_pict']['error'];
+    $tmpName = $inf_pict['inf_pict']['tmp_name'];
+
+    // cek apakah tidak ada gambar yang diupload
+    if($error === 4) {
+        echo "
+                <script>
+                    alert('pilih gambar terlebih dahulu');
+                </script>
+            ";
+        return false;
+    }
+
+    // cek apakah yang diupload adalah gambar
+    $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
+    $ekstensiGambar = explode('.', $namaFile);
+    $ekstensiGambar = strtolower(end($ekstensiGambar));
+    if( !in_array($ekstensiGambar, $ekstensiGambarValid) ) {
+        echo "
+                <script>
+                    alert('hanya diperbolehkan upload gambar');
+                </script>
+            ";
+        return false;
+    }
+
+    // cek jika ukurannya terlalu besar
+    if( $ukuranFile > (5*1000*1000) ) {
+        echo "
+                <script>
+                    alert('ukuran gambar terlalu besar (maksimal: 5MB)');
+                </script>
+            ";
+        return false;
+    }
+
+    // lolos pengecekan, gambar siap diupload
+    move_uploaded_file($tmp, '../../../images/influencer/data/' . $namaFile);
+
+    return $namaFile;
+
+
+}
