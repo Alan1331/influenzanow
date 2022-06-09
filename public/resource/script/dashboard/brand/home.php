@@ -3,6 +3,7 @@ session_start();
 
 require __DIR__.'/../../../../includes/connection.php';
 require __DIR__.'/../../../../includes/globalFunctions.php';
+require __DIR__.'/../../../../includes/brandlogin/functions.php';
 
 $brand_name = $_SESSION['brand_username'];
 
