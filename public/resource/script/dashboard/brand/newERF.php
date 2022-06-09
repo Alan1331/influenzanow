@@ -33,6 +33,16 @@ $brand_name = $_SESSION['brand_username'];
 $brand_id = query("SELECT brand_id FROM brand WHERE brand_name = \"$brand_name\"")[0]['brand_id'];
 $erf_draft = query("SELECT * FROM erf WHERE brand_id = $brand_id AND erf_status = 'drafted'")[0];
 
+if( !empty($erf_draft) ) {
+    $erf_id = $erf_draft['erf_id'];
+    $inf_criteria = query("SELECT * FROM inf_criteria WHERE erf_id = $erf_id");
+}
+
+if( !empty($erf_draft) ) {
+    $erf_id = $erf_draft['erf_id'];
+    $ref_link = query("SELECT * FROM ref_link WHERE erf_id = $erf_id");
+}
+
 if( isset($_POST['set_erf']) ) {
     if( $_POST['erf_pict'] == "" ) {
         $_POST['erf_pict'] = 'default.png';
@@ -54,6 +64,69 @@ if( isset($_POST['set_erf']) ) {
                     window.location = 'newERF.php';
                 </script>
             ";
+    }
+}
+
+if( isset($_POST['add_inf_criteria'])) {
+    // jika erf belum diset, tidak dapat menambah kriteria
+    if( empty($erf_draft) ) {
+        echo "
+                <script>
+                    alert('set erf terlebih dahulu');
+                    window.location = 'newERF.php';
+                </script>
+            ";
+    } else {
+        if(add_criteria($_POST, $erf_draft['erf_id']) > 0) {
+            echo "
+                    <script>
+                        alert('kriteria berhasil ditambahkan');
+                        window.location = 'newERF.php';
+                    </script>
+                ";
+        } else {
+            echo "
+                    <script>
+                        alert('kriteria gagal ditambahkan');
+                        window.location = 'newERF.php';
+                    </script>
+                ";
+        }
+    }
+}
+
+if( isset($_POST['add_ref_link'])) {
+    // jika erf belum diset, tidak dapat menambah kriteria
+    if( empty($erf_draft) ) {
+        echo "
+                <script>
+                    alert('set erf terlebih dahulu');
+                    window.location = 'newERF.php';
+                </script>
+            ";
+    } else {
+        if(add_ref_link($_POST, $erf_draft['erf_id']) > 0) {
+            echo "
+                    <script>
+                        alert('reference link berhasil ditambahkan');
+                        window.location = 'newERF.php';
+                    </script>
+                ";
+        } else {
+            echo "
+                    <script>
+                        alert('reference link gagal ditambahkan');
+                        window.location = 'newERF.php';
+                    </script>
+                ";
+        }
+    }
+}
+
+if( isset($_POST['add_task'])) {
+    // jika erf belum diset, tidak dapat menambah kriteria
+    if( empty($erf_draft) ) {
+        header('Location: newTask.php');
     }
 }
 
@@ -222,6 +295,13 @@ if( isset($_POST['set_erf']) ) {
                                 <div class="form-group">
                                     <!--// PARTICIPANT CRITERIA -->
                                     <label for="inf_criteria">PARTICIPANT CRITERIA</label>
+                                    <?php if( !empty($erf_draft) ): ?>
+                                        <ul style="list-style-type:disc">
+                                            <?php foreach($inf_criteria as $criteria): ?>
+                                                <li><?= $criteria['criteria'] ?> <a href="hapusCriteria.php?erf_id=<?= $criteria['erf_id'] ?>&criteria=<?= $criteria['criteria'] ?>" style="color:red;">X</a></li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    <?php endif; ?>
                                     <input name="inf_criteria" id="inf_criteria" type="text" value="" placeholder="Input Criteria" class="form-control" />
                                     <button type="submit" name="add_inf_criteria" class="btn btn-primary">+ ADD MORE CRITERIA</button>
                                     <!--// END PARTICIPANT CRITERIA -->
@@ -229,8 +309,15 @@ if( isset($_POST['set_erf']) ) {
                                 <div class="form-group">
                                     <!--// REFERENSI -->
                                     <label for="ref_link">REFERENCE LINKS</label>
+                                    <?php if( !empty($erf_draft) ): ?>
+                                        <ul style="list-style-type:disc">
+                                            <?php for($i = 0; $i < sizeof($ref_link); $i++): ?>
+                                                <li><a target="_blank" href="<?= $ref_link[$i]['link'] ?>"><?= 'Link' . ($i + 1); ?></a> <a href="hapusRefLink.php?erf_id=<?= $ref_link[$i]['erf_id'] ?>&link=<?= $ref_link[$i]['link'] ?>" style="color:red;">X</a></li>
+                                            <?php endfor; ?>
+                                        </ul>
+                                    <?php endif; ?>
                                     <input name="ref_link" id="ref_link" type="text" value="" placeholder="Input Link Here" class="form-control" />
-                                    <button type="submit" name="add_ref_link" class="btn btn-primary">+ ADD MORE LINK</button>
+                                    <button type="url" name="add_ref_link" class="btn btn-primary">+ ADD MORE LINK</button>
                                     <!--// END REFERENCE -->
                                 </div>
                                 <div class="form-group">

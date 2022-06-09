@@ -35,4 +35,34 @@ function setERF($data, $erf_draft, $brand_id) {
 
     return mysqli_affected_rows($conn);
 }
+
+function add_criteria($data, $erf_id) {
+    global $conn;
+
+    $criteria = test_input($data['inf_criteria']);
+
+    $result = mysqli_query($conn, "INSERT INTO inf_criteria VALUES($erf_id, \"$criteria\")");
+
+    return mysqli_affected_rows($conn);
+}
+
+function add_ref_link($data, $erf_id) {
+    global $conn;
+
+    $link = $data['ref_link'];
+    // validasi link
+    if( !filter_var($link, FILTER_VALIDATE_URL) ) {
+        echo "
+                <script>
+                    alert('reference link tidak valid');
+                </script>
+            ";
+        return false;
+    }
+
+    $result = mysqli_query($conn, "INSERT INTO ref_link VALUES($erf_id, \"$link\")");
+
+    return mysqli_affected_rows($conn);
+}
+
 ?>
