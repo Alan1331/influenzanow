@@ -29,28 +29,58 @@ if( !isset($_SESSION['login']) || !isset($_SESSION['brand_username']) ) {
     header('Location: ../../login/brandlogin/login.php');
 }
 
+$erf_draft = array('erf_pict' => '', 'erf_name' => '', 'product_name' => '', 'product_price' => '', 'gen_brief' => '', 'negotiation' => '');
 $brand_name = $_SESSION['brand_username'];
 $brand_id = query("SELECT brand_id FROM brand WHERE brand_name = \"$brand_name\"")[0]['brand_id'];
-$erf_draft = query("SELECT * FROM erf WHERE brand_id = $brand_id AND erf_status = 'drafted'")[0];
+$test_erf_draft = query("SELECT * FROM erf WHERE brand_id = $brand_id AND erf_status = 'drafted'");
+if( isset($test_erf_draft[0]) ) {
+    $erf_draft = $test_erf_draft[0];
+    $erf_id = $erf_draft['erf_id'];
+    $task_list = query("SELECT * FROM task WHERE erf_id = $erf_id");
+}
+$path = '../../../images/brands/erf/';
+if( isset($erf_draft['erf_pict']) ) {
+    if( $erf_draft['erf_pict'] == '' ) {
+        $erf_draft['erf_pict'] = 'default.png';
+        $erf_pict = $erf_draft['erf_pict'];
+    } else {
+        $erf_pict = $erf_draft['erf_pict'];
+    }
+} else {
+    $erf_pict = 'default.png';
+}
 
-if( !empty($erf_draft) ) {
+if( isset($task_list) ) {
+    if( empty($task_list[0]) ) {
+        unset($task_list);
+    }
+}
+
+if( isset($erf_draft['erf_id']) ) {
     $erf_id = $erf_draft['erf_id'];
     $inf_criteria = query("SELECT * FROM inf_criteria WHERE erf_id = $erf_id");
 }
 
-if( !empty($erf_draft) ) {
+if( isset($erf_draft['erf_id']) ) {
     $erf_id = $erf_draft['erf_id'];
     $ref_link = query("SELECT * FROM ref_link WHERE erf_id = $erf_id");
 }
 
 if( isset($_POST['set_erf']) ) {
-    if( $_POST['erf_pict'] == "" ) {
-        $_POST['erf_pict'] = 'default.png';
-    }
     if( !isset($_POST['negotiation'])) {
         $_POST['negotiation'] = 0;
     }
-    if( setERF($_POST, $erf_draft, $brand_id) > 0 ) {
+    if( isset($_FILES['erf_pict']) ) {
+        $erf_pict = upload($_FILES['erf_pict'], $path);
+    } else {
+        echo "
+            <script>
+                alert('gagal upload foto produk');
+                window.location = 'newERF.php';
+            </script>
+            ";
+    }
+    if( setERF($_POST, $erf_draft, $brand_id, $erf_pict) >= 0 ) {
         echo "
                 <script>
                     alert('erf berhasil diset');
@@ -69,15 +99,8 @@ if( isset($_POST['set_erf']) ) {
 
 if( isset($_POST['add_inf_criteria'])) {
     // jika erf belum diset, tidak dapat menambah kriteria
-    if( empty($erf_draft) ) {
-        echo "
-                <script>
-                    alert('set erf terlebih dahulu');
-                    window.location = 'newERF.php';
-                </script>
-            ";
-    } else {
-        if(add_criteria($_POST, $erf_draft['erf_id']) > 0) {
+    if( isset($erf_draft['erf_id']) ) {
+        if(add_criteria($_POST, $erf_draft['erf_id']) >= 0) {
             echo "
                     <script>
                         alert('kriteria berhasil ditambahkan');
@@ -92,20 +115,20 @@ if( isset($_POST['add_inf_criteria'])) {
                     </script>
                 ";
         }
-    }
-}
-
-if( isset($_POST['add_ref_link'])) {
-    // jika erf belum diset, tidak dapat menambah kriteria
-    if( empty($erf_draft) ) {
+    } else {
         echo "
                 <script>
                     alert('set erf terlebih dahulu');
                     window.location = 'newERF.php';
                 </script>
             ";
-    } else {
-        if(add_ref_link($_POST, $erf_draft['erf_id']) > 0) {
+    }
+}
+
+if( isset($_POST['add_ref_link'])) {
+    // jika erf belum diset, tidak dapat menambah kriteria
+    if( isset($erf_draft['erf_id']) ) {
+        if(add_ref_link($_POST, $erf_draft['erf_id']) >= 0) {
             echo "
                     <script>
                         alert('reference link berhasil ditambahkan');
@@ -120,16 +143,77 @@ if( isset($_POST['add_ref_link'])) {
                     </script>
                 ";
         }
+    } else {
+        echo "
+                <script>
+                    alert('set erf terlebih dahulu');
+                    window.location = 'newERF.php';
+                </script>
+            ";
     }
 }
 
-if( isset($_POST['add_task'])) {
-    // jika erf belum diset, tidak dapat menambah kriteria
-    if( empty($erf_draft) ) {
+if( isset($_POST['add_task']) ) {
+    if( isset($erf_draft['erf_id']) ) {
+        $erf_id = $erf_draft['erf_id'];
+        $_SESSION['erf_id'] = $erf_id;
         header('Location: newTask.php');
+    } else {
+        echo "
+                <script>
+                    alert('set erf terlebih dahulu');
+                    window.location = 'newERF.php';
+                </script>
+            ";
     }
 }
 
+if( isset($_POST['post_erf']) ) {
+    // jika erf belum diset, tidak dapat post erf
+    if( isset($erf_draft['erf_id']) ) {
+        $erf_id = $erf_draft['erf_id'];
+        if( check_erf_criteria($erf_id) > 0 ) {
+            if( check_erf_task($erf_id) > 0 ) {
+                if( post_erf($erf_id) ) {
+                    echo "
+                            <script>
+                                alert('ERF berhasil dipost');
+                                window.location = 'home.php';
+                            </script>
+                        ";
+                } else {
+                    echo "
+                            <script>
+                                alert('ERF gagal dipost');
+                                window.location = 'newERF.php';
+                            </script>
+                        ";
+                }
+            } else {
+                echo "
+                        <script>
+                            alert('Tambahkan task terlebih dahulu');
+                            window.location = 'newERF.php';
+                        </script>
+                    ";
+            }
+        } else {
+            echo "
+                    <script>
+                        alert('Tambahkan participant criteria terlebih dahulu');
+                        window.location = 'newERF.php';
+                    </script>
+                ";
+        }
+    } else {
+        echo "
+                <script>
+                    alert('set erf terlebih dahulu');
+                    window.location = 'newERF.php';
+                </script>
+            ";
+    }
+}
 ?>
 
 <!DOCTYPE html> 
@@ -156,7 +240,9 @@ if( isset($_POST['add_task'])) {
         <!--[if lt IE 9]>
       <script src="../../../style/js/html5shiv.js"></script>
       <script src="../../../style/js/respond.min.js"></script>
-    <![endif]-->         
+    <![endif]-->
+        <script>
+        </script>
     </head>     
     <body data-spy="scroll" data-target="nav">
         <header id="header-1" class="soft-scroll header-1">
@@ -216,6 +302,9 @@ if( isset($_POST['add_task'])) {
                         <h2>brand is just a perception, and perception will match reality overtime</h2>
                         <h3>- Elon Musk -</h3>
                     </div>
+                    <div class="col-sm-4">
+                        <a href="home.php"><--Back to home</a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -230,10 +319,13 @@ if( isset($_POST['add_task'])) {
                                     <h6>ENDORSE REQUIREMENT FORM<br></h6>
                                 </center>
                                 <div id="message"></div>
-                                <form method="post" action="">
+                                <form method="post" action="" enctype="multipart/form-data">
                                     <!--// PRODUCT PICTURE -->
                                     <div class="form-group">
                                         <label for="erf_pict">PRODUCT PICTURE</label>
+                                        <div>
+                                            <img class="img" src="<?= $path . $erf_pict; ?>" alt="Product Picture" style="width:50%;">
+                                        </div>
                                         <input name="erf_pict" id="erf_pict" type="file" value="<?= $erf_draft['erf_pict'] ?>" class="form-control" />
                                     </div>
                                     <!--// ERF NAME -->
@@ -265,20 +357,17 @@ if( isset($_POST['add_task'])) {
                                         <!--// END NEGO -->
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" name="set_erf">SET ERF</button>
-                                        <button type="submit" name="submit_erf">SUBMIT ERF</button>
+                                        <button class="btn btn-primary" type="submit" name="set_erf">SET ERF</button>
+                                        <?php if( isset($erf_draft['erf_id']) ): ?>
+                                            <?php $erf_id = $erf_draft['erf_id']; ?>
+                                            <?php if (check_draft_task($erf_id) > 0): ?>
+                                                <button class="btn btn-primary" type="submit" name="post_erf" onclick="return confirm('Task dalam draft akan terhapus jika ERF dipost, apakah Anda tetap ingin melanjutkan?')" >POST ERF</button>
+                                            <?php else: ?>
+                                                <button class="btn btn-primary" type="submit" name="post_erf">POST ERF</button>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+                                        <p class="small text-muted"><span class="guardsman">* Set ERF first before input ERF component's data.</span> Post ERF can be performed if the mandatory components are added.</p>
                                     </div>
-                                    <div class="form-group">
-                                        <div class="form-group">
-                                            <div class="editContent">
-                                                <div class="btn-group">
-                                                </div>
-                                                <p class="small text-muted"><span class="guardsman">* All fields are required.</span> Once we receive your message we will respond as soon as possible.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-</div>
                                 </form>
                             </fieldset>
                         </div>
@@ -294,13 +383,15 @@ if( isset($_POST['add_task'])) {
                             <form method="post" action="">
                                 <div class="form-group">
                                     <!--// PARTICIPANT CRITERIA -->
-                                    <label for="inf_criteria">PARTICIPANT CRITERIA</label>
-                                    <?php if( !empty($erf_draft) ): ?>
-                                        <ul style="list-style-type:disc">
-                                            <?php foreach($inf_criteria as $criteria): ?>
-                                                <li><?= $criteria['criteria'] ?> <a href="hapusCriteria.php?erf_id=<?= $criteria['erf_id'] ?>&criteria=<?= $criteria['criteria'] ?>" style="color:red;">X</a></li>
-                                            <?php endforeach; ?>
-                                        </ul>
+                                    <label for="inf_criteria">PARTICIPANT CRITERIA</label><span class="guardsman"> * mandatory, input at least one data.</span>
+                                    <?php if( isset($inf_criteria) ): ?>
+                                        <?php if( !empty($erf_draft) ): ?>
+                                            <ul style="list-style-type:disc">
+                                                <?php foreach($inf_criteria as $criteria): ?>
+                                                    <li><?= $criteria['criteria'] ?> <a href="hapusCriteria.php?erf_id=<?= $criteria['erf_id'] ?>&criteria=<?= $criteria['criteria'] ?>" style="color:red;">X</a></li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                     <input name="inf_criteria" id="inf_criteria" type="text" value="" placeholder="Input Criteria" class="form-control" />
                                     <button type="submit" name="add_inf_criteria" class="btn btn-primary">+ ADD MORE CRITERIA</button>
@@ -309,12 +400,14 @@ if( isset($_POST['add_task'])) {
                                 <div class="form-group">
                                     <!--// REFERENSI -->
                                     <label for="ref_link">REFERENCE LINKS</label>
-                                    <?php if( !empty($erf_draft) ): ?>
-                                        <ul style="list-style-type:disc">
-                                            <?php for($i = 0; $i < sizeof($ref_link); $i++): ?>
-                                                <li><a target="_blank" href="<?= $ref_link[$i]['link'] ?>"><?= 'Link' . ($i + 1); ?></a> <a href="hapusRefLink.php?erf_id=<?= $ref_link[$i]['erf_id'] ?>&link=<?= $ref_link[$i]['link'] ?>" style="color:red;">X</a></li>
-                                            <?php endfor; ?>
-                                        </ul>
+                                    <?php if( isset($ref_link) ): ?>
+                                        <?php if( !empty($erf_draft) ): ?>
+                                            <ul style="list-style-type:disc">
+                                                <?php for($i = 0; $i < sizeof($ref_link); $i++): ?>
+                                                    <li><a target="_blank" href="<?= $ref_link[$i]['link'] ?>"><?= 'Link' . ($i + 1); ?></a> <a href="hapusRefLink.php?erf_id=<?= $ref_link[$i]['erf_id'] ?>&link=<?= $ref_link[$i]['link'] ?>" style="color:red;">X</a></li>
+                                                <?php endfor; ?>
+                                            </ul>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                     <input name="ref_link" id="ref_link" type="text" value="" placeholder="Input Link Here" class="form-control" />
                                     <button type="url" name="add_ref_link" class="btn btn-primary">+ ADD MORE LINK</button>
@@ -322,9 +415,38 @@ if( isset($_POST['add_task'])) {
                                 </div>
                                 <div class="form-group">
                                     <!--// REFERENSI -->
-                                    <label for="task_name">ERF TASKS</label>
-                                    <input name="task_name" id="task_name" type="text" value="" placeholder="Input Link Here" class="form-control" />
+                                    <label for="task_name">ERF TASKS</label><span class="guardsman"> * mandatory, input at least one data.</span>
                                     <button type="submit" name="add_task" class="btn btn-primary">+ ADD MORE TASK</button>
+                                    <?php if( isset($task_list) ): ?>
+                                        <table class="styled-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Task Name</th>
+                                                    <th>Deadline</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php for($i = 0; $i < sizeof($task_list); $i++): ?>
+                                                    <tr class="bold-approved">
+                                                        <td><?= $i+1; ?></td>
+                                                        <td><?= $task_list[$i]['task_name']; ?></td>
+                                                        <td><?= $task_list[$i]['task_deadline']; ?></td>
+                                                        <td><?= $task_list[$i]['task_status']; ?></td>
+                                                        <td>
+                                                            <a href="hapusTask.php?task_id=<?= $task_list[$i]['task_id']; ?>">
+                                                                <button type="button" class="button button2">
+                                                                    <i class="fa fa-trash" aria-hidden="true" style="color:red;"></i>
+                                                                </button>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                <?php endfor; ?>
+                                            </tbody>
+                                        </table>
+                                    <?php endif; ?>
                                     <!--// END REFERENCE -->
                                 </div>
                                 <div class="form-group">
@@ -332,7 +454,7 @@ if( isset($_POST['add_task'])) {
                                         <div class="editContent">
                                             <div class="btn-group">
                                     </div>
-                                            <p class="small text-muted"><span class="guardsman">* All fields are required.</span> Once we receive your message we will respond as soon as possible.</p>
+                                            <p class="small text-muted"><span class="guardsman">* Mandatory ERF components are Participant Criteria and ERF Task.</span> Once those mandatory components added (minimal 1 data), you could submit the ERF.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -351,5 +473,5 @@ if( isset($_POST['add_task'])) {
         <script type="text/javascript" src="../../../style/js/plugins.js"></script>
         <script src="https://maps.google.com/maps/api/js?sensor=true"></script>
         <script type="text/javascript" src="../../../style/js/bskit-scripts.js"></script>         
-    </body>     
+    </body>
 </html>

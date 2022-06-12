@@ -29,7 +29,126 @@ if( !isset($_SESSION['login']) || !isset($_SESSION['brand_username']) ) {
     header('Location: ../../login/brandlogin/login.php');
 }
 
+if( !isset($task_draft) ) {
+    $task_draft = array('task_name' => '', 'task_deadline' => '', 'brief' => '');
+}
 $brand_name = $_SESSION['brand_username'];
+$erf_id = $_SESSION['erf_id'];
+$test_task_draft = query("SELECT * FROM task WHERE task_status = 'drafted' AND erf_id = $erf_id");
+if( isset($test_task_draft[0]) ) {
+    $task_draft = $test_task_draft[0];
+    $task_id = $task_draft['task_id'];
+    $rules_list = query("SELECT * FROM rules_list WHERE task_id = $task_id");
+}
+
+if( isset($rules_list) ) {
+    if( empty($rules_list[0]) ) {
+        unset($rules_list);
+    }
+}
+
+if( isset($_POST['set_task']) ) {
+    if( set_task($_POST, $task_draft, $erf_id) >= 0 ) {
+        echo "
+                <script>
+                    alert('task berhasil diset');
+                    window.location = 'newTask.php';
+                </script>
+            ";
+    } else {
+        echo "
+                <script>
+                    alert('task gagal diset');
+                    window.location = 'newTask.php';
+                </script>
+            ";
+    }
+}
+
+if( isset($_POST['add_do']) ) {
+    if( isset($task_draft['task_id']) ) {
+        $task_id = $task_draft['task_id'];
+        if( add_rules($_POST['do'], $task_id, "do") >= 0 ) {
+            echo "
+                    <script>
+                        alert('rules do berhasil ditambahkan');
+                        window.location = 'newTask.php';
+                    </script>
+                ";
+        } else {
+            echo "
+                    <script>
+                        alert('rules do gagal ditambahkan');
+                        window.location = 'newTask.php';
+                    </script>
+                ";
+        }
+    } else {
+        echo "
+                <script>
+                    alert('set task terlebih dahulu');
+                    window.location = 'newTask.php';
+                </script>
+            ";
+    }
+}
+
+if( isset($_POST['add_dont']) ) {
+    if( isset($task_draft['task_id']) ) {
+        $task_id = $task_draft['task_id'];
+        if( add_rules($_POST['dont'], $task_id, "dont") >= 0 ) {
+            echo "
+                    <script>
+                        alert('rules dont berhasil ditambahkan');
+                        window.location = 'newTask.php';
+                    </script>
+                ";
+        } else {
+            echo "
+                    <script>
+                        alert('rules dont gagal ditambahkan');
+                        window.location = 'newTask.php';
+                    </script>
+                ";
+        }
+    } else {
+        echo "
+                <script>
+                    alert('set task terlebih dahulu');
+                    window.location = 'newTask.php';
+                </script>
+            ";
+    }
+}
+
+if( isset($_POST['add_task']) ) {
+    if( isset($task_draft['task_id']) ) {
+        if( isset($rules_list) ) {
+            if( add_task($task_draft) >= 0 ) {
+                echo "
+                        <script>
+                            alert('task berhasil ditambahkan');
+                            window.location = 'newERF.php';
+                        </script>
+                    ";
+            }
+        } else {
+            echo "
+                    <script>
+                        alert('tambahkan rules terlebih dahulu');
+                        window.location = 'newTask.php';
+                    </script>
+                ";
+        }
+    } else {
+        echo "
+                <script>
+                    alert('set task terlebih dahulu');
+                    window.location = 'newTask.php';
+                </script>
+            ";
+    }
+}
 
 ?>
 
@@ -37,7 +156,7 @@ $brand_name = $_SESSION['brand_username'];
 <html lang="en" style="height:100%;">
     <head> 
         <meta charset="utf-8"> 
-        <title>Endorsement Requirement Form</title>
+        <title>Add ERF Task</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         <meta name="keywords" content="pinegrow, blocks, bootstrap" />
         <meta name="description" content="SIGN UP INFLUENCER" />
@@ -68,6 +187,9 @@ $brand_name = $_SESSION['brand_username'];
                         <hr>
                     </div>
                 </div>
+                <div class="col-sm-4">
+                    <a href="newERF.php"><--Back to ERF</a>
+                </div>
             </div>
         </section>
         <div class="content-block contact-3">
@@ -81,18 +203,29 @@ $brand_name = $_SESSION['brand_username'];
                                     <h6>ENDORSE REQUIREMENT FORM<br></h6>
                                 </center>
                                 <div id="message"></div>
-                                <form method="post">
+                                <form method="post" action="">
                                     <div class="form-group">
                                         <!--// TASK NAME -->
                                         <label for="task_name">TASK NAME</label>
-                                        <input name="task_name" id="task_name" type="text" value="" placeholder="EX: Make a Purchase" class="form-control" required /><br>
+                                        <input name="task_name" id="task_name" type="text" value="<?= $task_draft['task_name']; ?>" placeholder="EX: Make a Purchase" class="form-control" required /><br>
                                         <!--// TASK DEADLINE -->
                                         <label for="task_deadline">TASK DEADLINE</label>
-                                        <input name="task_deadline" id="task_deadline" type="date" value="" class="form-control" required /><br>
+                                        <input name="task_deadline" id="task_deadline" type="date" value="<?= $task_draft['task_deadline']; ?>" class="form-control" required /><br>
                                         <!--// BRIEF -->
                                         <label for="brief">BRIEF</label>
-                                        <textarea cols="30" rows="3" name="brief" id="brief" type="text" placeholder="note for this task" class="form-control" style="max-width:100%;max-height:300px;min-width:100%;min-height:100px;"></textarea>
+                                        <textarea cols="30" rows="3" name="brief" id="brief" type="text" placeholder="note for this task" class="form-control" style="max-width:100%;max-height:300px;min-width:100%;min-height:100px;"><?= $task_draft['brief']; ?></textarea>
                                         <button type="submit" name="set_task" class="btn btn-primary">Set Task</button>
+                                        <?php if( isset($task_draft['task_id']) ): ?>
+                                            <button type="submit" name="add_task" class="btn btn-primary">Add Task</button>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="form-group">
+                                    <div class="form-group">
+                                        <div class="editContent">
+                                            <div class="btn-group"> 
+</div>
+                                            <p class="small text-muted"><span class="guardsman">* Set the task if there are any changes.</span> The rules will be added into setted task.</p>
+                                        </div>
                                     </div>
                                 </form>
                             </fieldset>
@@ -112,20 +245,21 @@ $brand_name = $_SESSION['brand_username'];
                                 <div class="form-group">
                                     <!--// DO -->
                                     <label for="do">DO</label>
-                                    <input name="do" id="do" type="text" value="" placeholder="EX: Review the Product" class="form-control" /><br>
+                                    <input name="do" id="do" type="text" value="" placeholder="EX: Review the Product" class="form-control" />
+                                    <button type="submit" name="add_do" class="btn btn-primary">Add Do</button>
+                                </div>
+                                <div class="form-group">
                                     <!--// DONT DO -->
                                     <label for="dont">DON'T DO</label>
                                     <input name="dont" id="dont" type="text" value="" placeholder="EX: Don't Show another Brand Product" class="form-control"/>
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" name="add_rules" class="btn btn-primary">Add Rules</button>
+                                    <button type="submit" name="add_dont" class="btn btn-primary">Add Don't</button>
                                 </div>
                                 <div class="form-group">
                                     <div class="form-group">
                                         <div class="editContent">
                                             <div class="btn-group"> 
 </div>
-                                            <p class="small text-muted"><span class="guardsman">* All fields are required.</span> Once we receive your message we will respond as soon as possible.</p>
+                                            <p class="small text-muted"><span class="guardsman">* Set the task first.</span> The rules will be added into setted task.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -150,27 +284,37 @@ $brand_name = $_SESSION['brand_username'];
                             <table class="styled-table">
                                 <thead>
                                     <tr>
-                                        <th>Task ID</th>
-                                        <th>Task Name</th>
-                                        <th>Task Deadline</th>
-                                        <th>DO</th>
-                                        <th>DON'T DO</th>
+                                        <th>RULE</th>
+                                        <th>TYPE</th>
                                         <th>DELETE</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="bold-approved">
-                                        <td>1</td>
-                                        <td>Make a Purchase</td>
-                                        <td>(02-15-2022) - (02-25-2022)</td>
-                                        <td>Review The Product</td>
-                                        <td>Don't Show Other Brand</td>
-                                        <td>
-                                            <button class="button button2">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    <?php if( isset($rules_list) ): ?>
+                                        <?php foreach($rules_list as $rules): ?>
+                                            <tr class="bold-approved">
+                                                <td><?= $rules['rules']; ?></td>
+                                                <td><?= $rules['rules_type']; ?></td>
+                                                <td>
+                                                    <a href="hapusRules.php?rules_id=<?= $rules['rules_id']; ?>">
+                                                        <button class="button button2">
+                                                            <i class="fa fa-trash" aria-hidden="true" style="color:red;"></i>
+                                                        </button>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td><?= "null"; ?></td>
+                                            <td><?= "null"; ?></td>
+                                            <td>
+                                                <button class="button button2">
+                                                    <i class="fa fa-trash" aria-hidden="true" style="color:red;"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                         </center>
