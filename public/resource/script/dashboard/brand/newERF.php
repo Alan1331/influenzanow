@@ -29,7 +29,7 @@ if( !isset($_SESSION['login']) || !isset($_SESSION['brand_username']) ) {
     header('Location: ../../login/brandlogin/login.php');
 }
 
-$erf_draft = array('erf_pict' => '', 'erf_name' => '', 'product_name' => '', 'product_price' => '', 'gen_brief' => '', 'negotiation' => '');
+$erf_draft = array('erf_name' => '', 'product_name' => '', 'product_price' => '', 'gen_brief' => '', 'negotiation' => '');
 $brand_name = $_SESSION['brand_username'];
 $brand_id = query("SELECT brand_id FROM brand WHERE brand_name = \"$brand_name\"")[0]['brand_id'];
 $test_erf_draft = query("SELECT * FROM erf WHERE brand_id = $brand_id AND erf_status = 'drafted'");
@@ -39,16 +39,6 @@ if( isset($test_erf_draft[0]) ) {
     $task_list = query("SELECT * FROM task WHERE erf_id = $erf_id");
 }
 $path = '../../../images/brands/erf/';
-if( isset($erf_draft['erf_pict']) ) {
-    if( $erf_draft['erf_pict'] == '' ) {
-        $erf_draft['erf_pict'] = 'default.png';
-        $erf_pict = $erf_draft['erf_pict'];
-    } else {
-        $erf_pict = $erf_draft['erf_pict'];
-    }
-} else {
-    $erf_pict = 'default.png';
-}
 
 if( isset($task_list) ) {
     if( empty($task_list[0]) ) {
@@ -70,15 +60,18 @@ if( isset($_POST['set_erf']) ) {
     if( !isset($_POST['negotiation'])) {
         $_POST['negotiation'] = 0;
     }
-    if( isset($_FILES['erf_pict']) ) {
+    if( $_FILES['erf_pict']['name'] != '' ) {
         $erf_pict = upload($_FILES['erf_pict'], $path);
+        if($erf_pict == false) {
+            echo "
+                    <script>
+                        alert('gagal upload foto produk');
+                        window.location = 'newERF.php';
+                    </script>
+                ";
+        }
     } else {
-        echo "
-            <script>
-                alert('gagal upload foto produk');
-                window.location = 'newERF.php';
-            </script>
-            ";
+        $erf_pict = 'null';
     }
     if( setERF($_POST, $erf_draft, $brand_id, $erf_pict) >= 0 ) {
         echo "
@@ -323,10 +316,16 @@ if( isset($_POST['post_erf']) ) {
                                     <!--// PRODUCT PICTURE -->
                                     <div class="form-group">
                                         <label for="erf_pict">PRODUCT PICTURE</label>
-                                        <div>
-                                            <img class="img" src="<?= $path . $erf_pict; ?>" alt="Product Picture" style="width:50%;">
-                                        </div>
-                                        <input name="erf_pict" id="erf_pict" type="file" value="<?= $erf_draft['erf_pict'] ?>" class="form-control" />
+                                        <?php if( isset($erf_draft['erf_pict']) ): ?>
+                                            <div>
+                                                <img class="img" src="<?= $path . $erf_draft['erf_pict']; ?>" alt="Product Picture" style="width:50%;">
+                                            </div>
+                                        <?php else: ?>
+                                            <div>
+                                                <img class="img" src="<?= $path . 'default.png'; ?>" alt="Product Picture" style="width:50%;">
+                                            </div>
+                                        <?php endif; ?>
+                                        <input name="erf_pict" id="erf_pict" type="file" class="form-control" />
                                     </div>
                                     <!--// ERF NAME -->
                                     <div class="form-group">
@@ -341,11 +340,20 @@ if( isset($_POST['post_erf']) ) {
                                     <!--// PRODUCT PRICE -->
                                     <div class="form-group">
                                         <label for="product_price">PRODUCT PRICE</label>
-                                        <input name="product_price" id="product_price" type="number" min="0" step="0.01" value="<?= $erf_draft['product_price'] ?>" placeholder="EX: Rp 200.000,-" class="form-control" required />
+                                        <input name="product_price" id="product_price" type="number" min="0" step="0.01" value="<?= $erf_draft['product_price'] ?>" placeholder="EX: 20000" class="form-control" required />
+                                    </div>
+                                    <!--// REGISTRATION DEADLINE -->
+                                    <div class="form-group">
+                                        <label for="reg_deadline">REGISTRATION DEADLINE</label>
+                                        <input name="reg_deadline" id="reg_deadline" type="date" value="<?= $erf_draft['reg_deadline'] ?>" class="form-control" required />
+                                    </div>
+                                    <!--// PARTICIPANT NUMBER -->
+                                    <div class="form-group">
+                                        <label for="inf_required">PARTICIPANT NUMBER</label>
+                                        <input name="inf_required" id="inf_required" type="number" min="1" step="1" value="<?= $erf_draft['inf_required'] ?>" placeholder="EX: 50" class="form-control" required />
                                     </div>
                                     <!--// GENERAL BRIEF -->
                                     <div class="form-group">
-                                        <!--// GENERAL BRIEF --> <!--// FYI AKU GATAU FUNGSI GENERAL BRIEF APA DAN TARO MANA WKWKWKWK -->
                                         <label for="gen_brief">GENEREAL BRIEF</label>
                                         <textarea cols="30" rows="5" name="gen_brief" id="gen_brief" type="text" placeholder="Type Here" class="form-control" required style="max-width:100%;max-height:300px;min-width:100%;min-height:100px;"><?= $erf_draft['gen_brief'] ?></textarea>
                                     </div>

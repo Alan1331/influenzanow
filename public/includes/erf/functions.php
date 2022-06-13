@@ -7,27 +7,42 @@ function setERF($data, $erf_draft, $brand_id, $erf_pict) {
     $product_price = $data['product_price'];
     $gen_brief = test_input($data['gen_brief']);
     $negotiation = $data['negotiation'];
+    $reg_deadline = $data['reg_deadline'];
+    $inf_required = $data['inf_required'];
+    $pic = '';
+
+    if( $erf_pict == 'null' ) {
+        if( isset($erf_draft['erf_pict']) ) {
+            $pic = $erf_draft['erf_pict'];
+        } else {
+            $pic = 'default.png';
+        }
+    } else {
+        $pic = $erf_pict;
+    }
 
     // jika tidak ada draft, maka insert
     if( !isset($erf_draft['erf_id']) ) {
         $sql = "INSERT INTO erf
         (
-            erf_pict, erf_name, product_name, product_price, gen_brief, negotiation, brand_id, erf_status
+            erf_pict, erf_name, product_name, product_price, gen_brief, negotiation, brand_id, erf_status, reg_deadline, inf_required
         )
         VALUES
         (
-            \"$erf_pict\",\"$erf_name\", \"$product_name\", \"$product_price\", \"$gen_brief\", $negotiation, $brand_id, 'drafted'
+            \"$pic\",\"$erf_name\", \"$product_name\", \"$product_price\", \"$gen_brief\", $negotiation, $brand_id, 'drafted', \"$reg_deadline\", $inf_required
         )";
         $result = mysqli_query($conn, $sql);
     } else {
         $erf_id = $erf_draft['erf_id'];
         $sql = "UPDATE erf SET
-                    erf_pict = \"$erf_pict\",
+                    erf_pict = \"$pic\",
                     erf_name = \"$erf_name\",
                     product_name = \"$product_name\",
                     product_price = \"$product_price\",
                     gen_brief = \"$gen_brief\",
-                    negotiation = $negotiation
+                    negotiation = $negotiation,
+                    reg_deadline = \"$reg_deadline\",
+                    inf_required = $inf_required
                 WHERE erf_id = $erf_id";
         $result = mysqli_query($conn, $sql);
     }
