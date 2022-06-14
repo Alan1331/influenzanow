@@ -160,7 +160,7 @@ button {
     cursor: pointer;
     margin-top: 20px;
     border-radius: 5px;
-    background: rgb(233, 120, 100) ;
+    background: #f1caf7 ;
 }
 
 button:hover {

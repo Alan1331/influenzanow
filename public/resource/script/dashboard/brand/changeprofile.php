@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Page</title>
-    <link rel="stylesheet" href = "../../../style/css/brandprofile  .css">
+    <link rel="stylesheet" href = "../../../style/css/brandprofile.css">
 </head>
 <body>
     <div class="container">
@@ -19,7 +19,7 @@
                 <br>
                 <input type="file" name="inf_pict" id="inf_pict">
                 <center><button>Update Profile</button></center>
-                <h3><a href="brandProfile.php">Back</a></h3>
+                <button class="btn btn-primary"><a href="brandProfile.php">Go Back to Profile Settings</a></button>
             </form>
         </div>
     </div>

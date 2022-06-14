@@ -193,7 +193,7 @@ if( isset($_POST['add_task']) ) {
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <button type="button" onclick="window.location = '<?= $prev_url; ?>'"><--Back to ERF</button>
+                    <button type="button" class="btn btn-primary" onclick="window.location = '<?= $prev_url; ?>'">Back to ERF</button>
                 </div>
             </div>
         </section>

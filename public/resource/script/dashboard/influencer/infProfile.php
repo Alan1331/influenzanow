@@ -99,14 +99,14 @@ if( isset($_POST['update_profile']) ) {
                 <h1>Profile Settings</h1>
                 <hr>
                 <br>
-                <a href="home.php"><--Back to home</a>
+                <button class="btn btn-primary"><a href="home.php">Back to home</a></button>
                 <br>
                 <center>
                     <img class="img" src="<?= $inf_pict; ?>" alt="<?= $inf_pict; ?>">
                 </center>
                 <br>
                 <center>
-                    <a href="changeprofile.php">Change Picture ></a>
+                    <button class="btn btn-primary"><a href="changeprofile.php">Change Picture </a></button>
                 </center>
                 <br>
                 <input type="hidden" name="inf_password" value="<?= $influencer['inf_password']; ?>">

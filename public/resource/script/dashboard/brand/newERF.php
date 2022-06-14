@@ -300,7 +300,8 @@ if( isset($_POST['post_erf']) ) {
                         <h3>- Elon Musk -</h3>
                     </div>
                     <div class="col-sm-4">
-                        <a href="home.php"><--Back to home</a>
+                       <!--// <a href="home.php"><--Back to home</a>-->
+                       <button class="btn btn-primary" onclick="window.location='home.php'">Back to Home</button>
                     </div>
                 </div>
             </div>
@@ -450,11 +451,11 @@ if( isset($_POST['post_erf']) ) {
                                                         <td>
                                                             <a href="hapusTask.php?task_id=<?= $task_list[$i]['task_id']; ?>">
                                                                 <button type="button" class="button button2">
-                                                                    <i class="fa fa-trash" aria-hidden="true" style="color:red;"></i>
+                                                                    <i class="fa fa-trash" aria-hidden="true" style="color:red;"> Delete</i>
                                                                 </button>
                                                             </a>
                                                             <a href="editTask.php?task_id=<?= $task_list[$i]['task_id']; ?>?prev_url=newERF.php">
-                                                                <button type="button">Edit</button>
+                                                                <button class="button button2" type="button"><i class="fa fa-pencil" aria-hidden="true"> Edit</i></button>
                                                             </a>
                                                         </td>
                                                     </tr>
