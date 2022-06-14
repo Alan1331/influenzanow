@@ -1,8 +1,65 @@
+<?php
+session_start();
+
+require __DIR__.'/../../../../includes/connection.php';
+require __DIR__.'/../../../../includes/globalFunctions.php';
+
+// cek cookie
+if( isset($_COOKIE['ghlf']) && isset($_COOKIE['ksla']) && isset($_COOKIE['tp']) ) {
+    if( $_COOKIE['tp'] === hash('sha256', 'influencer') ) {
+        $id = $_COOKIE['ghlf'];
+        $key = $_COOKIE['ksla'];
+    
+        // ambil username berdasarkan cookie nya
+        $result = mysqli_query($conn, "SELECT * FROM influencer WHERE inf_username = '$id'");
+        $row = mysqli_fetch_assoc($result);
+    
+        // cek cookie dan username
+        if( $key === hash('sha256', $row['inf_name']) ) {
+            $_SESSION['login'] = true;
+            $_SESSION['inf_username'] = $row['inf_username'];
+        }
+    }
+}
+
+// cek login
+if( $_SESSION['login'] && isset($_SESSION['inf_username']) ) {
+    $ses_inf_username = $_SESSION['inf_username'];
+    $interest_info = mysqli_query($conn, "SELECT * FROM inf_interest WHERE inf_username = '$ses_inf_username'");
+    $sns_info = mysqli_query($conn, "SELECT * FROM sns WHERE inf_username = '$ses_inf_username'");
+    if( (mysqli_num_rows($interest_info) < 1) || (mysqli_num_rows($sns_info) < 1) ) {
+        // jika data interest atau data sns kosong
+        header('Location: ../../login/influencerlogin/addInitInfo.php');
+    }
+} else {
+    header('Location: ../../login/influencerlogin/login.php');
+}
+
+$inf_username = $_SESSION['inf_username'];
+
+if(isset($_GET['task_id'])) {
+    $_SESSION['task_id'] = $_GET['task_id'];
+}
+
+$erf_id = $_SESSION['erf_id'];
+$task_id = $_SESSION['task_id'];
+$task = query("SELECT * FROM task WHERE erf_id = $erf_id AND task_status = 'added' AND task_id = $task_id")[0];
+$rules_do = query("SELECT rules FROM rules_list WHERE task_id = $task_id AND rules_type = 'do'");
+$rules_dont = query("SELECT rules FROM rules_list WHERE task_id = $task_id AND rules_type = 'dont'");
+$table_rows = 0;
+if( sizeof($rules_do) >= sizeof($rules_dont) ) {
+    $table_rows = sizeof($rules_do);
+} else {
+    $table_rows = sizeof($rules_dont);
+}
+
+?>
+
 <!DOCTYPE html> 
 <html lang="en" style="height:100%;">
     <head> 
         <meta charset="utf-8"> 
-        <title>Task</title>
+        <title>Task Detail</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         <meta name="keywords" content="pinegrow, blocks, bootstrap" />
         <meta name="description" content="SIGN UP INFLUENCER" />
@@ -77,40 +134,45 @@
             <div class="container">
                 <div class="col-sm-12">
                     <div class="underlined-title">
-                        <h1>Task Step</h1>
+                        <h1>Task Detail</h1>
                         <hr>
                         <h2>- you reap what you sow -</h2>
                     </div>
                 </div>
             </div>
             <hr>
-        </section>
-        
-        <div class="col-sm-12">
-            <div class="underlined-title">
-            <center>
             <a href="erfTask.php">
             <button class="btn btn-primary"><i class="fa fa-arrow-left">Back</i></button>
             </a>
+            <p>
+                Task Name:<?= $task['task_name']; ?><br>
+                Task Deadline:<?= $task['task_deadline']; ?><br>
+                Brief/Note:<?= $task['brief']; ?>
+            </p>
+        </section>
+
+        <div class="col-sm-12">
+            <div class="underlined-title">
+            <center>
+            <h1>Task Rules</h1>
             <table class="styled-table">
             <thead>
                 <tr>
-                    <th>Step Number</th>
-                    <th>What To Do</th>
-                    <th>Submission</th>
+                    <th>Do</th>
+                    <th>Don't do</th>
                 </tr>
             </thead>
             <tbody>
-                <tr class="bold-approved">
-                    <td>1</td>
-                    <td>Go To Your Favorite Market, and Make a Purchase</td>
-                    <td><button class="button button2"><a href="submit">Done</a></button></td>
-                </tr>
-                <tr class="bold-declined">
-                    <td>2</td>
-                    <td>Make a Promotion</td>
-                    <td><button class="button button2"><a href="submit">Undone</a></button></td>
-                </tr>
+                <?php for($i = 0; $i < $table_rows; $i++): ?>
+                    <tr class="bold-approved">
+                        <?php if( isset($rules_do[$i]) ): ?>
+                            <td><?= $rules_do[$i]['rules'] ?></td>
+                        <?php endif; ?>
+                        <?php if( isset($rules_dont[$i]) ): ?>
+                            <td><?= $rules_dont[$i]['rules'] ?></td>
+                        <?php endif; ?>
+                    </tr>
+                <?php endfor; ?>
                 </tbody>
             </table>
             </center>
