@@ -106,7 +106,7 @@ $erf = query("SELECT * FROM erf WHERE erf_id = $erf_id")[0];
                             </li>
                             <!--//dropdown-->                     
                             <li class="nav-item">
-                                <a href="#">Cart</a>
+                                <a href="#">Saved ERF</a>
                             </li>
                             <li class="nav-item">
                                 <a href="#">Log Out</a>

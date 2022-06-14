@@ -9,31 +9,30 @@ require __DIR__.'../../../../../includes/sns/functions.php';
 
 // cek cookie
 if( isset($_COOKIE['ghlf']) && isset($_COOKIE['ksla']) && isset($_COOKIE['tp']) ) {
-    // jika akun influencer
     if( $_COOKIE['tp'] === hash('sha256', 'influencer') ) {
         $id = $_COOKIE['ghlf'];
         $key = $_COOKIE['ksla'];
     
-        // ambil username berdasarkan cookie nya
-        $result = mysqli_query($conn, "SELECT * FROM influencer WHERE inf_username = '$id'");
+        // ambil inf_id berdasarkan cookie nya
+        $result = mysqli_query($conn, "SELECT * FROM influencer WHERE inf_id = '$id'");
         $row = mysqli_fetch_assoc($result);
     
-        // cek cookie dan username
-        if( $key === hash('sha256', $row['inf_name']) ) {
+        // cek cookie dan inf_id
+        if( $key === hash('sha256', $row['inf_username']) ) {
             $_SESSION['login'] = true;
-            $_SESSION['inf_username'] = $row['inf_username'];
+            $_SESSION['inf_id'] = $row['inf_id'];
         }
     }
 }
 
 // cek login
-if( !isset($_SESSION['login']) || !isset($_SESSION['inf_username']) ) {
+if( !isset($_SESSION['login']) || !isset($_SESSION['inf_id']) ) {
     header('Location: ../../login/loginas.php');
 }
 
-$username = $_SESSION['inf_username'];
-$interests = query("SELECT * FROM inf_interest WHERE inf_username=\"$username\"");
-$snslist = query("SELECT * FROM sns WHERE inf_username=\"$username\"");
+$id = $_SESSION['inf_id'];
+$interests = query("SELECT * FROM inf_interest WHERE inf_id=\"$id\"");
+$snslist = query("SELECT * FROM sns WHERE inf_id=\"$id\"");
 
 // cek apakah tombol add_interest sudah diclick atau belum
 if( isset($_POST['add_interest']) ) {
@@ -99,7 +98,7 @@ if( isset($_POST['add_sns']) ) {
 
 <h2>Interests</h2>
 <form action="" method="post">
-    <input type="hidden" name="inf_username" value="<?= $username ?>">
+    <input type="hidden" name="inf_id" value="<?= $id ?>">
     <ul>
         <li>
             <label for="interest">Add interest</label>

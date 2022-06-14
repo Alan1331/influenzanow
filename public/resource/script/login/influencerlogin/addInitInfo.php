@@ -13,14 +13,14 @@ if( isset($_COOKIE['ghlf']) && isset($_COOKIE['ksla']) && isset($_COOKIE['tp']) 
         $id = $_COOKIE['ghlf'];
         $key = $_COOKIE['ksla'];
     
-        // ambil username berdasarkan cookie nya
-        $result = mysqli_query($conn, "SELECT * FROM influencer WHERE inf_username = '$id'");
+        // ambil inf_id berdasarkan cookie nya
+        $result = mysqli_query($conn, "SELECT * FROM influencer WHERE inf_id = '$id'");
         $row = mysqli_fetch_assoc($result);
     
-        // cek cookie dan username
-        if( $key === hash('sha256', $row['inf_name']) ) {
+        // cek cookie dan inf_id
+        if( $key === hash('sha256', $row['inf_username']) ) {
             $_SESSION['login'] = true;
-            $_SESSION['inf_username'] = $row['inf_username'];
+            $_SESSION['inf_id'] = $row['inf_id'];
         }
     }
     // jika akun brand
@@ -28,11 +28,11 @@ if( isset($_COOKIE['ghlf']) && isset($_COOKIE['ksla']) && isset($_COOKIE['tp']) 
         $id = $_COOKIE['ghlf'];
         $key = $_COOKIE['ksla'];
     
-        // ambil username berdasarkan cookie nya
-        $result = mysqli_query($conn, "SELECT * FROM brand WHERE id = '$id'");
+        // ambil brand_id berdasarkan cookie nya
+        $result = mysqli_query($conn, "SELECT * FROM brand WHERE brand_id = '$id'");
         $row = mysqli_fetch_assoc($result);
     
-        // cek cookie dan username
+        // cek cookie dan brand_id
         if( $key === hash('sha256', $row['brand_name']) ) {
             $_SESSION['login'] = true;
             $_SESSION['brand_username'] = $row['brand_name'];
@@ -41,13 +41,13 @@ if( isset($_COOKIE['ghlf']) && isset($_COOKIE['ksla']) && isset($_COOKIE['tp']) 
 }
 
 // cek login
-if( !isset($_SESSION['login']) || !isset($_SESSION['inf_username']) ) {
+if( !isset($_SESSION['login']) || !isset($_SESSION['inf_id']) ) {
     header('Location: ../loginas.php');
 }
 
-$username = $_SESSION['inf_username'];
-$interests = query("SELECT * FROM inf_interest WHERE inf_username=\"$username\"");
-$snslist = query("SELECT * FROM sns WHERE inf_username=\"$username\"");
+$inf_id = $_SESSION['inf_id'];
+$interests = query("SELECT * FROM inf_interest WHERE inf_id=\"$inf_id\"");
+$snslist = query("SELECT * FROM sns WHERE inf_id=\"$inf_id\"");
 
 // cek apakah tombol add_interest sudah diclick atau belum
 if( isset($_POST['add_interest']) ) {
@@ -112,7 +112,7 @@ if( isset($_POST['add_sns']) ) {
 
 <h2>Interests</h2>
 <form action="" method="post">
-    <input type="hidden" name="inf_username" value="<?= $username ?>">
+    <input type="hidden" name="inf_id" value="<?= $_SESSION['inf_id']; ?>">
     <ul>
         <li>
             <label for="interest">Add interest</label><br>

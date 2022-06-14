@@ -93,7 +93,7 @@ $task_list = query("SELECT * FROM task WHERE erf_id = $erf_id AND task_status = 
                     <div class="collapse navbar-collapse">
                         <ul class="nav navbar-nav navbar-right">
                             <li class="active nav-item">
-                                <a href="infMenu.php">Home</a>
+                                <a href="home.php">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a href="infProfile.php">Profile</a>
@@ -106,7 +106,7 @@ $task_list = query("SELECT * FROM task WHERE erf_id = $erf_id AND task_status = 
                             </li>
                             <!--//dropdown-->                     
                             <li class="nav-item">
-                                <a href="#">Cart</a>
+                                <a href="#">Saved ERF</a>
                             </li>
                             <li class="nav-item">
                                 <a href="#">Log Out</a>
