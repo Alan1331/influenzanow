@@ -30,6 +30,18 @@ if( !isset($_SESSION['login']) || !isset($_SESSION['brand_username']) ) {
     header('Location: ../../login/brandlogin/login.php');
 }
 
+session_unset($_SESSION['erf_id']);
+
+$brand_name = $_SESSION['brand_username'];
+$brand_id = query("SELECT brand_id FROM brand WHERE brand_name = \"$brand_name\"")[0]['brand_id'];
+
+if( isset($_POST['search_erf']) ) {
+    $erf_name = test_input($_POST['erf_name']);
+    $erf_list = query("SELECT * FROM erf WHERE brand_id = $brand_id AND erf_status != 'drafted' AND erf_name = \"$erf_name\"");
+} else {
+    $erf_list = query("SELECT * FROM erf WHERE brand_id = $brand_id AND erf_status != 'drafted'");
+}
+
 ?>
 
 <!DOCTYPE html> 
@@ -121,15 +133,18 @@ if( !isset($_SESSION['login']) || !isset($_SESSION['brand_username']) ) {
                                 <form method="post" action="">
                                     <label for="erf_name">ERF NAME</label>
                                     <div class="form-group">
-                                        <input name="name" id="name" type="text" value="" placeholder="Name" class="form-control" />
+                                        <input name="erf_name" id="erf_name" type="text" placeholder="Input ERF name" class="form-control" list="erf_list" />
+                                        <datalist id="erf_list">
+                                            <?php foreach($erf_list as $erf): ?>
+                                                <option value="<?= $erf['erf_name'] ?>"></option>
+                                            <?php endforeach; ?>
+                                        </datalist>
                                     </div>
                                     <div class="form-group">
-                                        <button class="btn btn-primary" type="submit" id="cf-submit" name="submit">SEARCH NOW</button>
+                                        <button class="btn btn-primary" type="submit" id="cf-submit" name="search_erf">SEARCH ERF</button>
                                     </div>
                                     <div class="form-group">
-                                        
-                                        <button class="btn btn-primary"><a href="newERF.php">+ CREATE NEW ERF</a></button>
-                
+                                        <a href="newERF.php"><button class="btn btn-primary" type="button">+ CREATE NEW ERF</button></a>
                                     </div>
                                 </form>
                             </fieldset>
@@ -145,23 +160,44 @@ if( !isset($_SESSION['login']) || !isset($_SESSION['brand_username']) ) {
                             <table class="styled-table">
                                 <thead>
                                     <tr>
-                                        <th>ERF ID</th>
+                                        <th>No</th>
                                         <th>ERF Name</th>
-                                        <th>ERF Deadline</th>
-                                        <th>Details</th>
+                                        <th>
+                                            Registration<br>Deadline
+                                        </th>
+                                        <th>
+                                            Influencers<br>Required
+                                        </th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="bold-approved">
-                                        <td>1</td>
-                                        <td>Make a Purchase</td>
-                                        <td>(02-15-2022) - (02-25-2022)</td>
-                                        <td>
-                                            <button class="btn btn-primary">
-                                                <i class="fa fa-eye"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    <?php if( isset($erf_list) ): ?>
+                                        <?php for($i = 0; $i < sizeof($erf_list); $i++ ): ?>
+                                            <tr class="bold-approved">
+                                                <td><?= $i+1; ?></td>
+                                                <td><?= $erf_list[$i]['erf_name']; ?></td>
+                                                <td><?= $erf_list[$i]['reg_deadline']; ?></td>
+                                                <td><?= $erf_list[$i]['inf_applied'] . "/" . $erf_list[$i]['inf_required']; ?></td>
+                                                <td>
+                                                    <a href="editERF.php?erf_id=<?= $erf_list[$i]['erf_id']; ?>">
+                                                        <button type="button">Edit</button>
+                                                    </a>
+                                                    <a href="">
+                                                        <button type="button" class="btn btn-primary">
+                                                            <i class="fa fa-eye"></i>
+                                                        </button>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <?php endfor; ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <?php for($i = 0; $i < 5; $i++): ?>
+                                                <th><?= "not found"; ?></th>
+                                            <?php endfor; ?>
+                                        </tr>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                         </center>

@@ -29,17 +29,14 @@ if( !isset($_SESSION['login']) || !isset($_SESSION['brand_username']) ) {
     header('Location: ../../login/brandlogin/login.php');
 }
 
-if( !isset($task_draft) ) {
-    $task_draft = array('task_name' => '', 'task_deadline' => '', 'brief' => '');
+if( isset($_GET['task_id']) ) {
+    $_SESSION['task_id'] = $_GET['task_id'];
 }
+$task_id = $_SESSION['task_id'];
 $brand_name = $_SESSION['brand_username'];
 $erf_id = $_SESSION['erf_id'];
-$test_task_draft = query("SELECT * FROM task WHERE task_status = 'drafted' AND erf_id = $erf_id");
-if( isset($test_task_draft[0]) ) {
-    $task_draft = $test_task_draft[0];
-    $task_id = $task_draft['task_id'];
-    $rules_list = query("SELECT * FROM rules_list WHERE task_id = $task_id");
-}
+$task = query("SELECT * FROM task WHERE task_id = $task_id AND erf_id = $erf_id")[0];
+$rules_list = query("SELECT * FROM rules_list WHERE task_id = $task_id");
 
 if( isset($rules_list) ) {
     if( empty($rules_list[0]) ) {
@@ -53,38 +50,38 @@ if( isset($_GET['prev_url']) ) {
 $prev_url = $_SESSION['prev_url'];
 
 if( isset($_POST['set_task']) ) {
-    if( set_task($_POST, $task_draft, $erf_id) >= 0 ) {
+    if( set_task($_POST, $task, $erf_id) >= 0 ) {
         echo "
                 <script>
                     alert('task berhasil diset');
-                    window.location = 'newTask.php';
+                    window.location = 'editTask.php';
                 </script>
             ";
     } else {
         echo "
                 <script>
                     alert('task gagal diset');
-                    window.location = 'newTask.php';
+                    window.location = 'editTask.php';
                 </script>
             ";
     }
 }
 
 if( isset($_POST['add_do']) ) {
-    if( isset($task_draft['task_id']) ) {
-        $task_id = $task_draft['task_id'];
+    if( isset($task['task_id']) ) {
+        $task_id = $task['task_id'];
         if( add_rules($_POST['do'], $task_id, "do") >= 0 ) {
             echo "
                     <script>
                         alert('rules do berhasil ditambahkan');
-                        window.location = 'newTask.php';
+                        window.location = 'editTask.php';
                     </script>
                 ";
         } else {
             echo "
                     <script>
                         alert('rules do gagal ditambahkan');
-                        window.location = 'newTask.php';
+                        window.location = 'editTask.php';
                     </script>
                 ";
         }
@@ -92,27 +89,27 @@ if( isset($_POST['add_do']) ) {
         echo "
                 <script>
                     alert('set task terlebih dahulu');
-                    window.location = 'newTask.php';
+                    window.location = 'editTask.php';
                 </script>
             ";
     }
 }
 
 if( isset($_POST['add_dont']) ) {
-    if( isset($task_draft['task_id']) ) {
-        $task_id = $task_draft['task_id'];
+    if( isset($task['task_id']) ) {
+        $task_id = $task['task_id'];
         if( add_rules($_POST['dont'], $task_id, "dont") >= 0 ) {
             echo "
                     <script>
                         alert('rules dont berhasil ditambahkan');
-                        window.location = 'newTask.php';
+                        window.location = 'editTask.php';
                     </script>
                 ";
         } else {
             echo "
                     <script>
                         alert('rules dont gagal ditambahkan');
-                        window.location = 'newTask.php';
+                        window.location = 'editTask.php';
                     </script>
                 ";
         }
@@ -120,36 +117,7 @@ if( isset($_POST['add_dont']) ) {
         echo "
                 <script>
                     alert('set task terlebih dahulu');
-                    window.location = 'newTask.php';
-                </script>
-            ";
-    }
-}
-
-if( isset($_POST['add_task']) ) {
-    if( isset($task_draft['task_id']) ) {
-        if( isset($rules_list) ) {
-            if( add_task($task_draft) >= 0 ) {
-                echo "
-                        <script>
-                            alert('task berhasil ditambahkan');
-                            window.location = '" . $prev_url . "';
-                        </script>
-                    ";
-            }
-        } else {
-            echo "
-                    <script>
-                        alert('tambahkan rules terlebih dahulu');
-                        window.location = 'newTask.php';
-                    </script>
-                ";
-        }
-    } else {
-        echo "
-                <script>
-                    alert('set task terlebih dahulu');
-                    window.location = 'newTask.php';
+                    window.location = 'editTask.php';
                 </script>
             ";
     }
@@ -161,7 +129,7 @@ if( isset($_POST['add_task']) ) {
 <html lang="en" style="height:100%;">
     <head> 
         <meta charset="utf-8"> 
-        <title>Add ERF Task</title>
+        <title>Edit ERF Task</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         <meta name="keywords" content="pinegrow, blocks, bootstrap" />
         <meta name="description" content="SIGN UP INFLUENCER" />
@@ -188,7 +156,7 @@ if( isset($_POST['add_task']) ) {
             <div class="container">
                 <div class="col-sm-12">
                     <div class="underlined-title">
-                        <h1>Add ERF Task</h1>
+                        <h1>Edit ERF Task</h1>
                         <hr>
                     </div>
                 </div>
@@ -212,24 +180,21 @@ if( isset($_POST['add_task']) ) {
                                     <div class="form-group">
                                         <!--// TASK NAME -->
                                         <label for="task_name">TASK NAME</label>
-                                        <input name="task_name" id="task_name" type="text" value="<?= $task_draft['task_name']; ?>" placeholder="EX: Make a Purchase" class="form-control" required /><br>
+                                        <input name="task_name" id="task_name" type="text" value="<?= $task['task_name']; ?>" placeholder="EX: Make a Purchase" class="form-control" required /><br>
                                         <!--// TASK DEADLINE -->
                                         <label for="task_deadline">TASK DEADLINE</label>
-                                        <input name="task_deadline" id="task_deadline" type="date" value="<?= $task_draft['task_deadline']; ?>" class="form-control" required /><br>
+                                        <input name="task_deadline" id="task_deadline" type="date" value="<?= $task['task_deadline']; ?>" class="form-control" required /><br>
                                         <!--// BRIEF -->
                                         <label for="brief">BRIEF</label>
-                                        <textarea cols="30" rows="3" name="brief" id="brief" type="text" placeholder="note for this task" class="form-control" style="max-width:100%;max-height:300px;min-width:100%;min-height:100px;"><?= $task_draft['brief']; ?></textarea>
-                                        <button type="submit" name="set_task" class="btn btn-primary">Set Task</button>
-                                        <?php if( isset($task_draft['task_id']) ): ?>
-                                            <button type="submit" name="add_task" class="btn btn-primary">Add Task</button>
-                                        <?php endif; ?>
+                                        <textarea cols="30" rows="3" name="brief" id="brief" type="text" placeholder="note for this task" class="form-control" style="max-width:100%;max-height:300px;min-width:100%;min-height:100px;"><?= $task['brief']; ?></textarea>
+                                        <button type="submit" name="set_task" class="btn btn-primary">APPLY TASK CHANGES</button>
                                     </div>
                                     <div class="form-group">
                                     <div class="form-group">
                                         <div class="editContent">
                                             <div class="btn-group"> 
 </div>
-                                            <p class="small text-muted"><span class="guardsman">* Set the task if there are any changes.</span> The rules will be added into setted task.</p>
+                                            <p class="small text-muted"><span class="guardsman">* Apply the task if there are any changes.</span> The rules will be added into this task.</p>
                                         </div>
                                     </div>
                                 </form>
@@ -264,7 +229,7 @@ if( isset($_POST['add_task']) ) {
                                         <div class="editContent">
                                             <div class="btn-group"> 
 </div>
-                                            <p class="small text-muted"><span class="guardsman">* Set the task first.</span> The rules will be added into setted task.</p>
+                                            <p class="small text-muted"><span class="guardsman">* The rules will be added into task at left.</span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -301,11 +266,15 @@ if( isset($_POST['add_task']) ) {
                                                 <td><?= $rules['rules']; ?></td>
                                                 <td><?= $rules['rules_type']; ?></td>
                                                 <td>
-                                                    <a href="hapusRules.php?rules_id=<?= $rules['rules_id']; ?>">
-                                                        <button class="button button2">
-                                                            <i class="fa fa-trash" aria-hidden="true" style="color:red;"></i>
-                                                        </button>
-                                                    </a>
+                                                    <?php if( sizeof($rules_list) > 1 ): ?>
+                                                        <a href="hapusRules.php?rules_id=<?= $rules['rules_id']; ?>">
+                                                            <button class="button button2">
+                                                                <i class="fa fa-trash" aria-hidden="true" style="color:red;"></i>
+                                                            </button>
+                                                        </a>
+                                                    <?php else: ?>
+                                                        <?= "can't remove <br> the last task"; ?>
+                                                    <?php endif; ?>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
