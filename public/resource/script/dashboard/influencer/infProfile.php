@@ -11,23 +11,23 @@ if( isset($_COOKIE['ghlf']) && isset($_COOKIE['ksla']) && isset($_COOKIE['tp']) 
         $id = $_COOKIE['ghlf'];
         $key = $_COOKIE['ksla'];
     
-        // ambil username berdasarkan cookie nya
-        $result = mysqli_query($conn, "SELECT * FROM influencer WHERE inf_username = '$id'");
+        // ambil inf_id berdasarkan cookie nya
+        $result = mysqli_query($conn, "SELECT * FROM influencer WHERE inf_id = '$id'");
         $row = mysqli_fetch_assoc($result);
     
-        // cek cookie dan username
-        if( $key === hash('sha256', $row['inf_name']) ) {
+        // cek cookie dan inf_id
+        if( $key === hash('sha256', $row['inf_username']) ) {
             $_SESSION['login'] = true;
-            $_SESSION['inf_username'] = $row['inf_username'];
+            $_SESSION['inf_id'] = $row['inf_id'];
         }
     }
 }
 
 // cek login
-if( $_SESSION['login'] && isset($_SESSION['inf_username']) ) {
-    $ses_inf_username = $_SESSION['inf_username'];
-    $interest_info = mysqli_query($conn, "SELECT * FROM inf_interest WHERE inf_username = '$ses_inf_username'");
-    $sns_info = mysqli_query($conn, "SELECT * FROM sns WHERE inf_username = '$ses_inf_username'");
+if( $_SESSION['login'] && isset($_SESSION['inf_id']) ) {
+    $ses_inf_id = $_SESSION['inf_id'];
+    $interest_info = mysqli_query($conn, "SELECT * FROM inf_interest WHERE inf_id = '$ses_inf_id'");
+    $sns_info = mysqli_query($conn, "SELECT * FROM sns WHERE inf_id = '$ses_inf_id'");
     if( (mysqli_num_rows($interest_info) < 1) || (mysqli_num_rows($sns_info) < 1) ) {
         // jika data interest atau data sns kosong
         header('Location: ../../login/influencerlogin/addInitInfo.php');
@@ -36,16 +36,18 @@ if( $_SESSION['login'] && isset($_SESSION['inf_username']) ) {
     header('Location: ../../login/influencerlogin/login.php');
 }
 
-$inf_username = $_SESSION['inf_username'];
-$influencer = query("SELECT * FROM influencer WHERE inf_username=\"$inf_username\"")[0];
+$inf_id = $_SESSION['inf_id'];
+$influencer = query("SELECT * FROM influencer WHERE inf_id=\"$inf_id\"")[0];
 $inf_pict = "../../../images/influencer/data/" . $influencer['inf_pict'];
 
 if( isset($_POST['update_profile']) ) {
 
+    // var_dump($_POST);
+    // exit;
     // jika input null, maka akan diisi oleh data lama
-    // if( $_POST['inf_username'] == "" ) {
-    //     $_POST['inf_username'] = $influencer['inf_username'];
-    // }
+    if( $_POST['inf_username'] == "" ) {
+        $_POST['inf_username'] = $influencer['inf_username'];
+    }
     if( $_POST['inf_name'] == "" ) {
         $_POST['inf_name'] = $influencer['inf_name'];
     }
@@ -61,10 +63,9 @@ if( isset($_POST['update_profile']) ) {
     
     if( updateInfProfile($_POST) > 0 ) {
         // jika username berhasil diganti, maka session dan cookie username akan diset ulang
-        // if( $_POST['inf_username'] != $influencer['inf_username'] ) {
-        //     setcookie('ghlf', $row['inf_username'], time()+(60*60*60*24*30*12), '/');
-        //     $_SESSION['inf_username'] = $influencer['inf_username'];
-        // }
+        if( $_POST['inf_username'] != $influencer['inf_username'] ) {
+            setcookie('ksla', hash('sha256', $_POST['inf_username']), time()+(60*60*60*24*30*12), '/');
+        }
         echo "
                 <script>
                     alert('user berhasil diubah');
@@ -109,13 +110,13 @@ if( isset($_POST['update_profile']) ) {
                 <button type="button" onclick="window.location = 'changeprofile.php'">Change Picture</button>
                 </center>
                 <br>
+                <input type="hidden" name="inf_id" value="<?= $influencer['inf_id']; ?>">
                 <input type="hidden" name="inf_password" value="<?= $influencer['inf_password']; ?>">
                 <input type="hidden" name="inf_reg_date" value="<?= $influencer['inf_reg_date']; ?>">
                 <input type="hidden" name="inf_pict" value="<?= $influencer['inf_pict']; ?>">
                 <div class="input-left">
-                    <input type="hidden" name="inf_username" value="<?= $influencer['inf_username'] ?>">
-                    <!-- <label for="inf_username">Username</label>
-                    <input type="text" id="inf_username" name="inf_username" value="" placeholder=""> -->
+                    <label for="inf_username">Username</label>
+                    <input type="text" id="inf_username" name="inf_username" value="<?= $influencer['inf_username'] ?>" placeholder="<?= $influencer['inf_username'] ?>">
                     <label for="inf_name">Full Name</label>
                     <input type="text" id="inf_name" name="inf_name" value="<?= $influencer['inf_name'] ?>" placeholder="<?= $influencer['inf_name'] ?>">
                     <label for="inf_email">Email</label>

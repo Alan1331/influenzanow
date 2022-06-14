@@ -115,7 +115,7 @@ if( sizeof($rules_do) >= sizeof($rules_dont) ) {
                             </li>
                             <!--//dropdown-->                     
                             <li class="nav-item">
-                                <a href="#">Cart</a>
+                                <a href="#">Saved ERF</a>
                             </li>
                             <li class="nav-item">
                                 <a href="#">Log Out</a>

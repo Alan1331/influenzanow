@@ -5,11 +5,11 @@ require __DIR__.'/../../../../includes/connection.php';
 require __DIR__.'/../../../../includes/globalFunctions.php';
 require __DIR__.'/../../../../includes/sns/functions.php';
 
-$inf_username = $_SESSION['inf_username'];
+$inf_id = $_SESSION['inf_id'];
 $sns_type = "facebook";
 
 // query data sns
-$sns = query("SELECT * FROM sns WHERE inf_username = \"$inf_username\" AND sns_type = \"$sns_type\"")[0];
+$sns = query("SELECT * FROM sns WHERE inf_id = \"$inf_id\" AND sns_type = \"$sns_type\"")[0];
 if( !isset($sns['sns_er']) ) {
     $sns['sns_er'] = null;
 }
@@ -56,7 +56,7 @@ if( isset($_POST['update_facebook']) ) {
                 <h1>Facebook</h1>
                 <hr>
                 <p>InfluenZa Now</p>
-                <input type="hidden" name="inf_username" value="<?= $inf_username ?>">
+                <input type="hidden" name="inf_id" value="<?= $inf_id ?>">
                 <input type="hidden" name="sns_type" value="<?= $sns_type ?>">
                 <label for="sns_username">Username</label>
                 <input type="text" name="sns_username" id="sns_username" value="<?= $sns['sns_username']; ?>" placeholder="input facebook username">

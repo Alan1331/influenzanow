@@ -3,7 +3,7 @@
 function addSNS($data) {
     global $conn;
 
-    $inf_username = strtolower(test_input($data['inf_username']));
+    $inf_id = $data['inf_id'];
     $sns_type = strtolower(test_input($data['sns_type']));
     $sns_username = test_input($data['sns_username']);
     $sns_followers = test_input($data['sns_followers']);
@@ -36,7 +36,7 @@ function addSNS($data) {
 
 
     // cek tipe sns tersedia atau tidak
-    $sns_type_sql = "SELECT sns_type FROM sns WHERE inf_username = \"$inf_username\" AND sns_type = \"$sns_type\"";
+    $sns_type_sql = "SELECT sns_type FROM sns WHERE inf_id = \"$inf_id\" AND sns_type = \"$sns_type\"";
     $sns_type_query = mysqli_query($conn, $sns_type_sql);
     if( mysqli_fetch_assoc($sns_type_query) ) {
         echo "
@@ -48,7 +48,7 @@ function addSNS($data) {
     }
     
     // tambahkan sns baru ke database
-    $add_sns_sql = "INSERT INTO sns VALUES(\"$inf_username\", \"$sns_type\", \"$sns_username\", \"$sns_followers\", \"$sns_link\", \"$sns_er\")";
+    $add_sns_sql = "INSERT INTO sns VALUES(\"$inf_id\", \"$sns_type\", \"$sns_username\", \"$sns_followers\", \"$sns_link\", \"$sns_er\")";
     mysqli_query($conn, $add_sns_sql);
 
     return mysqli_affected_rows($conn);
@@ -83,7 +83,7 @@ function getSnsPage($sns_type) {
 function updateSNS($data) {
     global $conn;
 
-    $inf_username = strtolower(test_input($data['inf_username']));
+    $inf_id = $data['inf_id'];
     $sns_type = strtolower(test_input($data['sns_type']));
     $sns_username = test_input($data['sns_username']);
     $sns_followers = test_input($data['sns_followers']);
@@ -115,15 +115,14 @@ function updateSNS($data) {
     }
     
     // tambahkan sns baru ke database
-    // "$inf_username\", \"$sns_type\", \"$sns_username\", \"$sns_followers\", \"$sns_link\", \"$sns_er\"
     $add_sns_sql = "UPDATE sns SET
-                        inf_username = \"$inf_username\",
+                        inf_id = \"$inf_id\",
                         sns_type = \"$sns_type\",
                         sns_username = \"$sns_username\",
                         sns_followers = \"$sns_followers\",
                         sns_link = \"$sns_link\",
                         sns_er = \"$sns_er\"
-                    WHERE inf_username = \"$inf_username\" AND sns_type = \"$sns_type\"
+                    WHERE inf_id = \"$inf_id\" AND sns_type = \"$sns_type\"
                     ";
     mysqli_query($conn, $add_sns_sql);
 

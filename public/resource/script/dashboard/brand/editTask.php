@@ -29,6 +29,10 @@ if( !isset($_SESSION['login']) || !isset($_SESSION['brand_username']) ) {
     header('Location: ../../login/brandlogin/login.php');
 }
 
+if( isset($_GET['erf_id']) ) {
+    $_SESSION['erf_id'] = $_GET['erf_id'];
+}
+
 if( isset($_GET['task_id']) ) {
     $_SESSION['task_id'] = $_GET['task_id'];
 }

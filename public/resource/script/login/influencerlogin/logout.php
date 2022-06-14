@@ -5,8 +5,8 @@ session_start();
 if( isset($_SESSION['login']) ) {
     unset($_SESSION['login']);
 }
-if( isset($_SESSION['inf_username']) ) {
-    unset($_SESSION['inf_username']);
+if( isset($_SESSION['inf_id']) ) {
+    unset($_SESSION['inf_id']);
 }
 session_destroy();
 

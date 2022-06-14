@@ -5,7 +5,7 @@ require __DIR__.'/../../../includes/connection.php';
 require __DIR__.'/../../../includes/globalFunctions.php';
 require __DIR__.'/../../../includes/sns/functions.php';
 
-$inf_username = $_SESSION['inf_username'];
+$inf_id = $_SESSION['inf_id'];
 $sns_type = "instagram";
 
 // cek apakah tombol submit sudah diklik
@@ -51,7 +51,7 @@ if( isset($_POST['add_instagram']) ) {
                 <h1>Instagram</h1>
                 <hr>
                 <p>InfluenZa Now</p>
-                <input type="hidden" name="inf_username" value="<?= $inf_username ?>">
+                <input type="hidden" name="inf_id" value="<?= $inf_id ?>">
                 <input type="hidden" name="sns_type" value="<?= $sns_type ?>">
                 <label for="sns_username">Username</label>
                 <input type="text" name="sns_username" id="sns_username" placeholder="input instagram username" required>
