@@ -125,7 +125,7 @@ $erf = query("SELECT * FROM erf WHERE erf_id = $erf_id")[0];
                 <!-- Start Row -->
                 <div class="row">
                     <div class="col-sm-6">
-                        <button type="button" onclick="window.location = 'home.php'"><p>Back to home</p></button>
+                        <button class="btn btn-primary" type="button" onclick="window.location = 'home.php'">Back to home</button>
                         <h1><?= $erf['erf_name']; ?></h1>
                         <h3>Product Name: <?= $erf['product_name']; ?></h3>
                         <p class="lead"><?= $erf['gen_brief']; ?></p>

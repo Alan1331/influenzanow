@@ -10,25 +10,48 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: #f1caf7;
+    background: #f7d6ca;
 }
 
 .container {
-    width: 100%;
+    width: 80%;
     display: flex;
-    max-width: 400px;
+    /* max-width: 600px; */
     background: #ffffff;
     border-radius: 15px;
     box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.1);
+    padding-bottom: 70px;
 }
 
-.SignUp {
+.profile {
     width: 100%;
 }
 
 form {
-    width: 350px;
+    width: 95%;
     margin : 60px auto;
+}
+
+.input-left {
+    width: 45%;
+    float: left;
+}
+
+.input-right {
+    width: 45%;
+    float: right;
+}
+
+.row {
+    width: 100%;
+    display: block;
+    float: right;
+}
+
+.row a {
+    margin-right: 100px;
+    display: block;
+    float: right;
 }
 
 h1 {
@@ -43,14 +66,14 @@ hr {
 }
 
 .img{
-    background-image: url(https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg?t=st=1653298875~exp=1653299475~hmac=3ec9143a32cc5d13d73e1a313eca1662329f8477c0443dfdbd27921214db4061&w=740);
+    /* background-image: url(https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg?t=st=1653298875~exp=1653299475~hmac=3ec9143a32cc5d13d73e1a313eca1662329f8477c0443dfdbd27921214db4061&w=740); */
     background-color: #ffffff;
     background-size: cover;
     border-radius: 100px;
     width: 150px;
     height: 150px;
     margin: 0 auto;
-    border: 1px solid #eaeaea;
+    border: 5px solid #f1caf7;
 }
 
 h2{
@@ -60,6 +83,55 @@ h2{
     font-size: 10px;
     font-weight: 2px;
 }
+
+.radio{
+    width: 100%;
+}
+
+.radio-label {
+    width: 100%;
+    display: block;
+    text-align: center;
+}
+
+.radio-input {
+    width: 33.33%;
+    display: block;
+    float: left;
+}
+
+.radio-input input {
+    width: 10%;
+    display: block;
+    float: left;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 5px;
+    margin-top: 9px;
+    margin-bottom: 0px;
+}
+
+.radio-input label {
+    /* width: 40%; */
+    display: block;
+    float: left;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 5px;
+
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 12px 12px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    resize: none;
+  }
 
 form label {
     display: block;
@@ -88,11 +160,11 @@ button {
     cursor: pointer;
     margin-top: 20px;
     border-radius: 5px;
-    background: rgb(233, 120, 100) ;
+    background: #f7d6ca ;
 }
 
 button:hover {
-    background: #b37cf1;
+    background: #f1ab7c;
 }
 
 

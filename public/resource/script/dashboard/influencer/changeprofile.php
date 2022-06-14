@@ -64,7 +64,7 @@ if( isset($_POST['submit']) ) {
                 <h1>Change Profie Picture</h1>
                 <hr>
                 <br>
-                <a href="infProfile.php"><--Back to profile settings</a>
+                <button class="btn btn-primary"><a href="infProfile.php">Go Back to Profile Settings</a></button>
                 <br>
                 <center>
                     <img class="img" src="<?= $path . $inf_pict; ?>" alt="Profile Picture">

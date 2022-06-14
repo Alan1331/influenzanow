@@ -261,7 +261,8 @@ if( isset($_POST['add_task']) ) {
                         <h3>- Elon Musk -</h3>
                     </div>
                     <div class="col-sm-4">
-                        <a href="home.php"><--Back to home</a>
+                        <!--// <a href="home.php"><--Back to home</a> -->
+                        <button class="btn btn-primary" onclick="window.location='home.php'">Back to Home</button>
                     </div>
                 </div>
             </div>

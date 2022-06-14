@@ -161,7 +161,7 @@ if( isset($_POST['add_dont']) ) {
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <button type="button" onclick="window.location = '<?= $prev_url; ?>'"><--Back to ERF</button>
+                    <button class="btn btn-primary" type="button" onclick="window.location = '<?= $prev_url; ?>'">Back to ERF</button>
                 </div>
             </div>
         </section>

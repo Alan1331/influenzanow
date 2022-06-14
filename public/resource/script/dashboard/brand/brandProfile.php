@@ -7,31 +7,50 @@
     <title>Profile Page</title>
     <link rel="stylesheet" href = "../../../style/css/brandprofile.css">
 </head>
-
 <body>
     <div class="container">
-        <div class="SignUp">
-            <form action="">
-                <h1>About Company</h1>
+        <div class="profile">
+            <form action="" method="post">
+                <h1>Profile Settings</h1>
                 <hr>
                 <br>
+                <!--<a href="home.php"><--Back to home</a> -->
+                <button class="btn btn-primary"><a href="home.php">Back to home</a></button>
                 <br>
-                <div class="img"></div>
+                <center>
+                    <img class="img" src="#">
+                </center>
                 <br>
-                <a href="changeprofile.php"><h2>Change Picture > </h2></a>
+                <center>
+                    <!--<a href="changeprofile.php">Change Picture ></a>-->
+                    <button class="btn btn-primary"><a href="changeprofile.php">Change Picture </a></button>
+                </center>
                 <br>
-                <label for="">Brand Name</label>
-                <input type="text" placeholder="Input Current Password">
-                <label for="">Number phone</label>
-                <input type="text" placeholder="Input New Password">
-                <label for="">Email</label>
-                <input type="text" placeholder="Confirm New Password">
-                <label for="">Sector</label>
-                <input type="text" placeholder="Confirm New Password">
-                <center><button>Update Profile</button></center>
-                <h3><a href="home.php">Back</a></h3>
+                <input type="hidden" name="brand_password">
+                <input type="hidden" name="brand_reg_date">
+                <input type="hidden" name="brand_logo">
+                <div class="input-left">
+                    <input type="hidden" name="brand_username">
+                    <label for="brand_name">Brand Name</label>
+                    <input type="text" id="brand_name" name="brand_name">
+                    <label for="brand_email">Email</label>
+                    <input type="text" id="brand_email" name="inf_email">
+                    <label for="brand_phone_number">Phone Number</label>
+                    <input type="text" id="brand_phone_number" name="brand_phone_number">
+                    <center><button type="submit" name="update_profile">Save Profile Updates</button></center>
+                </div>
+                <div class="input-right">
+                    <div class="radio">
+                    <label for="brand_description">Brand Description</label>
+                    <input type="text" id="brand_description" name="brand_description">
+
+                    <label for="brand_sector">Brand Sector</label>
+                    <input type="text" id="brand_sector" name="brand_sector">
+                    </div>
+                </div>
             </form>
         </div>
     </div>
+
 </body>
 </html>

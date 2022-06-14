@@ -181,7 +181,9 @@ if( isset($_POST['search_erf']) ) {
                                                 <td><?= $erf_list[$i]['inf_applied'] . "/" . $erf_list[$i]['inf_required']; ?></td>
                                                 <td>
                                                     <a href="editERF.php?erf_id=<?= $erf_list[$i]['erf_id']; ?>">
-                                                        <button type="button">Edit</button>
+                                                    <button type="button" class="btn btn-primary">
+                                                            <i class="fa fa-pencil"></i>
+                                                        </button>
                                                     </a>
                                                     <a href="">
                                                         <button type="button" class="btn btn-primary">
