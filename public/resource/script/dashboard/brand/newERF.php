@@ -442,24 +442,26 @@ if( isset($_POST['post_erf']) ) {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php for($i = 0; $i < sizeof($task_list); $i++): ?>
-                                                    <tr class="bold-approved">
-                                                        <td><?= $i+1; ?></td>
-                                                        <td><?= $task_list[$i]['task_name']; ?></td>
-                                                        <td><?= $task_list[$i]['task_deadline']; ?></td>
-                                                        <td><?= $task_list[$i]['task_status']; ?></td>
-                                                        <td>
-                                                            <a href="hapusTask.php?task_id=<?= $task_list[$i]['task_id']; ?>">
-                                                                <button type="button" class="button button2">
-                                                                    <i class="fa fa-trash" aria-hidden="true" style="color:red;"> Delete</i>
-                                                                </button>
-                                                            </a>
-                                                            <a href="editTask.php?task_id=<?= $task_list[$i]['task_id']; ?>?prev_url=newERF.php">
-                                                                <button class="button button2" type="button"><i class="fa fa-pencil" aria-hidden="true"> Edit</i></button>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                <?php endfor; ?>
+                                                <?php if( isset($task_list) ): ?>
+                                                    <?php for($i = 0; $i < sizeof($task_list); $i++): ?>
+                                                        <tr class="bold-approved">
+                                                            <td><?= $i+1; ?></td>
+                                                            <td><?= $task_list[$i]['task_name']; ?></td>
+                                                            <td><?= $task_list[$i]['task_deadline']; ?></td>
+                                                            <td><?= $task_list[$i]['task_status']; ?></td>
+                                                            <td>
+                                                                <a href="hapusTask.php?task_id=<?= $task_list[$i]['task_id']; ?>">
+                                                                    <button type="button" class="button button2">
+                                                                        <i class="fa fa-trash" aria-hidden="true" style="color:red;"> Delete</i>
+                                                                    </button>
+                                                                </a>
+                                                                <a href="editTask.php?task_id=<?= $task_list[$i]['task_id']; ?>&prev_url=newERF.php&erf_id=<?= $erf_id; ?>">
+                                                                    <button class="button button2" type="button"><i class="fa fa-pencil" aria-hidden="true"> Edit</i></button>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    <?php endfor; ?>
+                                                <?php endif; ?>
                                             </tbody>
                                         </table>
                                     <?php endif; ?>
