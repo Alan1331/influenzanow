@@ -29,10 +29,13 @@ if( !isset($_SESSION['login']) || !isset($_SESSION['brand_username']) ) {
     header('Location: ../../login/brandlogin/login.php');
 }
 
-$erf_draft = array('erf_name' => '', 'product_name' => '', 'product_price' => '', 'gen_brief' => '', 'negotiation' => '');
+if( isset($_GET['erf_id']) ) {
+    $_SESSION['erf_id'] = $_GET['erf_id'];
+}
+$erf_id = $_SESSION['erf_id'];
 $brand_name = $_SESSION['brand_username'];
 $brand_id = query("SELECT brand_id FROM brand WHERE brand_name = \"$brand_name\"")[0]['brand_id'];
-$test_erf_draft = query("SELECT * FROM erf WHERE brand_id = $brand_id AND erf_status = 'drafted'");
+$test_erf_draft = query("SELECT * FROM erf WHERE brand_id = $brand_id AND erf_id = $erf_id");
 if( isset($test_erf_draft[0]) ) {
     $erf_draft = $test_erf_draft[0];
     $erf_id = $erf_draft['erf_id'];
@@ -42,6 +45,10 @@ $path = '../../../images/brands/erf/';
 
 if( isset($_SESSION['prev_url']) ) {
     session_unset($_SESSION['prev_url']);
+}
+
+if( isset($_SESSION['task_id']) ) {
+    session_unset($_SESSION['task_id']);
 }
 
 if( isset($task_list) ) {
@@ -70,7 +77,7 @@ if( isset($_POST['set_erf']) ) {
             echo "
                     <script>
                         alert('gagal upload foto produk');
-                        window.location = 'newERF.php';
+                        window.location = 'editERF.php';
                     </script>
                 ";
         }
@@ -81,14 +88,14 @@ if( isset($_POST['set_erf']) ) {
         echo "
                 <script>
                     alert('erf berhasil diset');
-                    window.location = 'newERF.php';
+                    window.location = 'editERF.php';
                 </script>
             ";
     } else {
         echo "
                 <script>
                     alert('erf gagal diset');
-                    window.location = 'newERF.php';
+                    window.location = 'editERF.php';
                 </script>
             ";
     }
@@ -101,14 +108,14 @@ if( isset($_POST['add_inf_criteria'])) {
             echo "
                     <script>
                         alert('kriteria berhasil ditambahkan');
-                        window.location = 'newERF.php';
+                        window.location = 'editERF.php';
                     </script>
                 ";
         } else {
             echo "
                     <script>
                         alert('kriteria gagal ditambahkan');
-                        window.location = 'newERF.php';
+                        window.location = 'editERF.php';
                     </script>
                 ";
         }
@@ -116,7 +123,7 @@ if( isset($_POST['add_inf_criteria'])) {
         echo "
                 <script>
                     alert('set erf terlebih dahulu');
-                    window.location = 'newERF.php';
+                    window.location = 'editERF.php';
                 </script>
             ";
     }
@@ -129,14 +136,14 @@ if( isset($_POST['add_ref_link'])) {
             echo "
                     <script>
                         alert('reference link berhasil ditambahkan');
-                        window.location = 'newERF.php';
+                        window.location = 'editERF.php';
                     </script>
                 ";
         } else {
             echo "
                     <script>
                         alert('reference link gagal ditambahkan');
-                        window.location = 'newERF.php';
+                        window.location = 'editERF.php';
                     </script>
                 ";
         }
@@ -154,7 +161,7 @@ if( isset($_POST['add_task']) ) {
     if( isset($erf_draft['erf_id']) ) {
         $erf_id = $erf_draft['erf_id'];
         $_SESSION['erf_id'] = $erf_id;
-        header('Location: newTask.php?prev_url=newERF.php');
+        header('Location: newTask.php?prev_url=editERF.php');
     } else {
         echo "
                 <script>
@@ -165,52 +172,6 @@ if( isset($_POST['add_task']) ) {
     }
 }
 
-if( isset($_POST['post_erf']) ) {
-    // jika erf belum diset, tidak dapat post erf
-    if( isset($erf_draft['erf_id']) ) {
-        $erf_id = $erf_draft['erf_id'];
-        if( check_erf_criteria($erf_id) > 0 ) {
-            if( check_erf_task($erf_id) > 0 ) {
-                if( post_erf($erf_id) ) {
-                    echo "
-                            <script>
-                                alert('ERF berhasil dipost');
-                                window.location = 'home.php';
-                            </script>
-                        ";
-                } else {
-                    echo "
-                            <script>
-                                alert('ERF gagal dipost');
-                                window.location = 'newERF.php';
-                            </script>
-                        ";
-                }
-            } else {
-                echo "
-                        <script>
-                            alert('Tambahkan task terlebih dahulu');
-                            window.location = 'newERF.php';
-                        </script>
-                    ";
-            }
-        } else {
-            echo "
-                    <script>
-                        alert('Tambahkan participant criteria terlebih dahulu');
-                        window.location = 'newERF.php';
-                    </script>
-                ";
-        }
-    } else {
-        echo "
-                <script>
-                    alert('set erf terlebih dahulu');
-                    window.location = 'newERF.php';
-                </script>
-            ";
-    }
-}
 ?>
 
 <!DOCTYPE html> 
@@ -369,16 +330,8 @@ if( isset($_POST['post_erf']) ) {
                                         <!--// END NEGO -->
                                     </div>
                                     <div class="form-group">
-                                        <button class="btn btn-primary" type="submit" name="set_erf">SET ERF</button>
-                                        <?php if( isset($erf_draft['erf_id']) ): ?>
-                                            <?php $erf_id = $erf_draft['erf_id']; ?>
-                                            <?php if (check_draft_task($erf_id) > 0): ?>
-                                                <button class="btn btn-primary" type="submit" name="post_erf" onclick="return confirm('Task dalam draft akan terhapus jika ERF dipost, apakah Anda tetap ingin melanjutkan?')" >POST ERF</button>
-                                            <?php else: ?>
-                                                <button class="btn btn-primary" type="submit" name="post_erf">POST ERF</button>
-                                            <?php endif; ?>
-                                        <?php endif; ?>
-                                        <p class="small text-muted"><span class="guardsman">* Set ERF first before input ERF component's data.</span> Post ERF can be performed if the mandatory components are added.</p>
+                                        <button class="btn btn-primary" type="submit" name="set_erf">APPLY ERF CHANGES</button>
+                                        <p class="small text-muted"><span class="guardsman">* Click "APPLY ERF CHANGES" to apply ERF data changes.</span> this button can be performed to change ERF data(not ERF components).</p>
                                     </div>
                                 </form>
                             </fieldset>
@@ -400,7 +353,12 @@ if( isset($_POST['post_erf']) ) {
                                         <?php if( !empty($erf_draft) ): ?>
                                             <ul style="list-style-type:disc">
                                                 <?php foreach($inf_criteria as $criteria): ?>
-                                                    <li><?= $criteria['criteria'] ?> <a href="hapusCriteria.php?erf_id=<?= $criteria['erf_id'] ?>&criteria=<?= $criteria['criteria'] ?>" style="color:red;">X</a></li>
+                                                    <li>
+                                                        <?= $criteria['criteria'] ?>
+                                                        <?php if( sizeof($inf_criteria) > 1 ): ?>
+                                                            <a href="hapusCriteria.php?erf_id=<?= $criteria['erf_id'] ?>&criteria=<?= $criteria['criteria'] ?>" style="color:red;">X</a>
+                                                        <?php endif; ?>
+                                                    </li>
                                                 <?php endforeach; ?>
                                             </ul>
                                         <?php endif; ?>
@@ -448,12 +406,14 @@ if( isset($_POST['post_erf']) ) {
                                                         <td><?= $task_list[$i]['task_deadline']; ?></td>
                                                         <td><?= $task_list[$i]['task_status']; ?></td>
                                                         <td>
-                                                            <a href="hapusTask.php?task_id=<?= $task_list[$i]['task_id']; ?>">
-                                                                <button type="button" class="button button2">
-                                                                    <i class="fa fa-trash" aria-hidden="true" style="color:red;"></i>
-                                                                </button>
-                                                            </a>
-                                                            <a href="editTask.php?task_id=<?= $task_list[$i]['task_id']; ?>?prev_url=newERF.php">
+                                                            <?php if( sizeof($task_list) > 1 ): ?>
+                                                                <a href="hapusTask.php?task_id=<?= $task_list[$i]['task_id']; ?>">
+                                                                    <button type="button" class="button button2">
+                                                                        <i class="fa fa-trash" aria-hidden="true" style="color:red;"></i>
+                                                                    </button>
+                                                                </a>
+                                                            <?php endif; ?>
+                                                            <a href="editTask.php?task_id=<?= $task_list[$i]['task_id']; ?>&prev_url=editERF.php">
                                                                 <button type="button">Edit</button>
                                                             </a>
                                                         </td>

@@ -9,8 +9,20 @@ require __DIR__.'/../../../../includes/erf/functions.php';
 $erf_id = $_GET['erf_id'];
 $link = $_GET['link'];
 
-query("DELETE FROM ref_link WHERE erf_id = $erf_id AND link = \"$link\"");
-
-header('Location: newERF.php');
+if( remove_ref_link($erf_id, $link) > 0 ) {
+    echo "
+            <script>
+                alert('reference link berhasil dihapus');
+                history.go(-1);
+            </script>
+        ";
+} else {
+    echo "
+            <script>
+                alert('reference link gagal dihapus');
+                history.go(-1);
+            </script>
+        ";
+}
 
 ?>
