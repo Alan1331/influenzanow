@@ -205,7 +205,8 @@ if( isset($_POST['add_task']) ) {
                             <fieldset>
                                 <center>
                                     <h4>TASK<br></h4>
-                                    <h6>ENDORSE REQUIREMENT FORM<br></h6>
+                                    <h5>ENDORSE REQUIREMENT FORM<br></h5>
+                                    <h6>-THIRD STEP-</h6>
                                 </center>
                                 <div id="message"></div>
                                 <form method="post" action="">
@@ -241,7 +242,8 @@ if( isset($_POST['add_task']) ) {
                         <fieldset>
                             <center>
                                 <h4>RULES<br></h4>
-                                <h6>ENDORSE REQUIREMENT FORM<br></h6>
+                                <h5>ENDORSE REQUIREMENT FORM<br></h5>
+                                <h6>-FOURTH STEP-</h6>
                             </center>
                             <div id="message"></div>
                             <form method="post" action="">

@@ -99,14 +99,14 @@ if( isset($_POST['update_profile']) ) {
                 <h1>Profile Settings</h1>
                 <hr>
                 <br>
-                <button class="btn btn-primary"><a href="home.php">Back to home</a></button>
+                <button type="button" onclick="window.location = 'home.php'">Back to Home</button>
                 <br>
                 <center>
                     <img class="img" src="<?= $inf_pict; ?>" alt="<?= $inf_pict; ?>">
                 </center>
                 <br>
                 <center>
-                    <button class="btn btn-primary"><a href="changeprofile.php">Change Picture </a></button>
+                <button type="button" onclick="window.location = 'changeprofile.php'">Change Picture</button>
                 </center>
                 <br>
                 <input type="hidden" name="inf_password" value="<?= $influencer['inf_password']; ?>">
@@ -147,11 +147,11 @@ if( isset($_POST['update_profile']) ) {
                     <input type="date" id="inf_birthdate" name="inf_birthdate" value="<?= $influencer['inf_birthdate']; ?>" >
                     <label for="inf_address">Address</label>
                     <textarea name="inf_address" id="inf_address" name="inf_address" cols="60" rows="4" placeholder="<?= $influencer['inf_address']; ?>"><?= $influencer['inf_address']; ?></textarea>
+                    <center>
+                    <button type="button" onclick="window.location='editInterestSns.php'">Edit Interest or SNS</button></a>
+                    </center>
                 </div>
             </form>
-            <div class="row">
-                <a href="editInterestSns.php"><button>Edit Interest or SNS</button></a>
-            </div>
         </div>
     </div>
 
