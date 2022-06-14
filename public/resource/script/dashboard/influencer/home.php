@@ -37,6 +37,7 @@ if( $_SESSION['login'] && isset($_SESSION['inf_username']) ) {
 
 $inf_username = $_SESSION['inf_username'];
 $influecer = query("SELECT * FROM influencer WHERE inf_username=\"$inf_username\"");
+$erf_list = query("SELECT * FROM erf");
 
 ?>
 
@@ -139,71 +140,23 @@ $influecer = query("SELECT * FROM influencer WHERE inf_username=\"$inf_username\
                 <div class="row">
                     <div class="isotope-gallery-container">
                         <!-- /.gallery-item-wrapper -->
-                                                                    <!-- /.ERF1 -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper ERF">
-                            <div class="gallery-item">
-                                <div class="gallery-thumb">
-                                    <!-- /.gambar -->
-                                    <img src="../../../images/brands/brand1.png" class="img-responsive" alt="1st gallery Thumb">
-                                    <div class="image-overlay"></div>
-                                    <!-- /.add to cart -->
-                                    <a href="erfDetail.php" class="gallery-link"><i class="fa fa-shopping-cart" alt="This is the title"></i></a>
-                                    <!-- /.target icon -->
-                                    <a href="erfDetail.php" class="gallery-link" target="_blank"><i class="fa fa-arrow-right"></i></a>
-                                </div>
-                                <div class="gallery-details">
-                                    <!-- /.erf name -->
-                                    <h5>1st ERF</h5>
+                        <!-- /.ERF -->
+                        <?php foreach($erf_list as $erf): ?>
+                            <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper ERF">
+                                <div class="gallery-item">
+                                    <div class="gallery-thumb">
+                                        <img src="../../../images/brands/erf/<?= $erf['erf_pict']; ?>" class="img-responsive" alt="Product Picture">
+                                        <div class="image-overlay"></div>
+                                        <a href="saveERF.php" class="gallery-zoom"><i class="fa fa-shopping-cart" alt="Save ERF"></i></a>
+                                        <a href="erfDetail.php?erf_id=<?= $erf['erf_id']; ?>" class="gallery-link"><i class="fa fa-arrow-right" alt="Learn more"></i></a>
+                                    </div>
+                                    <div class="gallery-details">
+                                        <h4><?= $erf['erf_name']; ?></h4>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                                                                <!-- /.ERF1 END -->
-                                                                <!-- /.ERF2 -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper ERF">
-                            <div class="gallery-item">
-                                <div class="gallery-thumb">
-                                    <img src="../../../images/brands/brand1.png" class="img-responsive" alt="1st gallery Thumb">
-                                    <div class="image-overlay"></div>
-                                    <a href="http://placehold.it/800x600" class="gallery-zoom"><i class="fa fa-shopping-cart" alt="This is the title"></i></a>
-                                    <a href="erfDetail.php" class="gallery-link"><i class="fa fa-arrow-right"></i></a>
-                                </div>
-                                <div class="gallery-details">
-                                    <h5>2nd ERF</h5>
-                                </div>
-                            </div>
-                        </div>
-                                                                <!-- /.ERF2 END -->
-                        <!-- /.gallery-item-wrapper -->
-                                                                <!-- /.ERF3 -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper ERF">
-                            <div class="gallery-item">
-                                <div class="gallery-thumb">
-                                    <img src="../../../images/brands/brand1.png" class="img-responsive" alt="1st gallery Thumb">
-                                    <div class="image-overlay"></div>
-                                    <a href="http://placehold.it/800x600" class="gallery-zoom"><i class="fa fa-shopping-cart" alt="This is the title"></i></a>
-                                    <a href="erfDetail.php" class="gallery-link"><i class="fa fa-arrow-right"></i></a>
-                                </div>
-                                <div class="gallery-details">
-                                    <h5>3rd ERF</h5>
-                                </div>
-                            </div>
-                        </div>
-                                                                <!-- /.ERF3 END -->
-                                                                <!-- /.ERF4 -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper ERF">
-                            <div class="gallery-item">
-                                <div class="gallery-thumb">
-                                    <img src="../../../images/brands/brand1.png" class="img-responsive" alt="1st gallery Thumb">
-                                    <div class="image-overlay"></div>
-                                    <a href="http://placehold.it/800x600" class="gallery-zoom"><i class="fa fa-shopping-cart" alt="This is the title"></i></a>
-                                    <a href="erfDetail.php" class="gallery-link"><i class="fa fa-arrow-right"></i></a>
-                                </div>
-                                <div class="gallery-details">
-                                    <h5>4th ERF</h5>
-                                </div>
-                            </div>
-                        </div>
-                                                                <!-- /.ERF4 END -->
+                        <?php endforeach; ?>
+                        <!-- /.ERF END -->
                         <!-- /.gallery-item-wrapper -->
                         <div class="col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
                             <div class="gallery-item">

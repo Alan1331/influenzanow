@@ -1,6 +1,54 @@
+<?php
+session_start();
+
+require __DIR__.'/../../../../includes/connection.php';
+require __DIR__.'/../../../../includes/globalFunctions.php';
+
+// cek cookie
+if( isset($_COOKIE['ghlf']) && isset($_COOKIE['ksla']) && isset($_COOKIE['tp']) ) {
+    if( $_COOKIE['tp'] === hash('sha256', 'influencer') ) {
+        $id = $_COOKIE['ghlf'];
+        $key = $_COOKIE['ksla'];
+    
+        // ambil username berdasarkan cookie nya
+        $result = mysqli_query($conn, "SELECT * FROM influencer WHERE inf_username = '$id'");
+        $row = mysqli_fetch_assoc($result);
+    
+        // cek cookie dan username
+        if( $key === hash('sha256', $row['inf_name']) ) {
+            $_SESSION['login'] = true;
+            $_SESSION['inf_username'] = $row['inf_username'];
+        }
+    }
+}
+
+// cek login
+if( $_SESSION['login'] && isset($_SESSION['inf_username']) ) {
+    $ses_inf_username = $_SESSION['inf_username'];
+    $interest_info = mysqli_query($conn, "SELECT * FROM inf_interest WHERE inf_username = '$ses_inf_username'");
+    $sns_info = mysqli_query($conn, "SELECT * FROM sns WHERE inf_username = '$ses_inf_username'");
+    if( (mysqli_num_rows($interest_info) < 1) || (mysqli_num_rows($sns_info) < 1) ) {
+        // jika data interest atau data sns kosong
+        header('Location: ../../login/influencerlogin/addInitInfo.php');
+    }
+} else {
+    header('Location: ../../login/influencerlogin/login.php');
+}
+
+$inf_username = $_SESSION['inf_username'];
+
+if(isset($_GET['erf_id'])) {
+    $_SESSION['erf_id'] = $_GET['erf_id'];
+}
+
+$erf_id = $_SESSION['erf_id'];
+$erf = query("SELECT * FROM erf WHERE erf_id = $erf_id")[0];
+
+?>
+
 <!DOCTYPE html> 
 <html lang="en" style="height:100%;">
-    <head> 
+    <head>
     <meta charset="utf-8"> 
         <title>ERF Details</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
@@ -77,18 +125,19 @@
                 <!-- Start Row -->
                 <div class="row">
                     <div class="col-sm-6">
-                        <h2>Task</h2>
-                        <h3>1st ERF</h3>
-                        <p class="lead">Make a Purchase and Promote</p>
+                        <button type="button" onclick="window.location = 'home.php'"><p>Back to home</p></button>
+                        <h1><?= $erf['erf_name']; ?></h1>
+                        <h3>Product Name: <?= $erf['product_name']; ?></h3>
+                        <p class="lead"><?= $erf['gen_brief']; ?></p>
                         <div class="row">
                             <div class="col-sm-5 col-xs-12">
                                 <a href="erfTask.php" class="btn btn-block btn-warning"><span class="fa fa-check"></span>&nbsp;Apply now</a>
-                                <a href="erfTask.php" class="btn btn-block btn-warning"><span class="fa fa-eye"></span>&nbsp;View Task List</a>
+                                <a href="erfTask.php?erf_id=<?= $erf['erf_id']; ?>" class="btn btn-block btn-warning"><span class="fa fa-eye"></span>&nbsp;View Task List</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-5 col-sm-offset-1">
-                        <img class="img-rounded img-responsive" src="../../../images/brands/brand1.png">
+                        <img class="img-rounded img-responsive" src="../../../images/brands/erf/<?= $erf['erf_pict']; ?>">
                     </div>
                 </div>
                 <!--// END Row -->
@@ -102,15 +151,15 @@
                         <div class="icon-outline">
                             <span class="fa fa-shopping-cart"></span>
                         </div>
-                        <h3>Make a Purchase</h3>
-                        <p>Make a Product Purchase</p>
+                        <h3>Save ERF</h3>
+                        <p>Save this ERF if you want to apply later</p>
                     </div>
                     <div class="col-sm-4 col-xs-12 text-center">
                         <div class="icon-outline">
                             <span class="fa fa-calendar"></span>
                         </div>
-                        <h3>Purchase Product Deadline</h3>
-                        <p>15 February 2022 - 25 February 2022</p>
+                        <h3>Registration Deadline</h3>
+                        <p><?= $erf['reg_deadline']; ?></p>
                     </div>
                     <div class="col-sm-4 col-xs-12 text-center">
                         <div class="icon-outline">

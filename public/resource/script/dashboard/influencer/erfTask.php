@@ -1,3 +1,51 @@
+<?php
+session_start();
+
+require __DIR__.'/../../../../includes/connection.php';
+require __DIR__.'/../../../../includes/globalFunctions.php';
+
+// cek cookie
+if( isset($_COOKIE['ghlf']) && isset($_COOKIE['ksla']) && isset($_COOKIE['tp']) ) {
+    if( $_COOKIE['tp'] === hash('sha256', 'influencer') ) {
+        $id = $_COOKIE['ghlf'];
+        $key = $_COOKIE['ksla'];
+    
+        // ambil username berdasarkan cookie nya
+        $result = mysqli_query($conn, "SELECT * FROM influencer WHERE inf_username = '$id'");
+        $row = mysqli_fetch_assoc($result);
+    
+        // cek cookie dan username
+        if( $key === hash('sha256', $row['inf_name']) ) {
+            $_SESSION['login'] = true;
+            $_SESSION['inf_username'] = $row['inf_username'];
+        }
+    }
+}
+
+// cek login
+if( $_SESSION['login'] && isset($_SESSION['inf_username']) ) {
+    $ses_inf_username = $_SESSION['inf_username'];
+    $interest_info = mysqli_query($conn, "SELECT * FROM inf_interest WHERE inf_username = '$ses_inf_username'");
+    $sns_info = mysqli_query($conn, "SELECT * FROM sns WHERE inf_username = '$ses_inf_username'");
+    if( (mysqli_num_rows($interest_info) < 1) || (mysqli_num_rows($sns_info) < 1) ) {
+        // jika data interest atau data sns kosong
+        header('Location: ../../login/influencerlogin/addInitInfo.php');
+    }
+} else {
+    header('Location: ../../login/influencerlogin/login.php');
+}
+
+$inf_username = $_SESSION['inf_username'];
+
+if(isset($_GET['erf_id'])) {
+    $_SESSION['erf_id'] = $_GET['erf_id'];
+}
+
+$erf_id = $_SESSION['erf_id'];
+$task_list = query("SELECT * FROM task WHERE erf_id = $erf_id AND task_status = 'added'");
+
+?>
+
 <!DOCTYPE html> 
 <html lang="en" style="height:100%;">
     <head> 
@@ -93,30 +141,27 @@
             <button class="btn btn-primary"><i class="fa fa-arrow-left">Back</i></button>
             </a>
             <table class="styled-table">
-            <thead>
-                <tr>
-                    <th>Task ID</th>
-                    <th>Task Name</th>
-                    <th>Task Deadline</th>
-                    <th>Task Status</th>
-                    <th>Task Details</th>
-                </tr>
-            </thead>
-            <tbody>
-            <tr class="bold-approved">
-                <td>1</td>
-                <td>Make a Purchase</td>
-                <td>(02-15-2022) - (02-25-2022)</td>
-                <td>Approved</td>
-                <td><button class="button button2"><a href="taskStep.php">View Task</a></button></td>
-                </tr>
-                <tr class="bold-approved">
-                    <td>2</td>
-                    <td>Make a Promotion</td>
-                    <td>(02-15-2022) - (02-25-2022)</td>
-                    <td>Uncompleted</td>
-                    <td><button class="button button2"><a href="taskStep.php">View Task</a></button></td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Task Name</th>
+                        <th>Task Deadline</th>
+                        <th>Task Status</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if( sizeof($task_list) > 0 ): ?>
+                        <?php for($i = 0; $i < sizeof($task_list); $i++): ?>
+                            <tr class="bold-approved">
+                                <td><?= $i+1; ?></td>
+                                <td><?= $task_list[$i]['task_name']; ?></td>
+                                <td><?= $task_list[$i]['task_deadline']; ?></td>
+                                <td>coming soon</td>
+                                <td><button class="button button2"><a href="taskInfo.php?task_id=<?= $task_list[$i]['task_id']; ?>">Learn more</a></button></td>
+                            </tr>
+                        <?php endfor; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
             </center>
