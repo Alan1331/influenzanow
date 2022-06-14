@@ -19,7 +19,7 @@
                 <br>
                 <input type="file" name="inf_pict" id="inf_pict">
                 <center><button>Update Profile</button></center>
-                <button class="btn btn-primary"><a href="brandProfile.php">Go Back to Profile Settings</a></button>
+                <button class="btn btn-primary" type="button" onclick="window.location = 'brandprofile.php'">Go Back</button>
             </form>
         </div>
     </div>

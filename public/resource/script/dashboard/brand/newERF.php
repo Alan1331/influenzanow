@@ -314,7 +314,8 @@ if( isset($_POST['post_erf']) ) {
                             <fieldset>
                                 <center>
                                     <h4>OVERVIEW<br></h4>
-                                    <h6>ENDORSE REQUIREMENT FORM<br></h6>
+                                    <h5>ENDORSE REQUIREMENT FORM<br></h5>
+                                    <h6>- FIRST STEP -</h6>
                                 </center>
                                 <div id="message"></div>
                                 <form method="post" action="" enctype="multipart/form-data">
@@ -390,7 +391,8 @@ if( isset($_POST['post_erf']) ) {
                         <fieldset>
                             <center>
                                 <h4>COMPONENTS<br></h4>
-                                <h6>ENDORSE REQUIREMENT FORM<br></h6>
+                                <h5>ENDORSE REQUIREMENT FORM<br></h5>
+                                <h6>-SECOND STEP-</h6>
                             </center>
                             <div id="message"></div>
                             <form method="post" action="">

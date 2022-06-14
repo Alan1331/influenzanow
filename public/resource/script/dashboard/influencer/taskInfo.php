@@ -102,7 +102,7 @@ if( sizeof($rules_do) >= sizeof($rules_dont) ) {
                     <div class="collapse navbar-collapse">
                         <ul class="nav navbar-nav navbar-right">
                             <li class="active nav-item">
-                                <a href="infMenu.php">Home</a>
+                                <a href="home.php">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a href="infProfile.php">Profile</a>
@@ -142,13 +142,34 @@ if( sizeof($rules_do) >= sizeof($rules_dont) ) {
             </div>
             <hr>
             <a href="erfTask.php">
-            <button class="btn btn-primary"><i class="fa fa-arrow-left">Back</i></button>
+            <button style="margin: 40px;" class="btn btn-primary"><i class="fa fa-arrow-left">Back</i></button>
             </a>
-            <p>
-                Task Name:<?= $task['task_name']; ?><br>
-                Task Deadline:<?= $task['task_deadline']; ?><br>
-                Brief/Note:<?= $task['brief']; ?>
-            </p>
+            <center>
+                <div class="underlined-title">
+            <h2>
+                Task Name:<br>
+            </h2>
+            <h3>
+                <?= $task['task_name']; ?><br>
+                <br>
+            </h3>
+            <h2>
+                Task Deadline:<br>
+            </h2>
+            <h3>
+                <?= $task['task_deadline']; ?><br>
+            </h3>
+                <br>
+                <h2>
+                Brief/Note:<br>
+                </h2>
+                <h3>
+                <?= $task['brief']; ?>
+                </h3>
+                <br>
+            </h3>
+                </div>
+            </center>
         </section>
 
         <div class="col-sm-12">

@@ -15,7 +15,7 @@
                 <hr>
                 <br>
                 <!--<a href="home.php"><--Back to home</a> -->
-                <button class="btn btn-primary"><a href="home.php">Back to home</a></button>
+                <button class="btn btn-primary" type="button" onclick="window.location = 'home.php'">Back to Home</button>
                 <br>
                 <center>
                     <img class="img" src="#">
@@ -23,7 +23,7 @@
                 <br>
                 <center>
                     <!--<a href="changeprofile.php">Change Picture ></a>-->
-                    <button class="btn btn-primary"><a href="changeprofile.php">Change Picture </a></button>
+                    <button class="btn btn-primary" type="button" onclick="window.location = 'changeprofile.php'">Change Picture</button>
                 </center>
                 <br>
                 <input type="hidden" name="brand_password">
