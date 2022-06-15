@@ -30,7 +30,9 @@ if( !isset($_SESSION['login']) || !isset($_SESSION['brand_username']) ) {
     header('Location: ../../login/brandlogin/login.php');
 }
 
-session_unset($_SESSION['erf_id']);
+if( isset($_SESSION['erf_id']) ) {
+    unset($_SESSION['erf_id']);
+}
 
 $brand_name = $_SESSION['brand_username'];
 $brand_id = query("SELECT brand_id FROM brand WHERE brand_name = \"$brand_name\"")[0]['brand_id'];

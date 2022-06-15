@@ -13,7 +13,7 @@ if( isset($_COOKIE['ghlf']) && isset($_COOKIE['ksla']) && isset($_COOKIE['tp']) 
         $key = $_COOKIE['ksla'];
     
         // ambil inf_id berdasarkan cookie nya
-        $result = mysqli_query($conn, "SELECT * FROM influencer WHERE inf_id = '$id'");
+        $result = mysqli_query($conn, "SELECT * FROM influencer WHERE inf_id = $id");
         $row = mysqli_fetch_assoc($result);
     
         // cek cookie dan inf_id

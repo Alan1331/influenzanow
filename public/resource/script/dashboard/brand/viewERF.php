@@ -214,33 +214,54 @@ $product_price = 'Rp ' . $product_price;
                                 <li><?= $criteria['criteria'] ?></li>
                             <?php endforeach; ?>
                         </ul>
+                        <?php if( sizeof($ref_link) > 0 ): ?>
                         <hr>
-                        <center><h3>Reference Links</h3></center>
-                        <ul style="list-style-type:disc">
-                            <?php for($i = 0; $i < sizeof($ref_link); $i++): ?>
-                                <li><a target="_blank" href="<?= $ref_link[$i]['link'] ?>"><?= 'Link' . ($i + 1); ?></a></li>
-                            <?php endfor; ?>
-                        </ul>
+                        <!-- Start Reference Links-->
+                            <center><h3>Reference Links</h3></center>
+                            <ul style="list-style-type:disc">
+                                <?php for($i = 0; $i < sizeof($ref_link); $i++): ?>
+                                    <li><a target="_blank" href="<?= $ref_link[$i]['link'] ?>"><?= 'Link' . ($i + 1); ?></a></li>
+                                <?php endfor; ?>
+                            </ul>
+                        <?php endif; ?>
+                        <!--// END Reference Links-->
                     </div>
-                    <!-- Start Reference Links-->
                     <div class="col-sm-3">
-                        <center><h3>Applied Participant</h3></center>
-                        <table>
-                            <?php foreach($apply_applied as $applied): ?>
-                                <tr>
-                                    <td>
-                                        <center>
-                                            <a href="view_inf_profile.php?inf_id=<?= $applied['inf_id']; ?>"><img class="img" src="<?= $path_inf . $applied['inf_pict']; ?>" alt="profile picture"></a>
-                                        </center>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><center><b><?= $applied['inf_username']; ?></b></center></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </table>
+                        <!-- Start Applied Participant-->
+                        <?php if( sizeof($apply_applied) > 0 ): ?>
+                            <div class="participant">
+                                <center><h3>Applied Participant</h3></center>
+                                <?php foreach($apply_applied as $applied): ?>
+                                    <center>
+                                        <div class="inf-show">
+                                            <a href="view_inf_profile.php?inf_id=<?= $applied['inf_id']; ?>"><img class="img" src="<?= $path_inf . $applied['inf_pict']; ?>" alt="profile picture"></a>                                      
+                                            <b><?= $applied['inf_username']; ?></b>
+                                            <a href="acceptApply.php?erf_id=<?= $erf_id; ?>&inf_id=<?= $applied['inf_id']; ?>">Accept</a>/<a href="declineApply.php?erf_id=<?= $erf_id; ?>&inf_id=<?= $applied['inf_id']; ?>" class="decline-text">Decline</a>
+                                        </div>
+                                    </center>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+                        <!--// END Applied Participant-->
+                        <?php if( sizeof($apply_joined) > 0 ): ?>
+                            <div class="participant">
+                                <hr>
+                            </div>
+                            <!-- Start Joined Participant-->
+                            <div class="participant">
+                                <center><h3>Joined Participant</h3></center>
+                                <?php foreach($apply_joined as $joined): ?>
+                                    <center>
+                                        <div class="inf-show">
+                                            <a href="view_inf_profile.php?inf_id=<?= $joined['inf_id']; ?>"><img class="img" src="<?= $path_inf . $joined['inf_pict']; ?>" alt="profile picture"></a>                                      
+                                            <b><?= $joined['inf_username']; ?></b>
+                                        </div>
+                                    </center>
+                                <?php endforeach; ?>
+                            </div>
+                            <!--// END Joined Participant-->
+                        <?php endif; ?>
                     </div>
-                    <!--// END Reference Links-->
                 </div>
                 <!--// END Row -->
             </div>

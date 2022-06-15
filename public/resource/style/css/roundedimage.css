@@ -8,3 +8,25 @@
     margin: 0 auto;
     border: 5px solid #E8AEAE;
 }
+
+.inf-show{
+    width: 100px;
+    height: fit-content;
+    margin: 0 auto;
+    display: block;
+    float: left;
+}
+
+.decline-text{
+    color: red;
+}
+.decline-text:hover{
+    color: rgb(201, 110, 50);
+}
+
+.participant{
+    width: 100%;
+    height: fit-content;
+    display: block;
+    clear: both;
+}
