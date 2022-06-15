@@ -10,23 +10,23 @@ if( isset($_COOKIE['ghlf']) && isset($_COOKIE['ksla']) && isset($_COOKIE['tp']) 
         $id = $_COOKIE['ghlf'];
         $key = $_COOKIE['ksla'];
     
-        // ambil username berdasarkan cookie nya
-        $result = mysqli_query($conn, "SELECT * FROM influencer WHERE inf_username = '$id'");
+        // ambil inf_id berdasarkan cookie nya
+        $result = mysqli_query($conn, "SELECT * FROM influencer WHERE inf_id = '$id'");
         $row = mysqli_fetch_assoc($result);
     
-        // cek cookie dan username
-        if( $key === hash('sha256', $row['inf_name']) ) {
+        // cek cookie dan inf_id
+        if( $key === hash('sha256', $row['inf_username']) ) {
             $_SESSION['login'] = true;
-            $_SESSION['inf_username'] = $row['inf_username'];
+            $_SESSION['inf_id'] = $row['inf_id'];
         }
     }
 }
 
 // cek login
-if( $_SESSION['login'] && isset($_SESSION['inf_username']) ) {
-    $ses_inf_username = $_SESSION['inf_username'];
-    $interest_info = mysqli_query($conn, "SELECT * FROM inf_interest WHERE inf_username = '$ses_inf_username'");
-    $sns_info = mysqli_query($conn, "SELECT * FROM sns WHERE inf_username = '$ses_inf_username'");
+if( $_SESSION['login'] && isset($_SESSION['inf_id']) ) {
+    $ses_inf_id = $_SESSION['inf_id'];
+    $interest_info = mysqli_query($conn, "SELECT * FROM inf_interest WHERE inf_id = '$ses_inf_id'");
+    $sns_info = mysqli_query($conn, "SELECT * FROM sns WHERE inf_id = '$ses_inf_id'");
     if( (mysqli_num_rows($interest_info) < 1) || (mysqli_num_rows($sns_info) < 1) ) {
         // jika data interest atau data sns kosong
         header('Location: ../../login/influencerlogin/addInitInfo.php');
@@ -35,7 +35,7 @@ if( $_SESSION['login'] && isset($_SESSION['inf_username']) ) {
     header('Location: ../../login/influencerlogin/login.php');
 }
 
-$inf_username = $_SESSION['inf_username'];
+$inf_id = $_SESSION['inf_id'];
 
 if(isset($_GET['task_id'])) {
     $_SESSION['task_id'] = $_GET['task_id'];
@@ -118,7 +118,7 @@ if( sizeof($rules_do) >= sizeof($rules_dont) ) {
                                 <a href="#">Saved ERF</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#">Log Out</a>
+                                <a href="../../login/influencerlogin/logout.php">Log Out</a>
                             </li>
                         </ul>
                         <!--//nav-->
