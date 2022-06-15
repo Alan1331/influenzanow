@@ -10,23 +10,23 @@ if( isset($_COOKIE['ghlf']) && isset($_COOKIE['ksla']) && isset($_COOKIE['tp']) 
         $id = $_COOKIE['ghlf'];
         $key = $_COOKIE['ksla'];
     
-        // ambil username berdasarkan cookie nya
-        $result = mysqli_query($conn, "SELECT * FROM influencer WHERE inf_username = '$id'");
+        // ambil inf_id berdasarkan cookie nya
+        $result = mysqli_query($conn, "SELECT * FROM influencer WHERE inf_id = '$id'");
         $row = mysqli_fetch_assoc($result);
     
-        // cek cookie dan username
-        if( $key === hash('sha256', $row['inf_name']) ) {
+        // cek cookie dan inf_id
+        if( $key === hash('sha256', $row['inf_username']) ) {
             $_SESSION['login'] = true;
-            $_SESSION['inf_username'] = $row['inf_username'];
+            $_SESSION['inf_id'] = $row['inf_id'];
         }
     }
 }
 
 // cek login
-if( $_SESSION['login'] && isset($_SESSION['inf_username']) ) {
-    $ses_inf_username = $_SESSION['inf_username'];
-    $interest_info = mysqli_query($conn, "SELECT * FROM inf_interest WHERE inf_username = '$ses_inf_username'");
-    $sns_info = mysqli_query($conn, "SELECT * FROM sns WHERE inf_username = '$ses_inf_username'");
+if( $_SESSION['login'] && isset($_SESSION['inf_id']) ) {
+    $ses_inf_id = $_SESSION['inf_id'];
+    $interest_info = mysqli_query($conn, "SELECT * FROM inf_interest WHERE inf_id = '$ses_inf_id'");
+    $sns_info = mysqli_query($conn, "SELECT * FROM sns WHERE inf_id = '$ses_inf_id'");
     if( (mysqli_num_rows($interest_info) < 1) || (mysqli_num_rows($sns_info) < 1) ) {
         // jika data interest atau data sns kosong
         header('Location: ../../login/influencerlogin/addInitInfo.php');
@@ -35,7 +35,7 @@ if( $_SESSION['login'] && isset($_SESSION['inf_username']) ) {
     header('Location: ../../login/influencerlogin/login.php');
 }
 
-$inf_username = $_SESSION['inf_username'];
+$inf_id = $_SESSION['inf_id'];
 
 if(isset($_GET['erf_id'])) {
     $_SESSION['erf_id'] = $_GET['erf_id'];
@@ -43,6 +43,14 @@ if(isset($_GET['erf_id'])) {
 
 $erf_id = $_SESSION['erf_id'];
 $erf = query("SELECT * FROM erf WHERE erf_id = $erf_id")[0];
+
+// cek apakah erf ini sudah diajukan atau belum
+$applied = false;
+$cari = mysqli_query($conn, "SELECT * FROM apply_erf WHERE erf_id = $erf_id AND inf_id = $inf_id");
+$jumlah_cari = mysqli_num_rows($cari);
+if( $jumlah_cari > 0 ) {
+    $applied = true;
+}
 
 ?>
 
@@ -109,7 +117,7 @@ $erf = query("SELECT * FROM erf WHERE erf_id = $erf_id")[0];
                                 <a href="#">Saved ERF</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#">Log Out</a>
+                                <a href="../../login/influencerlogin/logout.php">Log Out</a>
                             </li>
                         </ul>
                         <!--//nav-->
@@ -131,7 +139,9 @@ $erf = query("SELECT * FROM erf WHERE erf_id = $erf_id")[0];
                         <p class="lead"><?= $erf['gen_brief']; ?></p>
                         <div class="row">
                             <div class="col-sm-5 col-xs-12">
-                                <a href="erfTask.php" class="btn btn-block btn-warning"><span class="fa fa-check"></span>&nbsp;Apply now</a>
+                                <?php if( !$applied ): ?>
+                                    <a href="applyERF.php?erf_id=<?= $erf['erf_id']; ?>" class="btn btn-block btn-warning"><span class="fa fa-check"></span>&nbsp;Apply now</a>
+                                <?php endif; ?>
                                 <a href="erfTask.php?erf_id=<?= $erf['erf_id']; ?>" class="btn btn-block btn-warning"><span class="fa fa-eye"></span>&nbsp;View Task List</a>
                             </div>
                         </div>

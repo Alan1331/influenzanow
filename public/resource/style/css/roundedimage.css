@@ -1,0 +1,10 @@
+.img{
+    /* background-image: url(https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg?t=st=1653298875~exp=1653299475~hmac=3ec9143a32cc5d13d73e1a313eca1662329f8477c0443dfdbd27921214db4061&w=740); */
+    background-color: #E8AEAE;
+    background-size: cover;
+    border-radius: 100px;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    border: 5px solid #E8AEAE;
+}
