@@ -37,8 +37,12 @@ if( $_SESSION['login'] && isset($_SESSION['inf_id']) ) {
 
 $inf_id = $_SESSION['inf_id'];
 
-if(isset($_GET['erf_id'])) {
+if( isset($_GET['erf_id']) ) {
     $_SESSION['erf_id'] = $_GET['erf_id'];
+}
+
+if( isset($_SESSION['back_url']) ) {
+    unset($_SESSION['back_url']);
 }
 
 $erf_id = $_SESSION['erf_id'];
@@ -158,7 +162,7 @@ $task_list = query("SELECT * FROM task WHERE erf_id = $erf_id AND task_status = 
                                 <td><?= $task_list[$i]['task_name']; ?></td>
                                 <td><?= $task_list[$i]['task_deadline']; ?></td>
                                 <td>coming soon</td>
-                                <td><button class="button button2"><a href="taskInfo.php?task_id=<?= $task_list[$i]['task_id']; ?>">Learn more</a></button></td>
+                                <td><button class="button button2"><a href="taskInfo.php?task_id=<?= $task_list[$i]['task_id']; ?>&back_url=erfTask.php">Learn more</a></button></td>
                             </tr>
                         <?php endfor; ?>
                     <?php endif; ?>

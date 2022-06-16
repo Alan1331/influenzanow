@@ -8,3 +8,45 @@
     margin: 0 auto;
     border: 5px solid #E8AEAE;
 }
+
+.inf-show{
+    width: 100px;
+    height: fit-content;
+    margin: 0 auto;
+    display: block;
+    float: left;
+}
+
+.decline-text{
+    color: red;
+}
+.decline-text:hover{
+    color: rgb(201, 110, 50);
+}
+
+.participant{
+    width: 100%;
+    height: fit-content;
+    display: block;
+    clear: both;
+}
+
+.big-img{
+    background-color: #E8AEAE;
+    background-size: cover;
+    border-radius: 300px;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+    border: 5px solid #E8AEAE;
+}
+
+.submission-prove{
+    background-color: #E8AEAE;
+    background-size: cover;
+    border-radius: 50px;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+    border: 5px solid #E8AEAE;
+}

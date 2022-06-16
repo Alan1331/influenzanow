@@ -36,11 +36,25 @@ if( $_SESSION['login'] && isset($_SESSION['inf_id']) ) {
 }
 
 $inf_id = $_SESSION['inf_id'];
+$path = '../../../images/brands/apply/';
 
 if(isset($_GET['task_id'])) {
     $_SESSION['task_id'] = $_GET['task_id'];
 }
 
+if(isset($_GET['back_url'])) {
+    $_SESSION['back_url'] = $_GET['back_url'];
+}
+
+if(isset($_GET['apply_id'])) {
+    $_SESSION['apply_id'] = $_GET['apply_id'];
+}
+
+if(isset($_GET['erf_id'])) {
+    $_SESSION['erf_id'] = $_GET['erf_id'];
+}
+
+$back_url = $_SESSION['back_url'];
 $erf_id = $_SESSION['erf_id'];
 $task_id = $_SESSION['task_id'];
 $task = query("SELECT * FROM task WHERE erf_id = $erf_id AND task_status = 'added' AND task_id = $task_id")[0];
@@ -51,6 +65,58 @@ if( sizeof($rules_do) >= sizeof($rules_dont) ) {
     $table_rows = sizeof($rules_do);
 } else {
     $table_rows = sizeof($rules_dont);
+}
+
+if( isset($_SESSION['apply_id']) ) {
+    $apply_id = $_SESSION['apply_id'];
+    $task_submissions = query("SELECT * FROM task_submissions WHERE apply_id = $apply_id AND task_id = $task_id")[0];
+    $submission_id = $task_submissions['submission_id'];
+    $task_status = $task_submissions['submission_status'];
+    if( $task_status == 'submitted' ) {
+        $submission_old = query("SELECT submission FROM task_submissions WHERE submission_id = $submission_id")[0]['submission'];
+    }
+}
+
+if( isset($_POST['submit_prove']) ) {
+    $submission = upload($_FILES['submission'], $path);
+    $result = mysqli_query($conn, "UPDATE task_submissions SET submission = \"$submission\", submission_status = 'submitted' WHERE submission_id = $submission_id");
+
+    if( mysqli_affected_rows($conn) > 0 ) {
+        echo "
+                <script>
+                    alert('bukti berhasil disubmit');
+                    window.location = 'taskInfo.php';
+                </script>
+            ";
+    } else {
+        echo "
+                <script>
+                    alert('bukti gagal disubmit');
+                    window.location = 'taskInfo.php';
+                </script>
+            ";
+    }
+}
+
+if( isset($_POST['update_prove']) ) {
+    $submission = upload($_FILES['submission'], $path);
+    $result = mysqli_query($conn, "UPDATE task_submissions SET submission = \"$submission\" WHERE submission_id = $submission_id");
+
+    if( mysqli_affected_rows($conn) > 0 ) {
+        echo "
+                <script>
+                    alert('bukti berhasil diubah');
+                    window.location = 'taskInfo.php';
+                </script>
+            ";
+    } else {
+        echo "
+                <script>
+                    alert('bukti gagal diubah');
+                    window.location = 'taskInfo.php';
+                </script>
+            ";
+    }
 }
 
 ?>
@@ -141,7 +207,7 @@ if( sizeof($rules_do) >= sizeof($rules_dont) ) {
                 </div>
             </div>
             <hr>
-            <a href="erfTask.php">
+            <a href="<?= $back_url; ?>">
             <button style="margin: 40px;" class="btn btn-primary"><i class="fa fa-arrow-left">Back</i></button>
             </a>
             <center>
@@ -170,7 +236,30 @@ if( sizeof($rules_do) >= sizeof($rules_dont) ) {
             </h3>
                 </div>
             </center>
+                <?php if( isset($apply_id) && $task_status == 'not submitted' ): ?>
+                    <center>
+                        <form action="" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="submission_id" value="<?= $submission_id; ?>">
+                            <label for="submission">Upload image to prove the task was done!</label>
+                            <input type="file" name="submission" required><br>
+                            <button type="submit" name="submit_prove" class="btn btn-primary">Submit Prove</button>
+                        </form>
+                    </center>
+                <?php endif; ?>
+                <?php if( isset($apply_id) && $task_status == 'submitted' ): ?>
+                    <center>
+                        <h4>Submitted prove:</h4>
+                        <img src="<?= $path . $submission_old; ?>" alt="Submitted Prove" width="300px" height="300px">
+                        <form action="" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="submission_id" value="<?= $submission_id; ?>">
+                            <label for="submission">Update image to prove the task was done!</label>
+                            <input type="file" name="submission" required><br>
+                            <button type="submit" name="update_prove" class="btn btn-primary">Update Prove</button>
+                        </form>
+                    </center>
+                <?php endif; ?>
         </section>
+
 
         <div class="col-sm-12">
             <div class="underlined-title">

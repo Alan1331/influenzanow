@@ -4,8 +4,7 @@ session_start();
 require __DIR__.'/../../../../includes/connection.php';
 require __DIR__.'/../../../../includes/globalFunctions.php';
 require __DIR__.'/../../../../includes/brandlogin/functions.php';
-
-$brand_name = $_SESSION['brand_username'];
+require __DIR__.'/../../../../includes/erf/functions.php';
 
 // cek cookie
 if( isset($_COOKIE['ghlf']) && isset($_COOKIE['ksla']) && isset($_COOKIE['tp']) ) {
@@ -30,19 +29,37 @@ if( !isset($_SESSION['login']) || !isset($_SESSION['brand_username']) ) {
     header('Location: ../../login/brandlogin/login.php');
 }
 
-if( isset($_SESSION['erf_id']) ) {
-    unset($_SESSION['erf_id']);
+
+if( isset($_GET['inf_id']) ) {
+    $_SESSION['inf_id'] = $_GET['inf_id'];
 }
 
-$brand_name = $_SESSION['brand_username'];
-$brand_id = query("SELECT brand_id FROM brand WHERE brand_name = \"$brand_name\"")[0]['brand_id'];
-
-if( isset($_POST['search_erf']) ) {
-    $erf_name = test_input($_POST['erf_name']);
-    $erf_list = query("SELECT * FROM erf WHERE brand_id = $brand_id AND erf_status != 'drafted' AND erf_name = \"$erf_name\"");
-} else {
-    $erf_list = query("SELECT * FROM erf WHERE brand_id = $brand_id AND erf_status != 'drafted'");
+if( isset($_GET['back_url']) ) {
+    $_SESSION['back_url'] = $_GET['back_url'];
 }
+
+$back_url = $_SESSION['back_url'];
+
+$inf_id = $_SESSION['inf_id'];
+
+// data
+$inf_data = query("SELECT * FROM influencer WHERE inf_id = $inf_id")[0];
+$sns_data = query("SELECT * FROM sns WHERE inf_id = $inf_id");
+$interest_data = query("SELECT * FROM inf_interest WHERE inf_id = $inf_id");
+
+$path = '../../../images/influencer/data/';
+$gender = '';
+switch( $inf_data['inf_gender'] ) {
+    case 'M':
+        $gender = 'Male';
+        break;
+    case 'F':
+        $gender = 'Female';
+        break;
+    default:
+        $gender = 'Unknown';
+}
+    
 
 ?>
 
@@ -50,7 +67,7 @@ if( isset($_POST['search_erf']) ) {
 <html lang="en" style="height:100%;">
     <head> 
         <meta charset="utf-8"> 
-        <title>HOME</title>
+        <title>Influencer Profile</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         <meta name="keywords" content="pinegrow, blocks, bootstrap" />
         <meta name="description" content="SIGN UP INFLUENCER" />
@@ -65,16 +82,21 @@ if( isset($_POST['search_erf']) ) {
         <link href="../../../style/css/style-library-1.css" rel="stylesheet">
         <link href="../../../style/css/plugins.css" rel="stylesheet">
         <link href="../../../style/css/blocks.css" rel="stylesheet">
+        <link href="../../../style/css/custom.css" rel="stylesheet"> <!-- sahlan yang nambahin -->
+        <link href="../../../style/css/roundedimage.css" rel="stylesheet"> <!-- sahlan yang nambahin -->
         <link href="../../../style/css/table.css" rel="stylesheet">
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->         
         <!--[if lt IE 9]>
       <script src="../../../style/js/html5shiv.js"></script>
       <script src="../../../style/js/respond.min.js"></script>
-    <![endif]-->         
+    <![endif]-->
+        <script>
+        </script>
     </head>     
     <body data-spy="scroll" data-target="nav">
         <header id="header-1" class="soft-scroll header-1">
-        <nav class="main-nav navbar-fixed-top headroom headroom--pinned">
+            <!-- Navbar -->
+            <nav class="main-nav navbar-fixed-top headroom headroom--pinned">
                 <div class="container">
                     <!-- Brand and toggle -->
                     <div class="navbar-header">
@@ -120,101 +142,86 @@ if( isset($_POST['search_erf']) ) {
             </nav>
             <!--// End Navbar -->
         </header>
-        <div class="content-block contact-3">
+        <section id="content-1-2" class="content-block content-1-2">
             <div class="container">
+                <!-- Start Row -->
                 <div class="row">
-                    <div class="col-md-6">
-                        <div id="contact" class="form-container">
-                            <fieldset>
-                                <center>
-                                    <h4>FILTER<br></h4>
-                                    <h6>ENDORSE REQUIREMENT FORM<br></h6>
-                                </center>
-                                <div id="message"></div>
-                                <!--// ERF FILTER -->
-                                <form method="post" action="">
-                                    <label for="erf_name">ERF NAME</label>
-                                    <div class="form-group">
-                                        <input name="erf_name" id="erf_name" type="text" placeholder="Input ERF name" class="form-control" list="erf_list" />
-                                        <datalist id="erf_list">
-                                            <?php foreach($erf_list as $erf): ?>
-                                                <option value="<?= $erf['erf_name'] ?>"></option>
-                                            <?php endforeach; ?>
-                                        </datalist>
-                                    </div>
-                                    <div class="form-group">
-                                        <button class="btn btn-primary" type="submit" id="cf-submit" name="search_erf">SEARCH ERF</button>
-                                    </div>
-                                    <div class="form-group">
-                                        <a href="newERF.php"><button class="btn btn-primary" type="button">+ CREATE NEW ERF</button></a>
-                                    </div>
-                                </form>
-                            </fieldset>
-                        </div>
-                        <!-- /.form-container -->
+                    <div class="col-sm-6">
+                        <button class="btn btn-primary" onclick="window.location='<?= $back_url; ?>'">Back</button>
+                        <h1><?= $inf_data['inf_name']; ?></h1>
+                        <h4>Email: <?= $inf_data['inf_email']; ?></h4>
+                        <h4>Gender: <?= $gender; ?></h4>
+                        <h4>Date of Birth: <?= $inf_data['inf_birthdate']; ?></h4>
+                        <h4>Phone Number: <?= $inf_data['inf_phone_number']; ?></h4>
+                        <h4>Address:</h4>
+                        <p class="lead"><?= $inf_data['inf_address']; ?></p>
+                        <!-- <div class="row">
+                            <div class="col-sm-5 col-xs-12">
+                            </div>
+                        </div> -->
+
                     </div>
-                    <div class="col-md-6">
-                        <!--// LIST ERF -->
+                    <div class="col-sm-5 col-sm-offset-1">
                         <center>
-                            <h2>List ERF</h2>
-                        </center>
-                        <center>
-                            <table class="styled-table">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>ERF Name</th>
-                                        <th>
-                                            Registration<br>Deadline
-                                        </th>
-                                        <th>
-                                            Influencers<br>Required
-                                        </th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php if( isset($erf_list) ): ?>
-                                        <?php for($i = 0; $i < sizeof($erf_list); $i++ ): ?>
-                                            <tr class="bold-approved">
-                                                <td><?= $i+1; ?></td>
-                                                <td><?= $erf_list[$i]['erf_name']; ?></td>
-                                                <td><?= $erf_list[$i]['reg_deadline']; ?></td>
-                                                <td><?= $erf_list[$i]['inf_applied'] . "/" . $erf_list[$i]['inf_required']; ?></td>
-                                                <td>
-                                                    <a href="editERF.php?erf_id=<?= $erf_list[$i]['erf_id']; ?>">
-                                                        <button type="button" class="btn btn-primary">
-                                                            <i class="fa fa-pencil"></i>
-                                                        </button>
-                                                    </a>
-                                                    <a href="viewERF.php?erf_id=<?= $erf_list[$i]['erf_id']; ?>">
-                                                        <button type="button" class="btn btn-primary">
-                                                            <i class="fa fa-eye"></i>
-                                                        </button>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        <?php endfor; ?>
-                                    <?php else: ?>
-                                        <tr>
-                                            <?php for($i = 0; $i < 5; $i++): ?>
-                                                <th><?= "not found"; ?></th>
-                                            <?php endfor; ?>
-                                        </tr>
-                                    <?php endif; ?>
-                                </tbody>
-                            </table>
+                            <img class="big-img" src="<?= $path . $inf_data['inf_pict']; ?>">
+                            <h4><?= 'username: ' . $inf_data['inf_username']; ?></h4>
+                            <i>has joined influenzanow since <?= $inf_data['inf_reg_date']; ?></i>
                         </center>
                     </div>
                 </div>
-                <!-- /.row -->
+                <!--// END Row -->
+                <hr>
+                <!-- Start Row -->
+                <div class="row" style="height: 700px;">
+                    <!-- Start Task List -->
+                    <div class="col-sm-6" style="border-right: thick solid #E8AEAE;height:fit-content;">
+                        <?php if( sizeof($sns_data) > 0 ): ?>
+                            <center><h3>Social Network Services</h3></center>
+                            <table class="styled-table">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>SNS Username</th>
+                                        <th>Followers/Subscribers</th>
+                                        <th>Engagement Rate</th>
+                                        <th>Detail</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bold-approved">
+                                    <?php foreach( $sns_data as $sns ): ?>
+                                        <tr>
+                                            <td><?= $sns['sns_type']; ?></td>
+                                            <td><?= $sns['sns_username']; ?></td>
+                                            <td><?= $sns['sns_followers']; ?></td>
+                                            <td><?= $sns['sns_er']; ?>%</td>
+                                            <td>
+                                                <a href="<?= $sns['sns_link']; ?>" target="_blank"><button class="btn btn-primary" type="button"><i class="fa fa-eye"></i></button></a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        <?php endif; ?>
+                    </div>
+                    <div class="col-sm-6">
+                        <?php if( sizeof($interest_data) > 0 ): ?>
+                            <h3>Influencer's Interests</h3>
+                            <ul style="list-style-type:disc">
+                                <?php foreach( $interest_data as $interest ): ?>
+                                    <li><h5><?= $interest['interest']; ?></h5></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <!--// END Row -->
             </div>
-            <!-- /.container -->
-        </div>
+        </section>
+
         <script type="text/javascript" src="../../../style/js/jquery-1.11.1.min.js"></script>         
         <script type="text/javascript" src="../../../style/js/bootstrap.min.js"></script>         
         <script type="text/javascript" src="../../../style/js/plugins.js"></script>
         <script src="https://maps.google.com/maps/api/js?sensor=true"></script>
         <script type="text/javascript" src="../../../style/js/bskit-scripts.js"></script>         
-    </body>     
+    </body>
 </html>

@@ -4,8 +4,7 @@ session_start();
 require __DIR__.'/../../../../includes/connection.php';
 require __DIR__.'/../../../../includes/globalFunctions.php';
 require __DIR__.'/../../../../includes/brandlogin/functions.php';
-
-$brand_name = $_SESSION['brand_username'];
+require __DIR__.'/../../../../includes/erf/functions.php';
 
 // cek cookie
 if( isset($_COOKIE['ghlf']) && isset($_COOKIE['ksla']) && isset($_COOKIE['tp']) ) {
@@ -30,19 +29,21 @@ if( !isset($_SESSION['login']) || !isset($_SESSION['brand_username']) ) {
     header('Location: ../../login/brandlogin/login.php');
 }
 
-if( isset($_SESSION['erf_id']) ) {
-    unset($_SESSION['erf_id']);
+if( isset($_GET['apply_id']) ) {
+    $_SESSION['apply_id'] = $_GET['apply_id'];
 }
 
-$brand_name = $_SESSION['brand_username'];
-$brand_id = query("SELECT brand_id FROM brand WHERE brand_name = \"$brand_name\"")[0]['brand_id'];
-
-if( isset($_POST['search_erf']) ) {
-    $erf_name = test_input($_POST['erf_name']);
-    $erf_list = query("SELECT * FROM erf WHERE brand_id = $brand_id AND erf_status != 'drafted' AND erf_name = \"$erf_name\"");
-} else {
-    $erf_list = query("SELECT * FROM erf WHERE brand_id = $brand_id AND erf_status != 'drafted'");
+if( isset($_GET['erf_id']) ) {
+    $_SESSION['erf_id'] = $_GET['erf_id'];
 }
+
+$apply_id = $_SESSION['apply_id'];
+$erf_id = $_SESSION['erf_id'];
+
+// data
+$task_submissions = query("SELECT * FROM task_submissions WHERE apply_id = $apply_id");
+
+$path = '../../../images/brands/apply/'; 
 
 ?>
 
@@ -50,7 +51,7 @@ if( isset($_POST['search_erf']) ) {
 <html lang="en" style="height:100%;">
     <head> 
         <meta charset="utf-8"> 
-        <title>HOME</title>
+        <title>Influencer's Work</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         <meta name="keywords" content="pinegrow, blocks, bootstrap" />
         <meta name="description" content="SIGN UP INFLUENCER" />
@@ -65,16 +66,21 @@ if( isset($_POST['search_erf']) ) {
         <link href="../../../style/css/style-library-1.css" rel="stylesheet">
         <link href="../../../style/css/plugins.css" rel="stylesheet">
         <link href="../../../style/css/blocks.css" rel="stylesheet">
+        <link href="../../../style/css/custom.css" rel="stylesheet"> <!-- sahlan yang nambahin -->
+        <link href="../../../style/css/roundedimage.css" rel="stylesheet"> <!-- sahlan yang nambahin -->
         <link href="../../../style/css/table.css" rel="stylesheet">
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->         
         <!--[if lt IE 9]>
       <script src="../../../style/js/html5shiv.js"></script>
       <script src="../../../style/js/respond.min.js"></script>
-    <![endif]-->         
+    <![endif]-->
+        <script>
+        </script>
     </head>     
     <body data-spy="scroll" data-target="nav">
         <header id="header-1" class="soft-scroll header-1">
-        <nav class="main-nav navbar-fixed-top headroom headroom--pinned">
+            <!-- Navbar -->
+            <nav class="main-nav navbar-fixed-top headroom headroom--pinned">
                 <div class="container">
                     <!-- Brand and toggle -->
                     <div class="navbar-header">
@@ -120,101 +126,75 @@ if( isset($_POST['search_erf']) ) {
             </nav>
             <!--// End Navbar -->
         </header>
-        <div class="content-block contact-3">
+        <section id="content-1-2" class="content-block content-1-2">
             <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div id="contact" class="form-container">
-                            <fieldset>
-                                <center>
-                                    <h4>FILTER<br></h4>
-                                    <h6>ENDORSE REQUIREMENT FORM<br></h6>
-                                </center>
-                                <div id="message"></div>
-                                <!--// ERF FILTER -->
-                                <form method="post" action="">
-                                    <label for="erf_name">ERF NAME</label>
-                                    <div class="form-group">
-                                        <input name="erf_name" id="erf_name" type="text" placeholder="Input ERF name" class="form-control" list="erf_list" />
-                                        <datalist id="erf_list">
-                                            <?php foreach($erf_list as $erf): ?>
-                                                <option value="<?= $erf['erf_name'] ?>"></option>
-                                            <?php endforeach; ?>
-                                        </datalist>
-                                    </div>
-                                    <div class="form-group">
-                                        <button class="btn btn-primary" type="submit" id="cf-submit" name="search_erf">SEARCH ERF</button>
-                                    </div>
-                                    <div class="form-group">
-                                        <a href="newERF.php"><button class="btn btn-primary" type="button">+ CREATE NEW ERF</button></a>
-                                    </div>
-                                </form>
-                            </fieldset>
+                <button class="btn btn-primary" onclick="window.location='viewERF.php'">Back</button>
+                <?php foreach($task_submissions as $submission_data): ?>
+                    <?php $submission = $submission_data['submission']; ?>
+                    <?php $submission_id = $submission_data['submission_id']; ?>
+                    <?php $task_status = $submission_data['submission_status']; ?>
+                    <?php $task_id = $submission_data['task_id']; ?>
+                    <?php $task_data = query("SELECT * FROM task WHERE task_id = $task_id")[0]; ?>
+                    <hr>
+                    <!-- Start Row -->
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h1><?= $task_data['task_name']; ?></h1>
+                            <h4>Task Status: <?= $task_status; ?></h4>
+                            <h4>Deadline: <?= $task_data['task_deadline'] ?></h4>
+                            <h4>Brief/Note:</h4>
+                            <p class="lead"><?= $task_data['brief']; ?></p>
+                            <!-- <div class="row">
+                                <div class="col-sm-5 col-xs-12">
+                                </div>
+                            </div> -->
+
                         </div>
-                        <!-- /.form-container -->
+                        <?php if( $task_status == 'submitted' ): ?>
+                            <div class="col-sm-5 col-sm-offset-1">
+                                <center>
+                                    <img class="submission-prove" src="<?= $path . $submission ?>">
+                                    <h4>Submitted Proof</h4>
+                                    <button class="btn btn-primary" type="button" onclick="window.location = 'approveTask.php?submission_id=<?= $submission_id ?>'">Approve the Work</button>
+                                    <!-- <i>submitted since</i> -->
+                                </center>
+                            </div>
+                        <?php endif; ?>
                     </div>
-                    <div class="col-md-6">
-                        <!--// LIST ERF -->
-                        <center>
-                            <h2>List ERF</h2>
-                        </center>
-                        <center>
+                    <div class="row">
+                    <div class="col-sm-12">
+                            <center>
+                            <?php $rules_do = query("SELECT * FROM rules_list WHERE task_id = $task_id AND rules_type = 'do'"); ?>
+                            <?php $rules_dont = query("SELECT * FROM rules_list WHERE task_id = $task_id AND rules_type = 'dont'"); ?>
+                            <?php $rows = max(sizeof($rules_do), sizeof($rules_dont)); ?>
+                            <h2>Task Rules</h2>
                             <table class="styled-table">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>ERF Name</th>
-                                        <th>
-                                            Registration<br>Deadline
-                                        </th>
-                                        <th>
-                                            Influencers<br>Required
-                                        </th>
-                                        <th>Action</th>
+                                        <th>Do</th>
+                                        <th>Don't</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php if( isset($erf_list) ): ?>
-                                        <?php for($i = 0; $i < sizeof($erf_list); $i++ ): ?>
-                                            <tr class="bold-approved">
-                                                <td><?= $i+1; ?></td>
-                                                <td><?= $erf_list[$i]['erf_name']; ?></td>
-                                                <td><?= $erf_list[$i]['reg_deadline']; ?></td>
-                                                <td><?= $erf_list[$i]['inf_applied'] . "/" . $erf_list[$i]['inf_required']; ?></td>
-                                                <td>
-                                                    <a href="editERF.php?erf_id=<?= $erf_list[$i]['erf_id']; ?>">
-                                                        <button type="button" class="btn btn-primary">
-                                                            <i class="fa fa-pencil"></i>
-                                                        </button>
-                                                    </a>
-                                                    <a href="viewERF.php?erf_id=<?= $erf_list[$i]['erf_id']; ?>">
-                                                        <button type="button" class="btn btn-primary">
-                                                            <i class="fa fa-eye"></i>
-                                                        </button>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        <?php endfor; ?>
-                                    <?php else: ?>
+                                    <?php for($i = 0; $i < $rows; $i++): ?>
                                         <tr>
-                                            <?php for($i = 0; $i < 5; $i++): ?>
-                                                <th><?= "not found"; ?></th>
-                                            <?php endfor; ?>
+                                            <td><?= $rules_do[$i]['rules']; ?></td>
+                                            <td><?= $rules_dont[$i]['rules']; ?></td>
                                         </tr>
-                                    <?php endif; ?>
+                                    <?php endfor; ?>
                                 </tbody>
                             </table>
-                        </center>
+                            </center>
+                        </div>
                     </div>
+                    <!--// END Row -->
+                    <?php endforeach; ?>
                 </div>
-                <!-- /.row -->
-            </div>
-            <!-- /.container -->
-        </div>
+            </section>
         <script type="text/javascript" src="../../../style/js/jquery-1.11.1.min.js"></script>         
         <script type="text/javascript" src="../../../style/js/bootstrap.min.js"></script>         
         <script type="text/javascript" src="../../../style/js/plugins.js"></script>
         <script src="https://maps.google.com/maps/api/js?sensor=true"></script>
         <script type="text/javascript" src="../../../style/js/bskit-scripts.js"></script>         
-    </body>     
+    </body>
 </html>
