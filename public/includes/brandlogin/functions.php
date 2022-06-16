@@ -36,7 +36,8 @@ function signup($data) {
     $brand_password = password_hash($brand_password, PASSWORD_DEFAULT);
 
     // tambahkan user baru ke database
-    $signup_sql = "INSERT INTO brand VALUES(\"\", \"$brand_name\", \"$brand_email\", \"$brand_password\", \"$brand_sector\", \"$brand_phone_number\", \"$brand_description\", NULL)";
+    // \"$brand_name\", \"$brand_email\", \"$brand_password\", \"$brand_sector\", \"$brand_phone_number\", \"$brand_description\"
+    $signup_sql = "INSERT INTO brand(brand_name, brand_email, brand_password, brand_sector, brand_phone_number, brand_description) VALUES(\"$brand_name\", \"$brand_email\", \"$brand_password\", \"$brand_sector\", \"$brand_phone_number\", \"$brand_description\")";
     mysqli_query($conn, $signup_sql);
 
     return mysqli_affected_rows($conn);

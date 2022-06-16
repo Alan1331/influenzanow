@@ -39,7 +39,8 @@ function signup($data) {
     $password = password_hash($password, PASSWORD_DEFAULT);
 
     // tambahkan user baru ke database
-    $signup_sql = "INSERT INTO influencer VALUES('', \"$username\", \"$name\", \"$email\", \"$password\", \"$gender\", \"$birthdate\", \"$address\", \"$phone_number\", NOW(), \"$pict\")";
+    // \"$username\", \"$name\", \"$email\", \"$password\", \"$gender\", \"$birthdate\", \"$address\", \"$phone_number\", NOW(), \"$pict\"
+    $signup_sql = "INSERT INTO influencer(inf_username, inf_name, inf_email, inf_password, inf_gender, inf_birthdate, inf_address, inf_phone_number, inf_reg_date, inf_pict) VALUES(\"$username\", \"$name\", \"$email\", \"$password\", \"$gender\", \"$birthdate\", \"$address\", \"$phone_number\", NOW(), \"$pict\")";
     mysqli_query($conn, $signup_sql);
 
     return mysqli_affected_rows($conn);
