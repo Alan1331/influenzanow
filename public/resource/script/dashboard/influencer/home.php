@@ -3,6 +3,7 @@ session_start();
 
 require __DIR__.'/../../../../includes/connection.php';
 require __DIR__.'/../../../../includes/globalFunctions.php';
+require __DIR__.'/../../../../includes/erf/functions.php';
 
 // cek cookie
 if( isset($_COOKIE['ghlf']) && isset($_COOKIE['ksla']) && isset($_COOKIE['tp']) ) {
@@ -36,8 +37,37 @@ if( $_SESSION['login'] && isset($_SESSION['inf_id']) ) {
 }
 
 $inf_id = $_SESSION['inf_id'];
-$influecer = query("SELECT * FROM influencer WHERE inf_id=\"$inf_id\"");
+
+if( isset($_SESSION['back_url']) ) {
+    unset($_SESSION['back_url']);
+}
+
+if( isset($_SESSION['apply_id']) ) {
+    unset($_SESSION['apply_id']);
+}
+
+if( isset($_SESSION['task_id']) ) {
+    unset($_SESSION['task_id']);
+}
+
+// data
+$influecer = query("SELECT * FROM influencer WHERE inf_id = $inf_id");
 $erf_list = query("SELECT * FROM erf WHERE erf_status = 'posted'");
+$apply_list = query("SELECT * FROM apply_erf WHERE inf_id = $inf_id AND apply_status = 'Accepted/Joined'");
+$erf_done = query("SELECT * FROM apply_erf, erf WHERE apply_erf.apply_status = 'Done' AND apply_erf.erf_id = erf.erf_id");
+
+function get_sub_status($sub_status) {
+    switch($sub_status) {
+        case 'not submitted':
+            return 'bold-approval';
+        case 'submitted':
+            return 'bold-approved';
+        case 'approved':
+            return 'bold-approved';
+        default:
+            return '';
+    }
+}
 
 ?>
 
@@ -157,182 +187,73 @@ $erf_list = query("SELECT * FROM erf WHERE erf_status = 'posted'");
                             </div>
                         <?php endforeach; ?>
                         <!-- /.ERF END -->
+                        <!-- /.gallery-item-wrapper START PROCESS -->
+                        <?php if( sizeof($apply_list) > 0 ): ?>
+                            <?php foreach( $apply_list as $apply ): ?>
+                                <?php $erf_id = $apply['erf_id']; ?>
+                                <?php $erf_name = query("SELECT erf_name FROM erf WHERE erf_id = $erf_id")[0]['erf_name']; ?>
+                                <?php $apply_id = $apply['apply_id']; ?>
+                                <?php $all_aproved = check_approved($apply_id, $erf_id); ?>
+                                <?php $sub_list = query("SELECT * FROM task_submissions WHERE apply_id = $apply_id"); ?>
+                                <div class="col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
+                                    <div class="gallery-item">
+                                        <div class="gallery-thumb">
+                                            <table class="styled-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Task ID</th>
+                                                        <th>Task Name</th>
+                                                        <th>Deadline</th>
+                                                        <th>ERF Status</th>
+                                                        <th>Task Detail</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach($sub_list as $sub): ?>
+                                                        <?php $task_status = $sub['submission_status']; ?>
+                                                        <?php $task_id = $sub['task_id']; ?>
+                                                        <?php $task = query("SELECT * FROM task WHERE task_id = $task_id")[0]; ?>
+                                                        <tr class="<?= get_sub_status($task_status); ?>">
+                                                            <td><?= $task_id; ?></td>
+                                                            <td><?= $task['task_name']; ?></td>
+                                                            <td><?= $task['task_deadline']; ?></td>
+                                                            <td><?= $task_status; ?></td>
+                                                            <td><button class="button button2" type="button" onclick="window.location = 'taskInfo.php?task_id=<?= $task_id; ?>&back_url=home.php&apply_id=<?= $apply_id; ?>&erf_id=<?= $erf_id ?>'">View Task</button></td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="gallery-details">
+                                                <?php if($all_aproved): ?>
+                                                    <center>
+                                                    <button class="btn btn-primary" type="button" onclick="window.location = 'doneERF.php?apply_id=<?= $apply_id; ?>'">Done</button><br>
+                                                    <i>All task was approved you could <b>done</b> this ERF to claim your rewards</i>
+                                                    </center>
+                                                <?php endif; ?>
+                                                <h4><?= $erf_name; ?></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                        <!-- /.gallery-item-wrapper END PROCESS -->
                         <!-- /.gallery-item-wrapper -->
-                        <div class="col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
-                            <div class="gallery-item">
-                                <div class="gallery-thumb">
-                                <table class="styled-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Task ID</th>
-                                            <th>Task Name</th>
-                                            <th>Task Deadline</th>
-                                            <th>Task Status</th>
-                                            <th>Task Details</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="bold-approved">
-                                            <td>1</td>
-                                            <td>Make a Purchase</td>
-                                            <td>(02-15-2022) - (02-25-2022)</td>
-                                            <td>Approved</td>
-                                            <td><button class="button button2"><a href="taskStep.php">View Task</a></button></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="gallery-details">
-                                    <h5>1st Process</h5>
+                        <?php foreach($erf_done as $erf): ?>
+                            <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper HISTORY">
+                                <div class="gallery-item">
+                                    <div class="gallery-thumb">
+                                        <img src="../../../images/brands/erf/<?= $erf['erf_pict']; ?>" class="img-responsive" alt="Product Picture">
+                                        <div class="image-overlay"></div>
+                                        <a href="saveERF.php" class="gallery-zoom"><i class="fa fa-shopping-cart" alt="Save ERF"></i></a>
+                                        <a href="erfDetail.php?erf_id=<?= $erf['erf_id']; ?>" class="gallery-link"><i class="fa fa-arrow-right" alt="Learn more"></i></a>
+                                    </div>
+                                    <div class="gallery-details">
+                                        <h4><?= $erf['erf_name']; ?></h4>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- /.gallery-item-wrapper -->
-                        <div class="col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
-                            <div class="gallery-item">
-                                <div class="gallery-thumb">
-                                <table class="styled-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Task ID</th>
-                                                <th>Task Name</th>
-                                                <th>Task Deadline</th>
-                                                <th>Task Status</th>
-                                                <th>Task Details</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="bold-approval">
-                                                <td>1</td>
-                                                <td>Make a Purchase</td>
-                                                <td>(02-15-2022) - (02-25-2022)</td>
-                                                <td>Waiting for Approval</td>
-                                                <td><button class="button button2"><a href="taskStep.php">View Task</a></button></td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                </div>
-                                <div class="gallery-details">
-                                    <h5>2nd Process</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.gallery-item-wrapper -->
-                        <div class="col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
-                            <div class="gallery-item">
-                                <div class="gallery-thumb">
-                                <table class="styled-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Task ID</th>
-                                                <th>Task Name</th>
-                                                <th>Task Deadline</th>
-                                                <th>Task Status</th>
-                                                <th>Task Details</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="bold-approval">
-                                                <td>1</td>
-                                                <td>Make a Purchase</td>
-                                                <td>(02-15-2022) - (02-25-2022)</td>
-                                                <td>Waiting for Approval</td>
-                                                <td><button class="button button2"><a href="taskStep.php">View Task</a></button></td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                </div>
-                                <div class="gallery-details">
-                                    <h5>3rd Process</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.gallery-item-wrapper -->
-                        <div class="col-sm-6 col-xs-12 gallery-item-wrapper PROCESS">
-                            <div class="gallery-item">
-                                <div class="gallery-thumb">
-                                <table class="styled-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Task ID</th>
-                                                <th>Task Name</th>
-                                                <th>Task Deadline</th>
-                                                <th>Task Status</th>
-                                                <th>Task Details</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="bold-approval">
-                                                <td>1</td>
-                                                <td>Make a Purchase</td>
-                                                <td>(02-15-2022) - (02-25-2022)</td>
-                                                <td>Waiting for Approval</td>
-                                                <td><button class="button button2"><a href="taskStep.php">View Task</a></button></td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                </div>
-                                <div class="gallery-details">
-                                    <h5>4th Process</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.gallery-item-wrapper -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper HISTORY">
-                            <div class="gallery-item">
-                                <div class="gallery-thumb">
-                                    <img src="../../../images/brands/brand1.png" class="img-responsive" alt="1st gallery Thumb">
-                                    <div class="image-overlay"></div>
-                                    
-                                    <a href="#" class="gallery-link"><i class="fa fa-arrow-right"></i></a>
-                                </div>
-                                <div class="gallery-details">
-                                    <h5>History 1</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.gallery-item-wrapper -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper HISTORY">
-                            <div class="gallery-item">
-                                <div class="gallery-thumb">
-                                    <img src="../../../images/brands/brand1.png" class="img-responsive" alt="1st gallery Thumb">
-                                    <div class="image-overlay"></div>
-                                    
-                                    <a href="#" class="gallery-link"><i class="fa fa-arrow-right"></i></a>
-                                </div>
-                                <div class="gallery-details">
-                                    <h5>History 2</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.gallery-item-wrapper -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper HISTORY">
-                            <div class="gallery-item">
-                                <div class="gallery-thumb">
-                                    <img src="../../../images/brands/brand1.png" class="img-responsive" alt="1st gallery Thumb">
-                                    <div class="image-overlay"></div>
-                                    
-                                    <a href="#" class="gallery-link"><i class="fa fa-arrow-right"></i></a>
-                                </div>
-                                <div class="gallery-details">
-                                    <h5>History 3</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.gallery-item-wrapper -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper HISTORY">
-                            <div class="gallery-item">
-                                <div class="gallery-thumb">
-                                    <img src="../../../images/brands/brand1.png" class="img-responsive" alt="1st gallery Thumb">
-                                    <div class="image-overlay"></div>
-                                
-                                    <a href="#" class="gallery-link"><i class="fa fa-arrow-right"></i></a>
-                                </div>
-                                <div class="gallery-details">
-                                    <h5>History 4</h5>
-                                </div>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
                         <!-- /.gallery-item-wrapper -->
                         <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper PAYMENT">
                             <div class="gallery-item">

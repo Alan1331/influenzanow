@@ -201,4 +201,18 @@ function check_draft_task($erf_id) {
     return mysqli_num_rows($result);
 }
 
+function check_approved($apply_id, $erf_id) {
+    $submission_list = query("SELECT * FROM task_submissions WHERE apply_id = $apply_id AND erf_id = $erf_id");
+    $approved = true;
+
+    foreach($submission_list as $submission) {
+        if( $submission['submission_status'] != 'approved' ) {
+            return false;
+        }
+    }
+
+    return $approved;
+}
+
+
 ?>

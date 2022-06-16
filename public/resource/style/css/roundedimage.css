@@ -40,3 +40,13 @@
     margin: 0 auto;
     border: 5px solid #E8AEAE;
 }
+
+.submission-prove{
+    background-color: #E8AEAE;
+    background-size: cover;
+    border-radius: 50px;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+    border: 5px solid #E8AEAE;
+}

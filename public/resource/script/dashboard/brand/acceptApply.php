@@ -30,8 +30,15 @@ if( !isset($_SESSION['login']) || !isset($_SESSION['brand_username']) ) {
 }
 
 $apply_id = $_GET['apply_id'];
+$erf_id = query("SELECT erf_id FROM apply_erf WHERE apply_id = $apply_id")[0]['erf_id'];
+$task_list = query("SELECT task_id FROM task WHERE erf_id = $erf_id");
 
-$result = mysqli_query($conn, "UPDATE apply_erf SET apply_status = 'Accepted/Joined' WHERE apply_id = $apply_id");
+$result1 = mysqli_query($conn, "UPDATE apply_erf SET apply_status = 'Accepted/Joined' WHERE apply_id = $apply_id");
+// input tugas ke task_submission dengan apply_id tertera
+foreach( $task_list as $task ) {
+    $task_id = $task['task_id'];
+    mysqli_query($conn, "INSERT INTO task_submissions(task_id, apply_id, submission_status, erf_id) VALUES($task_id, $apply_id, 'not submitted', $erf_id)");
+}
 
 if( mysqli_affected_rows($conn) > 0 ) {
     echo "

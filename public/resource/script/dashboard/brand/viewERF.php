@@ -270,7 +270,8 @@ $product_price = 'Rp ' . $product_price;
                                     <center>
                                         <div class="inf-show">
                                             <a href="view_inf_profile.php?inf_id=<?= $joined['inf_id']; ?>&back_url=viewERF.php"><img class="img" src="<?= $path_inf . $joined['inf_pict']; ?>" alt="profile picture"></a>                                      
-                                            <b><?= $joined['inf_username']; ?></b>
+                                            <b><?= $joined['inf_username']; ?></b><br>
+                                            <a href="infWork.php?apply_id=<?= $joined['apply_id'] ?>&erf_id=<?= $joined['erf_id'] ?>">See their work</a>
                                         </div>
                                     </center>
                                 <?php endforeach; ?>

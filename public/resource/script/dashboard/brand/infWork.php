@@ -29,37 +29,21 @@ if( !isset($_SESSION['login']) || !isset($_SESSION['brand_username']) ) {
     header('Location: ../../login/brandlogin/login.php');
 }
 
-
-if( isset($_GET['inf_id']) ) {
-    $_SESSION['inf_id'] = $_GET['inf_id'];
+if( isset($_GET['apply_id']) ) {
+    $_SESSION['apply_id'] = $_GET['apply_id'];
 }
 
-if( isset($_GET['back_url']) ) {
-    $_SESSION['back_url'] = $_GET['back_url'];
+if( isset($_GET['erf_id']) ) {
+    $_SESSION['erf_id'] = $_GET['erf_id'];
 }
 
-$back_url = $_SESSION['back_url'];
-
-$inf_id = $_SESSION['inf_id'];
+$apply_id = $_SESSION['apply_id'];
+$erf_id = $_SESSION['erf_id'];
 
 // data
-$inf_data = query("SELECT * FROM influencer WHERE inf_id = $inf_id")[0];
-$sns_data = query("SELECT * FROM sns WHERE inf_id = $inf_id");
-$interest_data = query("SELECT * FROM inf_interest WHERE inf_id = $inf_id");
+$task_submissions = query("SELECT * FROM task_submissions WHERE apply_id = $apply_id");
 
-$path = '../../../images/influencer/data/';
-$gender = '';
-switch( $inf_data['inf_gender'] ) {
-    case 'M':
-        $gender = 'Male';
-        break;
-    case 'F':
-        $gender = 'Female';
-        break;
-    default:
-        $gender = 'Unknown';
-}
-    
+$path = '../../../images/brands/apply/'; 
 
 ?>
 
@@ -67,7 +51,7 @@ switch( $inf_data['inf_gender'] ) {
 <html lang="en" style="height:100%;">
     <head> 
         <meta charset="utf-8"> 
-        <title>Influencer Profile</title>
+        <title>Influencer's Work</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         <meta name="keywords" content="pinegrow, blocks, bootstrap" />
         <meta name="description" content="SIGN UP INFLUENCER" />
@@ -144,80 +128,69 @@ switch( $inf_data['inf_gender'] ) {
         </header>
         <section id="content-1-2" class="content-block content-1-2">
             <div class="container">
-                <!-- Start Row -->
-                <div class="row">
-                    <div class="col-sm-6">
-                        <button class="btn btn-primary" onclick="window.location='<?= $back_url; ?>'">Back</button>
-                        <h1><?= $inf_data['inf_name']; ?></h1>
-                        <h4>Email: <?= $inf_data['inf_email']; ?></h4>
-                        <h4>Gender: <?= $gender; ?></h4>
-                        <h4>Date of Birth: <?= $inf_data['inf_birthdate']; ?></h4>
-                        <h4>Phone Number: <?= $inf_data['inf_phone_number']; ?></h4>
-                        <h4>Address:</h4>
-                        <p class="lead"><?= $inf_data['inf_address']; ?></p>
-                        <!-- <div class="row">
-                            <div class="col-sm-5 col-xs-12">
-                            </div>
-                        </div> -->
+                <button class="btn btn-primary" onclick="window.location='viewERF.php'">Back</button>
+                <?php foreach($task_submissions as $submission_data): ?>
+                    <?php $submission = $submission_data['submission']; ?>
+                    <?php $submission_id = $submission_data['submission_id']; ?>
+                    <?php $task_status = $submission_data['submission_status']; ?>
+                    <?php $task_id = $submission_data['task_id']; ?>
+                    <?php $task_data = query("SELECT * FROM task WHERE task_id = $task_id")[0]; ?>
+                    <hr>
+                    <!-- Start Row -->
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h1><?= $task_data['task_name']; ?></h1>
+                            <h4>Task Status: <?= $task_status; ?></h4>
+                            <h4>Deadline: <?= $task_data['task_deadline'] ?></h4>
+                            <h4>Brief/Note:</h4>
+                            <p class="lead"><?= $task_data['brief']; ?></p>
+                            <!-- <div class="row">
+                                <div class="col-sm-5 col-xs-12">
+                                </div>
+                            </div> -->
 
+                        </div>
+                        <?php if( $task_status == 'submitted' ): ?>
+                            <div class="col-sm-5 col-sm-offset-1">
+                                <center>
+                                    <img class="submission-prove" src="<?= $path . $submission ?>">
+                                    <h4>Submitted Proof</h4>
+                                    <button class="btn btn-primary" type="button" onclick="window.location = 'approveTask.php?submission_id=<?= $submission_id ?>'">Approve the Work</button>
+                                    <!-- <i>submitted since</i> -->
+                                </center>
+                            </div>
+                        <?php endif; ?>
                     </div>
-                    <div class="col-sm-5 col-sm-offset-1">
-                        <center>
-                            <img class="big-img" src="<?= $path . $inf_data['inf_pict']; ?>">
-                            <h4><?= 'username: ' . $inf_data['inf_username']; ?></h4>
-                            <i>has joined influenzanow since <?= $inf_data['inf_reg_date']; ?></i>
-                        </center>
-                    </div>
-                </div>
-                <!--// END Row -->
-                <hr>
-                <!-- Start Row -->
-                <div class="row" style="height: 700px;">
-                    <!-- Start Task List -->
-                    <div class="col-sm-6" style="border-right: thick solid #E8AEAE;height:fit-content;">
-                        <?php if( sizeof($sns_data) > 0 ): ?>
-                            <center><h3>Social Network Services</h3></center>
+                    <div class="row">
+                    <div class="col-sm-12">
+                            <center>
+                            <?php $rules_do = query("SELECT * FROM rules_list WHERE task_id = $task_id AND rules_type = 'do'"); ?>
+                            <?php $rules_dont = query("SELECT * FROM rules_list WHERE task_id = $task_id AND rules_type = 'dont'"); ?>
+                            <?php $rows = max(sizeof($rules_do), sizeof($rules_dont)); ?>
+                            <h2>Task Rules</h2>
                             <table class="styled-table">
                                 <thead>
                                     <tr>
-                                        <th>Type</th>
-                                        <th>SNS Username</th>
-                                        <th>Followers/Subscribers</th>
-                                        <th>Engagement Rate</th>
-                                        <th>Detail</th>
+                                        <th>Do</th>
+                                        <th>Don't</th>
                                     </tr>
                                 </thead>
-                                <tbody class="bold-approved">
-                                    <?php foreach( $sns_data as $sns ): ?>
+                                <tbody>
+                                    <?php for($i = 0; $i < $rows; $i++): ?>
                                         <tr>
-                                            <td><?= $sns['sns_type']; ?></td>
-                                            <td><?= $sns['sns_username']; ?></td>
-                                            <td><?= $sns['sns_followers']; ?></td>
-                                            <td><?= $sns['sns_er']; ?>%</td>
-                                            <td>
-                                                <a href="<?= $sns['sns_link']; ?>" target="_blank"><button class="btn btn-primary" type="button"><i class="fa fa-eye"></i></button></a>
-                                            </td>
+                                            <td><?= $rules_do[$i]['rules']; ?></td>
+                                            <td><?= $rules_dont[$i]['rules']; ?></td>
                                         </tr>
-                                    <?php endforeach; ?>
+                                    <?php endfor; ?>
                                 </tbody>
                             </table>
-                        <?php endif; ?>
+                            </center>
+                        </div>
                     </div>
-                    <div class="col-sm-6">
-                        <?php if( sizeof($interest_data) > 0 ): ?>
-                            <h3>Influencer's Interests</h3>
-                            <ul style="list-style-type:disc">
-                                <?php foreach( $interest_data as $interest ): ?>
-                                    <li><h5><?= $interest['interest']; ?></h5></li>
-                                <?php endforeach; ?>
-                            </ul>
-                        <?php endif; ?>
-                    </div>
+                    <!--// END Row -->
+                    <?php endforeach; ?>
                 </div>
-                <!--// END Row -->
-            </div>
-        </section>
-
+            </section>
         <script type="text/javascript" src="../../../style/js/jquery-1.11.1.min.js"></script>         
         <script type="text/javascript" src="../../../style/js/bootstrap.min.js"></script>         
         <script type="text/javascript" src="../../../style/js/plugins.js"></script>
