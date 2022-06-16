@@ -12,7 +12,7 @@ $jumlah_cari = mysqli_num_rows($cari);
 // cek apakah erf sudah diajukan atau belum
 if( $jumlah_cari < 1 ) {
 
-    $result = mysqli_query($conn, "INSERT INTO apply_erf VALUES('', 'Waiting for Approval', $erf_id, $inf_id)");
+    $result = mysqli_query($conn, "INSERT INTO apply_erf(apply_status, erf_id, inf_id) VALUES('Waiting for Approval', $erf_id, $inf_id)");
 
     if( mysqli_affected_rows($conn) > 0 ) {
         echo "
