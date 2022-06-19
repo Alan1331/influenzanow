@@ -32,8 +32,13 @@ if( !isset($_SESSION['login']) || !isset($_SESSION['brand_username']) ) {
 $apply_id = $_GET['apply_id'];
 $erf_id = query("SELECT erf_id FROM apply_erf WHERE apply_id = $apply_id")[0]['erf_id'];
 $task_list = query("SELECT task_id FROM task WHERE erf_id = $erf_id");
+$inf_id = query("SELECT inf_id FROM apply_erf WHERE apply_id = $apply_id")[0]['inf_id'];
+$erf_name = query("SELECT erf_name FROM erf WHERE erf_id = $erf_id")[0]['erf_name'];
 
 $result1 = mysqli_query($conn, "UPDATE apply_erf SET apply_status = 'Accepted/Joined' WHERE apply_id = $apply_id");
+$notif_desc = "You have accepted to join campaign named " . $erf_name;
+$notif_link = "erfDetail.php?erf_id=" . $erf_id;
+$result2 = mysqli_query($conn, "INSERT INTO inf_notifications(inf_notif_desc, inf_notif_link, inf_id) VALUES(\"$notif_desc\", \"$notif_link\", $inf_id)");
 // input tugas ke task_submission dengan apply_id tertera
 foreach( $task_list as $task ) {
     $task_id = $task['task_id'];
