@@ -3,7 +3,6 @@ session_start();
 
 require __DIR__.'/../../../../includes/connection.php';
 require __DIR__.'/../../../../includes/globalFunctions.php';
-require __DIR__.'/../../../../includes/brandlogin/functions.php';
 require __DIR__.'/../../../../includes/erf/functions.php';
 
 // cek cookie
@@ -29,37 +28,10 @@ if( !isset($_SESSION['login']) || !isset($_SESSION['brand_username']) ) {
     header('Location: ../../login/brandlogin/login.php');
 }
 
+$brand_name = $_SESSION['brand_username'];
+$brand_id = query("SELECT brand_id FROM brand WHERE brand_name = \"$brand_name\"")[0]['brand_id'];
 
-if( isset($_GET['inf_id']) ) {
-    $_SESSION['inf_id'] = $_GET['inf_id'];
-}
-
-if( isset($_GET['back_url']) ) {
-    $_SESSION['back_url'] = $_GET['back_url'];
-}
-
-$back_url = $_SESSION['back_url'];
-
-$inf_id = $_SESSION['inf_id'];
-
-// data
-$inf_data = query("SELECT * FROM influencer WHERE inf_id = $inf_id")[0];
-$sns_data = query("SELECT * FROM sns WHERE inf_id = $inf_id");
-$interest_data = query("SELECT * FROM inf_interest WHERE inf_id = $inf_id");
-
-$path = '../../../images/influencer/data/';
-$gender = '';
-switch( $inf_data['inf_gender'] ) {
-    case 'M':
-        $gender = 'Male';
-        break;
-    case 'F':
-        $gender = 'Female';
-        break;
-    default:
-        $gender = 'Unknown';
-}
-    
+$notif_list = query("SELECT * FROM brand_notifications WHERE brand_id = $brand_id AND hide = 0");
 
 ?>
 
@@ -67,7 +39,7 @@ switch( $inf_data['inf_gender'] ) {
 <html lang="en" style="height:100%;">
     <head> 
         <meta charset="utf-8"> 
-        <title>Influencer Profile</title>
+        <title>brandluencer Menu</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         <meta name="keywords" content="pinegrow, blocks, bootstrap" />
         <meta name="description" content="SIGN UP INFLUENCER" />
@@ -82,19 +54,15 @@ switch( $inf_data['inf_gender'] ) {
         <link href="../../../style/css/style-library-1.css" rel="stylesheet">
         <link href="../../../style/css/plugins.css" rel="stylesheet">
         <link href="../../../style/css/blocks.css" rel="stylesheet">
-        <link href="../../../style/css/custom.css" rel="stylesheet"> <!-- sahlan yang nambahin -->
-        <link href="../../../style/css/roundedimage.css" rel="stylesheet"> <!-- sahlan yang nambahin -->
         <link href="../../../style/css/table.css" rel="stylesheet">
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->         
         <!--[if lt IE 9]>
       <script src="../../../style/js/html5shiv.js"></script>
       <script src="../../../style/js/respond.min.js"></script>
-    <![endif]-->
-        <script>
-        </script>
+    <![endif]-->         
     </head>     
     <body data-spy="scroll" data-target="nav">
-        <header id="header-1" class="soft-scroll header-1">
+    <header id="header-1" class="soft-scroll header-1">
             <!-- Navbar -->
             <nav class="main-nav navbar-fixed-top headroom headroom--pinned">
                 <div class="container">
@@ -106,7 +74,9 @@ switch( $inf_data['inf_gender'] ) {
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a href="#"><img src="../../../images/logo-white.png" class="brand-img img-responsive"></a>
+                        <a href="#">
+                            <img src="../../../images/logo-white.png" class="brand-img img-responsive">
+                        </a>
                     </div>
                     <!-- Navigation -->
                     <div class="collapse navbar-collapse">
@@ -142,86 +112,49 @@ switch( $inf_data['inf_gender'] ) {
             </nav>
             <!--// End Navbar -->
         </header>
-        <section id="content-1-2" class="content-block content-1-2">
+        <section class="content-block gallery-1 gallery-1-1">
             <div class="container">
-                <!-- Start Row -->
-                <div class="row">
-                    <div class="col-sm-6">
-                        <button class="btn btn-primary" onclick="window.location='<?= $back_url; ?>'">Back</button>
-                        <h1><?= $inf_data['inf_name']; ?></h1>
-                        <h4>Email: <?= $inf_data['inf_email']; ?></h4>
-                        <h4>Gender: <?= $gender; ?></h4>
-                        <h4>Date of Birth: <?= $inf_data['inf_birthdate']; ?></h4>
-                        <h4>Phone Number: <?= $inf_data['inf_phone_number']; ?></h4>
-                        <h4>Address:</h4>
-                        <p class="lead"><?= $inf_data['inf_address']; ?></p>
-                        <!-- <div class="row">
-                            <div class="col-sm-5 col-xs-12">
-                            </div>
-                        </div> -->
-
-                    </div>
-                    <div class="col-sm-5 col-sm-offset-1">
-                        <center>
-                            <img class="big-img" src="<?= $path . $inf_data['inf_pict']; ?>">
-                            <h4><?= 'username: ' . $inf_data['inf_username']; ?></h4>
-                            <i>has joined influenzanow since <?= $inf_data['inf_reg_date']; ?></i>
-                        </center>
-                    </div>
-                </div>
-                <!--// END Row -->
-                <hr>
-                <!-- Start Row -->
-                <div class="row" style="height: 700px;">
-                    <!-- Start Task List -->
-                    <div class="col-sm-6" style="border-right: thick solid #E8AEAE;height:fit-content;">
-                        <?php if( sizeof($sns_data) > 0 ): ?>
-                            <center><h3>Social Network Services</h3></center>
-                            <table class="styled-table">
-                                <thead>
+                <div class="underlined-title">
+                    <h1>Notifications</h1>
+                    <hr>
+                    <center>
+                    <?php if( empty($notif_list[0]['brand_notif_id']) ): ?>
+                        <h2>No Notifications Available</h2>
+                    <?php endif; ?>
+                    <?php if( !empty($notif_list[0]['brand_notif_id']) ): ?>
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Notifications</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php for($i = 0; $i < sizeof($notif_list); $i++): ?>
                                     <tr>
-                                        <th>Type</th>
-                                        <th>SNS Username</th>
-                                        <th>Followers/Subscribers</th>
-                                        <th>Engagement Rate</th>
-                                        <th>Detail</th>
+                                        <td><?= $i+1; ?></td>
+                                        <td>
+                                            <button class="btn btn-primary" onclick="window.location = '<?= $notif_list[$i]['brand_notif_link']; ?>'">
+                                                <?= $notif_list[$i]['brand_notif_desc']; ?>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-primary" onclick="window.location = 'hideNotif.php?notif_id=<?= $notif_list[$i]['brand_notif_id'] ?>'">X</button>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody class="bold-approved">
-                                    <?php foreach( $sns_data as $sns ): ?>
-                                        <tr>
-                                            <td><?= $sns['sns_type']; ?></td>
-                                            <td><?= $sns['sns_username']; ?></td>
-                                            <td><?= $sns['sns_followers']; ?></td>
-                                            <td><?= $sns['sns_er']; ?>%</td>
-                                            <td>
-                                                <a href="<?= $sns['sns_link']; ?>" target="_blank"><button class="btn btn-primary" type="button"><i class="fa fa-eye"></i></button></a>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        <?php endif; ?>
-                    </div>
-                    <div class="col-sm-6">
-                        <?php if( sizeof($interest_data) > 0 ): ?>
-                            <h3>Influencer's Interests</h3>
-                            <ul style="list-style-type:disc">
-                                <?php foreach( $interest_data as $interest ): ?>
-                                    <li><h5><?= $interest['interest']; ?></h5></li>
-                                <?php endforeach; ?>
-                            </ul>
-                        <?php endif; ?>
-                    </div>
+                                <?php endfor; ?>
+                            </tbody>
+                        </table>
+                    <?php endif; ?>
+                    </center>
                 </div>
-                <!--// END Row -->
             </div>
         </section>
-
         <script type="text/javascript" src="../../../style/js/jquery-1.11.1.min.js"></script>         
         <script type="text/javascript" src="../../../style/js/bootstrap.min.js"></script>         
         <script type="text/javascript" src="../../../style/js/plugins.js"></script>
         <script src="https://maps.google.com/maps/api/js?sensor=true"></script>
         <script type="text/javascript" src="../../../style/js/bskit-scripts.js"></script>         
-    </body>
+    </body>     
 </html>

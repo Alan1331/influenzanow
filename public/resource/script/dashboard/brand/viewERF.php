@@ -141,7 +141,7 @@ $product_price = 'Rp ' . $product_price;
                                 <a href="brandProfile.php">Profile</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#">Notification</a>
+                                <a href="notification.php">Notification</a>
                             </li>
                             <!--//dropdown-->                             
                             <li class="nav-item">
@@ -248,7 +248,7 @@ $product_price = 'Rp ' . $product_price;
                                 <?php foreach($apply_applied as $applied): ?>
                                     <center>
                                         <div class="inf-show">
-                                            <a href="view_inf_profile.php?inf_id=<?= $applied['inf_id']; ?>"><img class="img" src="<?= $path_inf . $applied['inf_pict']; ?>" alt="profile picture"></a>                                      
+                                            <a href="view_inf_profile.php?inf_id=<?= $applied['inf_id']; ?>&back_url=viewERF.php"><img class="img" src="<?= $path_inf . $applied['inf_pict']; ?>" alt="profile picture"></a>                                      
                                             <b><?= $applied['inf_username']; ?></b>
                                             <a href="acceptApply.php?apply_id=<?= $applied['apply_id']; ?>">Accept</a>/<a href="declineApply.php?apply_id=<?= $applied['apply_id']; ?>" class="decline-text">Decline</a>
                                         </div>

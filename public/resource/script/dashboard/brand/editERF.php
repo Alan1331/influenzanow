@@ -44,11 +44,11 @@ if( isset($test_erf_draft[0]) ) {
 $path = '../../../images/brands/erf/';
 
 if( isset($_SESSION['prev_url']) ) {
-    session_unset($_SESSION['prev_url']);
+    unset($_SESSION['prev_url']);
 }
 
 if( isset($_SESSION['task_id']) ) {
-    session_unset($_SESSION['task_id']);
+    unset($_SESSION['task_id']);
 }
 
 if( isset($task_list) ) {
@@ -227,7 +227,7 @@ if( isset($_POST['add_task']) ) {
                                 <a href="brandProfile.php">Profile</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#">Notification</a>
+                                <a href="notification.php">Notification</a>
                             </li>
                             <!--//dropdown-->                             
                             <li class="nav-item">
