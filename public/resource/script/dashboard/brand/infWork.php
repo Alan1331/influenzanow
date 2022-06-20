@@ -160,6 +160,16 @@ $path = '../../../images/brands/apply/';
                                 </center>
                             </div>
                         <?php endif; ?>
+                        <?php if( $task_status == 'approved' ): ?>
+                            <div class="col-sm-5 col-sm-offset-1">
+                                <center>
+                                    <img class="submission-prove" src="<?= $path . $submission ?>">
+                                    <h4>Submitted Proof</h4>
+                                    <button class="btn btn-primary" type="button">Approved</button>
+                                    <!-- <i>submitted since</i> -->
+                                </center>
+                            </div>
+                        <?php endif; ?>
                     </div>
                     <div class="row">
                     <div class="col-sm-12">
