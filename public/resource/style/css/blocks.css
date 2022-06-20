@@ -2760,6 +2760,7 @@ Version: 1.0
 .gallery-item .gallery-thumb
 {
     position: relative;
+	height: 200px;
     overflow: hidden;
 }
 
