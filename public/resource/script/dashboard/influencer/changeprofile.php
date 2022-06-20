@@ -43,7 +43,15 @@ $path = '../../../images/influencer/data/';
 
 if( isset($_POST['submit']) ) {
     $inf_pict = upload($_FILES['inf_pict'], $path);
-    $result = mysqli_query($conn, "UPDATE influencer SET inf_pict = \"$inf_pict\" WHERE inf_id = \"$inf_id\"");
+    if( $inf_pict !== false ) {
+        $result = mysqli_query($conn, "UPDATE influencer SET inf_pict = \"$inf_pict\" WHERE inf_id = \"$inf_id\"");
+    } else {
+        echo "
+                <script>
+                    window.location = 'changeprofile.php';
+                </script>
+            ";
+    }
 }
 
 ?>
