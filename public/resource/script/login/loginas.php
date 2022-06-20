@@ -12,7 +12,7 @@ if( isset($_COOKIE['ghlf']) && isset($_COOKIE['ksla']) && isset($_COOKIE['tp']) 
         $key = $_COOKIE['ksla'];
     
         // ambil username berdasarkan cookie nya
-        $result = mysqli_query($conn, "SELECT * FROM influencer WHERE inf_username = '$id'");
+        $result = mysqli_query($conn, "SELECT * FROM influencer WHERE inf_id = '$id'");
         $row = mysqli_fetch_assoc($result);
     
         // cek cookie dan username
@@ -41,10 +41,10 @@ if( isset($_COOKIE['ghlf']) && isset($_COOKIE['ksla']) && isset($_COOKIE['tp']) 
 // cek login
 if( isset($_SESSION['login']) ) {
     // jika akun influencer
-    if( isset($_SESSION['inf_username']) ) {
-        $ses_inf_username = $_SESSION['inf_username'];
-        $interest_info = mysqli_query($conn, "SELECT * FROM inf_interest WHERE inf_username = '$ses_inf_username'");
-        $sns_info = mysqli_query($conn, "SELECT * FROM sns WHERE inf_username = '$ses_inf_username'");
+    if( isset($_SESSION['inf_id']) ) {
+        $ses_inf_id = $_SESSION['inf_id'];
+        $interest_info = mysqli_query($conn, "SELECT * FROM inf_interest WHERE inf_id = '$ses_inf_id'");
+        $sns_info = mysqli_query($conn, "SELECT * FROM sns WHERE inf_id = '$ses_inf_id'");
         if( (mysqli_num_rows($interest_info) < 1) || (mysqli_num_rows($sns_info) < 1) ) {
             // jika data interest atau data sns kosong
             header('Location: influencerlogin/addInitInfo.php');

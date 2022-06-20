@@ -174,7 +174,7 @@ if( isset($_POST['update_prove']) ) {
                                 <a href="infProfile.php">Profile</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#">Notification</a>
+                                <a href="notification.php">Notification</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a href="#">Message </a> 

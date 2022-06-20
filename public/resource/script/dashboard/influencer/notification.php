@@ -3,6 +3,7 @@ session_start();
 
 require __DIR__.'/../../../../includes/connection.php';
 require __DIR__.'/../../../../includes/globalFunctions.php';
+require __DIR__.'/../../../../includes/erf/functions.php';
 
 // cek cookie
 if( isset($_COOKIE['ghlf']) && isset($_COOKIE['ksla']) && isset($_COOKIE['tp']) ) {
@@ -37,36 +38,15 @@ if( $_SESSION['login'] && isset($_SESSION['inf_id']) ) {
 
 $inf_id = $_SESSION['inf_id'];
 
-if(isset($_GET['erf_id'])) {
-    $_SESSION['erf_id'] = $_GET['erf_id'];
-}
-
-$erf_id = $_SESSION['erf_id'];
-$erf = query("SELECT * FROM erf WHERE erf_id = $erf_id")[0];
-
-// cek apakah erf ini sudah diajukan atau belum
-$applied = false;
-$cari = mysqli_query($conn, "SELECT * FROM apply_erf WHERE erf_id = $erf_id AND inf_id = $inf_id");
-$jumlah_cari = mysqli_num_rows($cari);
-if( $jumlah_cari > 0 ) {
-    $applied = true;
-    $apply_erf = query("SELECT * FROM apply_erf WHERE erf_id = $erf_id AND inf_id = $inf_id")[0];
-    $apply_id = $apply_erf['apply_id'];
-    // cek apakah influencer sudah bergabung dengan erf ini
-    $apply_status = $apply_erf['apply_status'];
-    if( $apply_status == 'Accepted/Joined' ) {
-        $joined = true;
-    }
-}
-
+$notif_list = query("SELECT * FROM inf_notifications WHERE inf_id = $inf_id AND hide = 0");
 
 ?>
 
 <!DOCTYPE html> 
 <html lang="en" style="height:100%;">
-    <head>
-    <meta charset="utf-8"> 
-        <title>ERF Details</title>
+    <head> 
+        <meta charset="utf-8"> 
+        <title>Influencer Menu</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         <meta name="keywords" content="pinegrow, blocks, bootstrap" />
         <meta name="description" content="SIGN UP INFLUENCER" />
@@ -81,7 +61,7 @@ if( $jumlah_cari > 0 ) {
         <link href="../../../style/css/style-library-1.css" rel="stylesheet">
         <link href="../../../style/css/plugins.css" rel="stylesheet">
         <link href="../../../style/css/blocks.css" rel="stylesheet">
-        <link href="../../../style/css/custom.css" rel="stylesheet">
+        <link href="../../../style/css/table.css" rel="stylesheet">
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->         
         <!--[if lt IE 9]>
       <script src="../../../style/js/html5shiv.js"></script>
@@ -89,7 +69,7 @@ if( $jumlah_cari > 0 ) {
     <![endif]-->         
     </head>     
     <body data-spy="scroll" data-target="nav">
-        <header id="header-1" class="soft-scroll header-1">
+    <header id="header-1" class="soft-scroll header-1">
             <!-- Navbar -->
             <nav class="main-nav navbar-fixed-top headroom headroom--pinned">
                 <div class="container">
@@ -120,12 +100,12 @@ if( $jumlah_cari > 0 ) {
                             <li class="nav-item dropdown">
                                 <a href="#">Message </a> 
                             </li>
-                            <!--//dropdown-->                     
+                            <!--//ADD TO SAVED-->                     
                             <li class="nav-item">
                                 <a href="#">Saved ERF</a>
                             </li>
                             <li class="nav-item">
-                                <a href="../../login/influencerlogin/logout.php">Log Out</a>
+                            <a href="../../login/influencerlogin/logout.php">Log Out</a>
                             </li>
                         </ul>
                         <!--//nav-->
@@ -136,71 +116,49 @@ if( $jumlah_cari > 0 ) {
             </nav>
             <!--// End Navbar -->
         </header>
-        <section id="content-1-2" class="content-block content-1-2">
+        <section class="content-block gallery-1 gallery-1-1">
             <div class="container">
-                <!-- Start Row -->
-                <div class="row">
-                    <div class="col-sm-6">
-                        <button class="btn btn-primary" type="button" onclick="window.location = 'home.php'">Back to home</button>
-                        <h1><?= $erf['erf_name']; ?></h1>
-                        <h3>Product Name: <?= $erf['product_name']; ?></h3>
-                        <p class="lead"><?= $erf['gen_brief']; ?></p>
-                        <div class="row">
-                            <div class="col-sm-5 col-xs-12">
-                                <?php if( !$applied ): ?>
-                                    <a href="applyERF.php?erf_id=<?= $erf['erf_id']; ?>" class="btn btn-block btn-warning"><span class="fa fa-check"></span>&nbsp;Apply now</a>
-                                <?php endif; ?>
-                                <?php if( $applied && !isset($joined) ): ?>
-                                    <i>You have applied to this campaign</i>
-                                    <a href="CancelApplyERF.php?apply_id=<?= $apply_id; ?>" class="btn btn-block btn-warning"><span class="fa fa-check"></span>&nbsp;Cancel Apply</a>
-                                <?php endif; ?>
-                                <?php if( isset($joined) ): ?>
-                                    <i>You have joined this campaign</i>
-                                <?php endif; ?>
-                                <a href="erfTask.php?erf_id=<?= $erf['erf_id']; ?>" class="btn btn-block btn-warning"><span class="fa fa-eye"></span>&nbsp;View Task List</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-5 col-sm-offset-1">
-                        <img class="img-rounded img-responsive" src="../../../images/brands/erf/<?= $erf['erf_pict']; ?>">
-                    </div>
+                <div class="underlined-title">
+                    <h1>Notifications</h1>
+                    <hr>
+                    <center>
+                    <?php if( empty($notif_list[0]['inf_notif_id']) ): ?>
+                        <h2>No Notifications Available</h2>
+                    <?php endif; ?>
+                    <?php if( !empty($notif_list[0]['inf_notif_id']) ): ?>
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Notifications</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php for($i = 0; $i < sizeof($notif_list); $i++): ?>
+                                    <tr>
+                                        <td><?= $i+1; ?></td>
+                                        <td>
+                                            <button class="btn btn-primary" onclick="window.location = '<?= $notif_list[$i]['inf_notif_link']; ?>'">
+                                                <?= $notif_list[$i]['inf_notif_desc']; ?>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-primary" onclick="window.location = 'hideNotif.php?notif_id=<?= $notif_list[$i]['inf_notif_id'] ?>'">X</button>
+                                        </td>
+                                    </tr>
+                                <?php endfor; ?>
+                            </tbody>
+                        </table>
+                    <?php endif; ?>
+                    </center>
                 </div>
-                <!--// END Row -->
-            </div>
-        </section>
-        <section id="content-2-2" class="content-block content-2-2 bg-pomegranate">
-            <div class="container">
-                <!-- Start Row -->
-                <div class="row">
-                    <div class="col-sm-4 col-xs-12 text-center">
-                        <div class="icon-outline">
-                            <span class="fa fa-shopping-cart"></span>
-                        </div>
-                        <h3>Save ERF</h3>
-                        <p>Save this ERF if you want to apply later</p>
-                    </div>
-                    <div class="col-sm-4 col-xs-12 text-center">
-                        <div class="icon-outline">
-                            <span class="fa fa-calendar"></span>
-                        </div>
-                        <h3>Registration Deadline</h3>
-                        <p><?= $erf['reg_deadline']; ?></p>
-                    </div>
-                    <div class="col-sm-4 col-xs-12 text-center">
-                        <div class="icon-outline">
-                            <span class="fa fa-paper-plane"></span>
-                        </div>
-                        <h3>Promote and Submit Proof</h3>
-                        <p>15 February 2022 - 25 February 2022</p>
-                    </div>
-                </div>
-                <!--// END Row -->
             </div>
         </section>
         <script type="text/javascript" src="../../../style/js/jquery-1.11.1.min.js"></script>         
         <script type="text/javascript" src="../../../style/js/bootstrap.min.js"></script>         
         <script type="text/javascript" src="../../../style/js/plugins.js"></script>
         <script src="https://maps.google.com/maps/api/js?sensor=true"></script>
-        <script type="text/javascript" src="../../../style/js/bskit-scripts.js"></script>           
+        <script type="text/javascript" src="../../../style/js/bskit-scripts.js"></script>         
     </body>     
 </html>
