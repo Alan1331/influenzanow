@@ -54,7 +54,7 @@ if( isset($_SESSION['task_id']) ) {
 $influecer = query("SELECT * FROM influencer WHERE inf_id = $inf_id");
 $erf_list = query("SELECT * FROM erf WHERE erf_status = 'posted'");
 $apply_list = query("SELECT * FROM apply_erf WHERE inf_id = $inf_id AND apply_status = 'Accepted/Joined'");
-$erf_done = query("SELECT * FROM apply_erf, erf WHERE apply_erf.apply_status = 'Done' AND apply_erf.erf_id = erf.erf_id");
+$erf_done = query("SELECT * FROM apply_erf, erf WHERE apply_erf.apply_status = 'Done' AND apply_erf.erf_id = erf.erf_id AND apply_erf.inf_id = $inf_id");
 
 function get_sub_status($sub_status) {
     switch($sub_status) {
