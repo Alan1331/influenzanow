@@ -55,6 +55,11 @@ $influecer = query("SELECT * FROM influencer WHERE inf_id = $inf_id");
 $erf_list = query("SELECT * FROM erf WHERE erf_status = 'posted'");
 $apply_list = query("SELECT * FROM apply_erf WHERE inf_id = $inf_id AND apply_status = 'Accepted/Joined'");
 $erf_done = query("SELECT * FROM apply_erf, erf WHERE apply_erf.apply_status = 'Done' AND apply_erf.erf_id = erf.erf_id AND apply_erf.inf_id = $inf_id");
+$saved_erf = query("SELECT erf_id FROM saved_erf WHERE inf_id = $inf_id");
+$saved_erf_id_list = array();
+foreach($saved_erf as $erf_id) {
+    array_push($saved_erf_id_list, $erf_id['erf_id']);
+}
 
 function get_sub_status($sub_status) {
     switch($sub_status) {
@@ -177,7 +182,9 @@ function get_sub_status($sub_status) {
                                     <div class="gallery-thumb">
                                         <img src="../../../images/brands/erf/<?= $erf['erf_pict']; ?>" class="img-responsive" alt="Product Picture">
                                         <div class="image-overlay"><img src="../../../images/brands/erf/<?= $erf['erf_pict']; ?>" alt=""></div>
-                                        <a href="saveERF.php?erf_id=<?= $erf['erf_id']; ?>" class="gallery-link2"><i class="fa fa-shopping-cart" alt="Save ERF"></i></a>
+                                        <?php if( !in_array($erf['erf_id'], $saved_erf_id_list) ): ?>
+                                            <a href="saveERF.php?erf_id=<?= $erf['erf_id']; ?>" class="gallery-link2"><i class="fa fa-shopping-cart" alt="Save ERF"></i></a>
+                                        <?php endif; ?>
                                         <a href="erfDetail.php?erf_id=<?= $erf['erf_id']; ?>" class="gallery-link"><i class="fa fa-arrow-right" alt="Learn more"></i></a>
                                     </div>
                                     <div class="gallery-details">

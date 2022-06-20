@@ -110,7 +110,7 @@ $task_list = query("SELECT * FROM task WHERE erf_id = $erf_id AND task_status = 
                             </li>
                             <!--//dropdown-->                     
                             <li class="nav-item">
-                                <a href="#">Saved ERF</a>
+                                <a href="savedERF.php">Saved ERF</a>
                             </li>
                             <li class="nav-item">
                                 <a href="../../login/influencerlogin/logout.php">Log Out</a>

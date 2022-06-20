@@ -102,7 +102,7 @@ $notif_list = query("SELECT * FROM inf_notifications WHERE inf_id = $inf_id AND 
                             </li>
                             <!--//ADD TO SAVED-->                     
                             <li class="nav-item">
-                                <a href="#">Saved ERF</a>
+                                <a href="savedERF.php">Saved ERF</a>
                             </li>
                             <li class="nav-item">
                             <a href="../../login/influencerlogin/logout.php">Log Out</a>
