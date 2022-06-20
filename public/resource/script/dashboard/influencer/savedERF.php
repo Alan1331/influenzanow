@@ -150,7 +150,7 @@ foreach( $saved_erf as $erf_id) {
                                     <div class="gallery-thumb">
                                         <img src="../../../images/brands/erf/<?= $erf_data['erf_pict']; ?>" class="img-responsive" alt="Product Picture">
                                         <div class="image-overlay"></div>
-                                        <a href="saveERF.php?erf_id=<?= $erf_data['erf_id']; ?>" class="gallery-zoom"><i class="fa fa-shopping-cart" alt="Save ERF"></i></a>
+                                        <a href="unsaveERF.php?erf_id=<?= $erf_data['erf_id']; ?>" class="gallery-link2"><i class="fa fa-shopping-cart" alt="Save ERF"></i></a>
                                         <a href="erfDetail.php?erf_id=<?= $erf_data['erf_id']; ?>" class="gallery-link"><i class="fa fa-arrow-right" alt="Learn more"></i></a>
                                     </div>
                                     <div class="gallery-details">
