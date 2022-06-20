@@ -174,7 +174,9 @@ if( isset($_POST['add_sns']) ) {
         <td><?= $sns['sns_username'] ?></td>
         <td><?= $sns['sns_followers'] ?></td>
         <td><?= $sns['sns_link'] ?></td>
-        <td><?= $sns['sns_er'] ?></td>
+        <td>
+            <?= ($sns['sns_er'] > 0.00) ? $sns['sns_er'] : "null" ; ?>
+        </td>
         <td>
             <a href="../../delete/hapusSns.php?sns_type=<?= $sns['sns_type']; ?>" onclick="return confirm('Do you really want to delete this?');">Delete</a>
             <a href="../../update/sns/<?= getSnsPage($sns['sns_type']); ?>">Edit</a>

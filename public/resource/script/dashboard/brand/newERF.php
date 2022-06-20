@@ -41,7 +41,7 @@ if( isset($test_erf_draft[0]) ) {
 $path = '../../../images/brands/erf/';
 
 if( isset($_SESSION['prev_url']) ) {
-    session_unset($_SESSION['prev_url']);
+    unset($_SESSION['prev_url']);
 }
 
 if( isset($task_list) ) {

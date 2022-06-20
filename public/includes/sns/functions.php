@@ -8,7 +8,9 @@ function addSNS($data) {
     $sns_username = test_input($data['sns_username']);
     $sns_followers = test_input($data['sns_followers']);
     $sns_link = $data['sns_link'];
-    if( isset($data['sns_er']) ) {
+    if( empty($data['sns_er']) ) {
+        $sns_er = null;
+    } else {
         $sns_er = $data['sns_er'];
     }
 
@@ -23,7 +25,7 @@ function addSNS($data) {
     }
 
     // validasi er
-    if( isset($data['sns_er']) ) {
+    if( $sns_er != null ) {
         if( is_numeric($sns_er) === false ) {
             echo "
                     <script>
@@ -88,7 +90,9 @@ function updateSNS($data) {
     $sns_username = test_input($data['sns_username']);
     $sns_followers = test_input($data['sns_followers']);
     $sns_link = $data['sns_link'];
-    if( isset($data['sns_er']) ) {
+    if( empty($data['sns_er']) ) {
+        $sns_er = null;
+    } else {
         $sns_er = $data['sns_er'];
     }
 
@@ -103,7 +107,7 @@ function updateSNS($data) {
     }
 
     // validasi er
-    if( isset($data['sns_er']) ) {
+    if( $sns_er != null ) {
         if( is_numeric($sns_er) === false ) {
             echo "
                     <script>
@@ -113,20 +117,36 @@ function updateSNS($data) {
             return false;
         }
     }
-    
-    // tambahkan sns baru ke database
-    $add_sns_sql = "UPDATE sns SET
-                        inf_id = \"$inf_id\",
-                        sns_type = \"$sns_type\",
-                        sns_username = \"$sns_username\",
-                        sns_followers = \"$sns_followers\",
-                        sns_link = \"$sns_link\",
-                        sns_er = \"$sns_er\"
-                    WHERE inf_id = \"$inf_id\" AND sns_type = \"$sns_type\"
-                    ";
-    mysqli_query($conn, $add_sns_sql);
 
-    return mysqli_affected_rows($conn);
+    if( $sns_er == null ) {
+        // tambahkan sns baru ke database jika er kosong
+        $add_sns_sql = "UPDATE sns SET
+                            inf_id = \"$inf_id\",
+                            sns_type = \"$sns_type\",
+                            sns_username = \"$sns_username\",
+                            sns_followers = \"$sns_followers\",
+                            sns_link = \"$sns_link\"
+                        WHERE inf_id = \"$inf_id\" AND sns_type = \"$sns_type\"
+                        ";
+        mysqli_query($conn, $add_sns_sql);
+
+        return mysqli_affected_rows($conn);
+    } else {
+        // tambahkan sns baru ke database
+        $add_sns_sql = "UPDATE sns SET
+                            inf_id = \"$inf_id\",
+                            sns_type = \"$sns_type\",
+                            sns_username = \"$sns_username\",
+                            sns_followers = \"$sns_followers\",
+                            sns_link = \"$sns_link\",
+                            sns_er = \"$sns_er\"
+                        WHERE inf_id = \"$inf_id\" AND sns_type = \"$sns_type\"
+                        ";
+        mysqli_query($conn, $add_sns_sql);
+    
+        return mysqli_affected_rows($conn);
+    }
+    
 }
 
 ?>

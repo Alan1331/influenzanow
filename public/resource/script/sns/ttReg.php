@@ -43,10 +43,11 @@ if( isset($_POST['add_tiktok']) ) {
 <body>
     <div class="container">
         <div class="left">
-            <img src="https://www.kibrispdr.org/dwn/3/tik-tok-png.png">
+            <!-- <img src="https://www.kibrispdr.org/dwn/3/tik-tok-png.png"> -->
+            <img src="../../images/500px-TikTok_logo.png" alt="TikTok Logo">
         </div>
         <div class="login">
-            <form action="">
+            <form action="" method="post">
                 <h1>Tiktok</h1>
                 <hr>
                 <p>InfluenZa Now</p>
