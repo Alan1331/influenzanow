@@ -176,7 +176,7 @@ function get_sub_status($sub_status) {
                                 <div class="gallery-item">
                                     <div class="gallery-thumb">
                                         <img src="../../../images/brands/erf/<?= $erf['erf_pict']; ?>" class="img-responsive" alt="Product Picture">
-                                        <div class="image-overlay"></div>
+                                        <div class="image-overlay"><img src="../../../images/brands/erf/<?= $erf['erf_pict']; ?>" alt=""></div>
                                         <a href="saveERF.php?erf_id=<?= $erf['erf_id']; ?>" class="gallery-zoom"><i class="fa fa-shopping-cart" alt="Save ERF"></i></a>
                                         <a href="erfDetail.php?erf_id=<?= $erf['erf_id']; ?>" class="gallery-link"><i class="fa fa-arrow-right" alt="Learn more"></i></a>
                                     </div>

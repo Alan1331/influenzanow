@@ -10,9 +10,9 @@ $erf_id = $_GET['erf_id'];
 mysqli_query($conn, "INSERT INTO saved_erf(inf_id, erf_id) VALUES($inf_id, $erf_id)");
 
 echo "
-<script>
-    history.go(-1);
-</script>
-";
+    <script>
+        history.go(-1);
+    </script>
+    ";
 
 ?>
