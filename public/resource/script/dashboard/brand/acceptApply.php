@@ -33,6 +33,7 @@ $apply_id = $_GET['apply_id'];
 $erf_id = query("SELECT erf_id FROM apply_erf WHERE apply_id = $apply_id")[0]['erf_id'];
 $task_list = query("SELECT task_id FROM task WHERE erf_id = $erf_id");
 $inf_id = query("SELECT inf_id FROM apply_erf WHERE apply_id = $apply_id")[0]['inf_id'];
+$inf_username = query("SELECT inf_username FROM influencer WHERE inf_id = $inf_id")[0]['inf_username'];
 $erf_name = query("SELECT erf_name FROM erf WHERE erf_id = $erf_id")[0]['erf_name'];
 
 $result1 = mysqli_query($conn, "UPDATE apply_erf SET apply_status = 'Accepted/Joined' WHERE apply_id = $apply_id");
@@ -44,6 +45,10 @@ foreach( $task_list as $task ) {
     $task_id = $task['task_id'];
     mysqli_query($conn, "INSERT INTO task_submissions(task_id, apply_id, submission_status, erf_id) VALUES($task_id, $apply_id, 'not submitted', $erf_id)");
 }
+
+// remove apply notifications
+$rm_notif_desc = $inf_username . " apply to your erf named " . $erf_name;
+$rm_notify_brand = mysqli_query($conn, "DELETE FROM brand_notifications WHERE brand_notif_desc = \"$rm_notif_desc\"");
 
 if( mysqli_affected_rows($conn) > 0 ) {
     echo "

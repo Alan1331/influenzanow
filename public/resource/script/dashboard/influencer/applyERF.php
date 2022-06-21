@@ -19,7 +19,7 @@ if( $jumlah_cari < 1 ) {
     $result = mysqli_query($conn, "INSERT INTO apply_erf(apply_status, erf_id, inf_id) VALUES('Waiting for Approval', $erf_id, $inf_id)");
     
     // send notification to brand
-    $notif_desc = $inf_username . " applying to your erf named " . $erf_name;
+    $notif_desc = $inf_username . " apply to your erf named " . $erf_name;
     $notif_link = "viewERF.php?erf_id=" . $erf_id;
     $notify_brand = mysqli_query($conn, "INSERT INTO brand_notifications(brand_notif_desc, brand_notif_link, brand_id) VALUES(\"$notif_desc\", \"$notif_link\", $brand_id)");
 
