@@ -31,9 +31,24 @@ if( !isset($_SESSION['login']) || !isset($_SESSION['brand_username']) ) {
 
 $apply_id = $_GET['apply_id'];
 
-$result = mysqli_query($conn, "UPDATE apply_erf SET apply_status = 'Declined' WHERE apply_id = $apply_id");
+// data for remove apply notif
+$inf_id = query("SELECT inf_id FROM apply_erf WHERE apply_id = $apply_id")[0]['inf_id'];
+$inf_username = query("SELECT inf_username FROM influencer WHERE inf_id = $inf_id")[0]['inf_username'];
+$erf_id = query("SELECT erf_id FROM apply_erf WHERE apply_id = $apply_id")[0]['erf_id'];
+$erf_name = query("SELECT erf_name FROM erf WHERE erf_id = $erf_id")[0]['erf_name'];
+
+$result = mysqli_query($conn, "DELETE FROM apply_erf WHERE apply_id = $apply_id");
 
 if( mysqli_affected_rows($conn) > 0 ) {
+    // notify influencer that their application was declined
+    $notif_desc = "Your application on '$erf_name' was declined";
+    $notif_link = "erfDetail.php?erf_id=" . $erf_id;
+    $notify_inf = mysqli_query($conn, "INSERT INTO inf_notifications(inf_notif_desc, inf_notif_link, inf_id) VALUES(\"$notif_desc\", \"$notif_link\", $inf_id)");
+
+    // remove apply notifications
+    $rm_notif_desc = $inf_username . " apply to your erf named " . $erf_name;
+    $rm_notify_brand = mysqli_query($conn, "DELETE FROM brand_notifications WHERE brand_notif_desc = \"$rm_notif_desc\"");
+
     echo "
             <script>
                 alert('partisipan berhasil ditolak');

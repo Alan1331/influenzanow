@@ -5,8 +5,6 @@ require __DIR__.'/../../../../includes/connection.php';
 require __DIR__.'/../../../../includes/globalFunctions.php';
 require __DIR__.'/../../../../includes/brandlogin/functions.php';
 
-$brand_name = $_SESSION['brand_username'];
-
 // cek cookie
 if( isset($_COOKIE['ghlf']) && isset($_COOKIE['ksla']) && isset($_COOKIE['tp']) ) {
     if( $_COOKIE['tp'] === hash('sha256', 'brand')) {
@@ -96,7 +94,7 @@ if( isset($_POST['search_erf']) ) {
                                 <a href="brandProfile.php">Profile</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#">Notification</a>
+                                <a href="notification.php">Notification</a>
                             </li>
                             <!--//dropdown-->                             
                             <li class="nav-item">

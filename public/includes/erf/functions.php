@@ -29,7 +29,7 @@ function setERF($data, $erf_draft, $brand_id, $erf_pict) {
         )
         VALUES
         (
-            \"$pic\",\"$erf_name\", \"$product_name\", \"$product_price\", \"$gen_brief\", $negotiation, $brand_id, 'drafted', \"$reg_deadline\", $inf_required
+            \"$pic\",\"$erf_name\", \"$product_name\", $product_price, \"$gen_brief\", $negotiation, $brand_id, 'drafted', \"$reg_deadline\", $inf_required
         )";
         $result = mysqli_query($conn, $sql);
     } else {
@@ -38,7 +38,7 @@ function setERF($data, $erf_draft, $brand_id, $erf_pict) {
                     erf_pict = \"$pic\",
                     erf_name = \"$erf_name\",
                     product_name = \"$product_name\",
-                    product_price = \"$product_price\",
+                    product_price = $product_price,
                     gen_brief = \"$gen_brief\",
                     negotiation = $negotiation,
                     reg_deadline = \"$reg_deadline\",
@@ -115,7 +115,7 @@ function add_rules($rules, $task_id, $rules_type) {
         return false;
     }
 
-    mysqli_query($conn, "INSERT INTO rules_list VALUES('', $task_id, \"$rules\", \"$rules_type\")");
+    mysqli_query($conn, "INSERT INTO rules_list(task_id, rules, rules_type) VALUES($task_id, \"$rules\", \"$rules_type\")");
 
     return mysqli_affected_rows($conn);
 }

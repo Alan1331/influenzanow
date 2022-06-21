@@ -7,55 +7,31 @@ require __DIR__.'/../../../../includes/erf/functions.php';
 
 // cek cookie
 if( isset($_COOKIE['ghlf']) && isset($_COOKIE['ksla']) && isset($_COOKIE['tp']) ) {
-    if( $_COOKIE['tp'] === hash('sha256', 'influencer') ) {
+    if( $_COOKIE['tp'] === hash('sha256', 'brand')) {
         $id = $_COOKIE['ghlf'];
         $key = $_COOKIE['ksla'];
     
-        // ambil inf_id berdasarkan cookie nya
-        $result = mysqli_query($conn, "SELECT * FROM influencer WHERE inf_id = '$id'");
+        // ambil username berdasarkan cookie nya
+        $result = mysqli_query($conn, "SELECT * FROM brand WHERE id = '$id'");
         $row = mysqli_fetch_assoc($result);
     
-        // cek cookie dan inf_id
-        if( $key === hash('sha256', $row['inf_username']) ) {
+        // cek cookie dan username
+        if( $key === hash('sha256', $row['brand_name']) ) {
             $_SESSION['login'] = true;
-            $_SESSION['inf_id'] = $row['inf_id'];
+            $_SESSION['brand_username'] = $row['brand_name'];
         }
     }
 }
 
 // cek login
-if( $_SESSION['login'] && isset($_SESSION['inf_id']) ) {
-    $ses_inf_id = $_SESSION['inf_id'];
-    $interest_info = mysqli_query($conn, "SELECT * FROM inf_interest WHERE inf_id = '$ses_inf_id'");
-    $sns_info = mysqli_query($conn, "SELECT * FROM sns WHERE inf_id = '$ses_inf_id'");
-    if( (mysqli_num_rows($interest_info) < 1) || (mysqli_num_rows($sns_info) < 1) ) {
-        // jika data interest atau data sns kosong
-        header('Location: ../../login/influencerlogin/addInitInfo.php');
-    }
-} else {
-    header('Location: ../../login/influencerlogin/login.php');
+if( !isset($_SESSION['login']) || !isset($_SESSION['brand_username']) ) {
+    header('Location: ../../login/brandlogin/login.php');
 }
 
-$inf_id = $_SESSION['inf_id'];
+$brand_name = $_SESSION['brand_username'];
+$brand_id = query("SELECT brand_id FROM brand WHERE brand_name = \"$brand_name\"")[0]['brand_id'];
 
-if( isset($_SESSION['back_url']) ) {
-    unset($_SESSION['back_url']);
-}
-
-if( isset($_SESSION['apply_id']) ) {
-    unset($_SESSION['apply_id']);
-}
-
-if( isset($_SESSION['task_id']) ) {
-    unset($_SESSION['task_id']);
-}
-
-// data;
-$erf_id_list = array();
-$saved_erf = query("SELECT erf_id FROM saved_erf WHERE inf_id = $inf_id ORDER BY saved_erf_id ASC");
-foreach( $saved_erf as $erf_id) {
-    array_push($erf_id_list, $erf_id['erf_id']);
-}
+$notif_list = query("SELECT * FROM brand_notifications WHERE brand_id = $brand_id AND hide = 0");
 
 ?>
 
@@ -63,7 +39,7 @@ foreach( $saved_erf as $erf_id) {
 <html lang="en" style="height:100%;">
     <head> 
         <meta charset="utf-8"> 
-        <title>Influencer Menu</title>
+        <title>brandluencer Menu</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         <meta name="keywords" content="pinegrow, blocks, bootstrap" />
         <meta name="description" content="SIGN UP INFLUENCER" />
@@ -109,20 +85,23 @@ foreach( $saved_erf as $erf_id) {
                                 <a href="home.php">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a href="infProfile.php">Profile</a>
+                                <a href="brandProfile.php">Profile</a>
                             </li>
                             <li class="nav-item">
                                 <a href="notification.php">Notification</a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a href="#">Message </a> 
-                            </li>
-                            <!--//ADD TO SAVED-->                     
+                            <!--//dropdown-->                             
                             <li class="nav-item">
-                                <a href="savedERF.php">Saved ERF</a>
+                                <a href="#">Message</a>
                             </li>
                             <li class="nav-item">
-                            <a href="../../login/influencerlogin/logout.php">Log Out</a>
+                                <a href="#">Settings</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#">Review</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../../login/brandlogin/logout.php">Log Out</a>
                             </li>
                         </ul>
                         <!--//nav-->
@@ -136,34 +115,41 @@ foreach( $saved_erf as $erf_id) {
         <section class="content-block gallery-1 gallery-1-1">
             <div class="container">
                 <div class="underlined-title">
-                    <h1>Saved ERF</h1>
+                    <h1>Notifications</h1>
                     <hr>
-                    <h2>Click cart button on erf in home page to add it</h2>
+                    <center>
+                    <?php if( empty($notif_list[0]['brand_notif_id']) ): ?>
+                        <h2>No Notifications Available</h2>
+                    <?php endif; ?>
+                    <?php if( !empty($notif_list[0]['brand_notif_id']) ): ?>
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Notifications</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php for($i = 0; $i < sizeof($notif_list); $i++): ?>
+                                    <tr>
+                                        <td><?= $i+1; ?></td>
+                                        <td>
+                                            <button class="btn btn-primary" onclick="window.location = '<?= $notif_list[$i]['brand_notif_link']; ?>'">
+                                                <?= $notif_list[$i]['brand_notif_desc']; ?>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-primary" onclick="window.location = 'hideNotif.php?notif_id=<?= $notif_list[$i]['brand_notif_id'] ?>'">X</button>
+                                        </td>
+                                    </tr>
+                                <?php endfor; ?>
+                            </tbody>
+                        </table>
+                    <?php endif; ?>
+                    </center>
                 </div>
-                <!-- /.gallery-filter -->
-                <div class="row">
-                    <div class="isotope-gallery-container">
-                        <?php foreach($erf_id_list as $erf_id): ?>
-                            <?php $erf_data = query("SELECT erf_id, erf_name, erf_pict FROM erf WHERE erf_id = $erf_id")[0]; ?>
-                            <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper ERF">
-                                <div class="gallery-item">
-                                    <div class="gallery-thumb">
-                                        <img src="../../../images/brands/erf/<?= $erf_data['erf_pict']; ?>" class="img-responsive" alt="Product Picture">
-                                        <div class="image-overlay"></div>
-                                        <a href="unsaveERF.php?erf_id=<?= $erf_data['erf_id']; ?>" class="gallery-link2"><i class="fa fa-trash" alt="Save ERF"></i></a>
-                                        <a href="erfDetail.php?erf_id=<?= $erf_data['erf_id']; ?>" class="gallery-link"><i class="fa fa-info-circle" alt="Learn more"></i></a>
-                                    </div>
-                                    <div class="gallery-details">
-                                        <h4><?= $erf_data['erf_name']; ?></h4>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-                <!-- /.row -->
             </div>
-            <!-- /.container -->
         </section>
         <script type="text/javascript" src="../../../style/js/jquery-1.11.1.min.js"></script>         
         <script type="text/javascript" src="../../../style/js/bootstrap.min.js"></script>         

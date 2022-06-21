@@ -10,6 +10,14 @@ function query( $sql ) {
     return $rows;
 }
 
+function mysqli_result_to_array( $mysqli_result ) {
+    $rows = [];
+    while( $row = mysqli_fetch_assoc($mysqli_result) ) {
+        $rows[] = $row;
+    }
+    return $rows;
+}
+
 function test_input($input) {
     $input = trim($input);
     $input = stripslashes($input);

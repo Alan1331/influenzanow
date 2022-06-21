@@ -118,7 +118,7 @@ switch( $inf_data['inf_gender'] ) {
                                 <a href="brandProfile.php">Profile</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#">Notification</a>
+                                <a href="notification.php">Notification</a>
                             </li>
                             <!--//dropdown-->                             
                             <li class="nav-item">

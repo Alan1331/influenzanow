@@ -37,13 +37,11 @@ if( $_SESSION['login'] && isset($_SESSION['inf_id']) ) {
 }
 
 $inf_id = $_SESSION['inf_id'];
-$influencer = query("SELECT * FROM influencer WHERE inf_id=\"$inf_id\"")[0];
+$influencer = query("SELECT * FROM influencer WHERE inf_id = $inf_id")[0];
 $inf_pict = "../../../images/influencer/data/" . $influencer['inf_pict'];
 
 if( isset($_POST['update_profile']) ) {
 
-    // var_dump($_POST);
-    // exit;
     // jika input null, maka akan diisi oleh data lama
     if( $_POST['inf_username'] == "" ) {
         $_POST['inf_username'] = $influencer['inf_username'];
@@ -68,14 +66,14 @@ if( isset($_POST['update_profile']) ) {
         }
         echo "
                 <script>
-                    alert('user berhasil diubah');
+                    alert('profile berhasil diubah');
                     window.location = 'infProfile.php';
                 </script>
             ";
     } else {
         echo "
                 <script>
-                    alert('user gagal diubah');
+                    alert('profile gagal diubah');
                 </script>
             ";
         echo mysqli_error($conn);
@@ -147,7 +145,7 @@ if( isset($_POST['update_profile']) ) {
                     <label for="inf_birthdate">Birthday</label>
                     <input type="date" id="inf_birthdate" name="inf_birthdate" value="<?= $influencer['inf_birthdate']; ?>" >
                     <label for="inf_address">Address</label>
-                    <textarea name="inf_address" id="inf_address" name="inf_address" cols="60" rows="4" placeholder="<?= $influencer['inf_address']; ?>"><?= $influencer['inf_address']; ?></textarea>
+                    <textarea id="inf_address" name="inf_address" cols="60" rows="4" placeholder="<?= $influencer['inf_address']; ?>"><?= $influencer['inf_address']; ?></textarea>
                     <center>
                     <button type="button" onclick="window.location='editInterestSns.php'">Edit Interest or SNS</button></a>
                     </center>

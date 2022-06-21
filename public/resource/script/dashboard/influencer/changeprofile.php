@@ -37,7 +37,7 @@ if( $_SESSION['login'] && isset($_SESSION['inf_id']) ) {
 }
 
 $inf_id = $_SESSION['inf_id'];
-$influencer = query("SELECT * FROM influencer WHERE inf_id=\"$inf_id\"")[0];
+$influencer = query("SELECT * FROM influencer WHERE inf_id=$inf_id")[0];
 $inf_pict = $influencer['inf_pict'];
 $path = '../../../images/influencer/data/';
 

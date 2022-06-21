@@ -50,11 +50,30 @@ if( isset($_SESSION['task_id']) ) {
     unset($_SESSION['task_id']);
 }
 
+if( isset($erf_name) ) {
+    unset($erf_name);
+}
+
 // data
 $influecer = query("SELECT * FROM influencer WHERE inf_id = $inf_id");
-$erf_list = query("SELECT * FROM erf WHERE erf_status = 'posted'");
-$apply_list = query("SELECT * FROM apply_erf WHERE inf_id = $inf_id AND apply_status = 'Accepted/Joined'");
-$erf_done = query("SELECT * FROM apply_erf, erf WHERE apply_erf.apply_status = 'Done' AND apply_erf.erf_id = erf.erf_id AND apply_erf.inf_id = $inf_id");
+
+if( isset($_POST['search']) ) {
+    $key = $_POST['key'];
+    $erf_list = query("SELECT erf_id, erf_pict, erf_name FROM erf WHERE erf_status != 'drafted' AND erf_name LIKE \"%$key%\"");
+    $apply_list = query("SELECT * FROM apply_erf, erf WHERE apply_erf.erf_id = erf.erf_id AND apply_erf.inf_id = $inf_id AND apply_erf.apply_status = 'Accepted/Joined' AND erf.erf_name LIKE \"%$key%\"");
+    $erf_done = query("SELECT * FROM apply_erf, erf WHERE apply_erf.apply_status = 'Done' AND apply_erf.erf_id = erf.erf_id AND apply_erf.inf_id = $inf_id AND erf.erf_name LIKE \"%$key%\"");
+} else {
+    $erf_list = query("SELECT erf_id, erf_pict, erf_name FROM erf WHERE erf_status != 'drafted'");
+    $apply_list = query("SELECT * FROM apply_erf, erf WHERE apply_erf.erf_id = erf.erf_id AND apply_erf.inf_id = $inf_id AND apply_erf.apply_status = 'Accepted/Joined'");
+    $erf_done = query("SELECT * FROM apply_erf, erf WHERE apply_erf.apply_status = 'Done' AND apply_erf.erf_id = erf.erf_id AND apply_erf.inf_id = $inf_id");
+}
+
+$saved_erf = query("SELECT erf_id FROM saved_erf WHERE inf_id = $inf_id");
+
+$saved_erf_id_list = array();
+foreach($saved_erf as $erf_id) {
+    array_push($saved_erf_id_list, $erf_id['erf_id']);
+}
 
 function get_sub_status($sub_status) {
     switch($sub_status) {
@@ -68,6 +87,8 @@ function get_sub_status($sub_status) {
             return '';
     }
 }
+
+
 
 ?>
 
@@ -148,10 +169,18 @@ function get_sub_status($sub_status) {
         <section class="content-block gallery-1 gallery-1-1">
             <div class="container">
                 <div class="underlined-title">
-                    <h1>A Selection For Your Work</h1>
+                    <h1>Influencer Home Page</h1>
                     <hr>
-                    <h2>Hand-picked just for you</h2>
+                    <h2>A Selection For Your Work</h2>
                 </div>
+                <center>
+                <div class="row">
+                    <form method="post" action="">
+                        <input type="text" name="key" id="key" type="text" placeholder="Enter keyword(ex: ERF name, task on process, and history ERF)" class="form-control">
+                        <button class="btn btn-primary" type="submit" id="cf-submit" name="search">SEARCH</button>
+                    </form>
+                </div>
+                </center>
                 <ul class="filter">
                     <li>
                         <a href="#" data-filter=".ERF">ERF</a>
@@ -177,8 +206,10 @@ function get_sub_status($sub_status) {
                                     <div class="gallery-thumb">
                                         <img src="../../../images/brands/erf/<?= $erf['erf_pict']; ?>" class="img-responsive" alt="Product Picture">
                                         <div class="image-overlay"><img src="../../../images/brands/erf/<?= $erf['erf_pict']; ?>" alt=""></div>
-                                        <a href="saveERF.php?erf_id=<?= $erf['erf_id']; ?>" class="gallery-link2"><i class="fa fa-shopping-cart" alt="Save ERF"></i></a>
-                                        <a href="erfDetail.php?erf_id=<?= $erf['erf_id']; ?>" class="gallery-link"><i class="fa fa-arrow-right" alt="Learn more"></i></a>
+                                        <?php if( !in_array($erf['erf_id'], $saved_erf_id_list) ): ?>
+                                            <a href="saveERF.php?erf_id=<?= $erf['erf_id']; ?>" class="gallery-link2"><i class="fa fa-save" alt="Save ERF"></i></a>
+                                        <?php endif; ?>
+                                        <a href="erfDetail.php?erf_id=<?= $erf['erf_id']; ?>" class="gallery-link"><i class="fa fa-info-circle" alt="Learn more"></i></a>
                                     </div>
                                     <div class="gallery-details">
                                         <h4><?= $erf['erf_name']; ?></h4>
@@ -246,7 +277,7 @@ function get_sub_status($sub_status) {
                                         <img src="../../../images/brands/erf/<?= $erf['erf_pict']; ?>" class="img-responsive" alt="Product Picture">
                                         <div class="image-overlay"></div>
                                         <a href="saveERF.php" class="gallery-zoom"><i class="fa fa-shopping-cart" alt="Save ERF"></i></a>
-                                        <a href="erfDetail.php?erf_id=<?= $erf['erf_id']; ?>" class="gallery-link"><i class="fa fa-arrow-right" alt="Learn more"></i></a>
+                                        <a href="erfDetail.php?erf_id=<?= $erf['erf_id']; ?>" class="gallery-link"><i class="fa fa-info-circle" alt="Learn more"></i></a>
                                     </div>
                                     <div class="gallery-details">
                                         <h4><?= $erf['erf_name']; ?></h4>
@@ -255,7 +286,7 @@ function get_sub_status($sub_status) {
                             </div>
                         <?php endforeach; ?>
                         <!-- /.gallery-item-wrapper -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper PAYMENT">
+                        <!-- <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper PAYMENT">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
                                     <img src="../../../images/totalbalance.png" class="img-responsive" alt="1st gallery Thumb">
@@ -266,9 +297,9 @@ function get_sub_status($sub_status) {
                                     <h5>YOUR BALANCE IS:</h5>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- /.gallery-item-wrapper -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper PAYMENT">
+                        <!-- <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper PAYMENT">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
                                     <img src="../../../images/payments1.png" class="img-responsive" alt="1st gallery Thumb">
@@ -280,9 +311,9 @@ function get_sub_status($sub_status) {
                                     <h5>Bank Virtual Account</h5>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- /.gallery-item-wrapper -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper PAYMENT">
+                        <!-- <div class="col-md-3 col-sm-6 col-xs-12 gallery-item-wrapper PAYMENT">
                             <div class="gallery-item">
                                 <div class="gallery-thumb">
                                     <img src="../../../images/payments2.png" class="img-responsive" alt="1st gallery Thumb">
@@ -294,7 +325,7 @@ function get_sub_status($sub_status) {
                                     <h5>e-Wallet<br></h5>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- /.gallery-item-wrapper END -->
                     </div>
                     <!-- /.isotope-gallery-container -->

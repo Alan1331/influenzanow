@@ -31,8 +31,8 @@ if( !isset($_SESSION['login']) || !isset($_SESSION['inf_id']) ) {
 }
 
 $id = $_SESSION['inf_id'];
-$interests = query("SELECT * FROM inf_interest WHERE inf_id=\"$id\"");
-$snslist = query("SELECT * FROM sns WHERE inf_id=\"$id\"");
+$interests = query("SELECT * FROM inf_interest WHERE inf_id = $id");
+$snslist = query("SELECT * FROM sns WHERE inf_id = $id");
 
 // cek apakah tombol add_interest sudah diclick atau belum
 if( isset($_POST['add_interest']) ) {

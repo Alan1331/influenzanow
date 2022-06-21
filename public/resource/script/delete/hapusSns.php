@@ -8,7 +8,7 @@ require __DIR__."../../../../includes/influencerlogin/functions.php";
 $sns_type = $_GET['sns_type'];
 $inf_id = $_SESSION['inf_id'];
 
-$sns_sum = count(query("SELECT * FROM sns WHERE inf_id = \"$inf_id\""));
+$sns_sum = count(query("SELECT * FROM sns WHERE inf_id = $inf_id"));
 
 if( $sns_sum == 1 ) {
     echo "

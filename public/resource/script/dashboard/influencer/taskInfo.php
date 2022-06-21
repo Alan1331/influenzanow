@@ -181,7 +181,7 @@ if( isset($_POST['update_prove']) ) {
                             </li>
                             <!--//dropdown-->                     
                             <li class="nav-item">
-                                <a href="#">Saved ERF</a>
+                                <a href="savedERF.php">Saved ERF</a>
                             </li>
                             <li class="nav-item">
                                 <a href="../../login/influencerlogin/logout.php">Log Out</a>

@@ -7,7 +7,7 @@ require __DIR__."../../../../includes/influencerlogin/functions.php";
 
 $interest = $_GET['interest'];
 $inf_id = $_SESSION['inf_id'];
-$interest_sum = count(query("SELECT * FROM inf_interest WHERE inf_id = \"$inf_id\""));
+$interest_sum = count(query("SELECT * FROM inf_interest WHERE inf_id = $inf_id"));
 
 if( $interest_sum == 1 ) {
     echo "
