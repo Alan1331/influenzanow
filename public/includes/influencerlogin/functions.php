@@ -15,7 +15,7 @@ function signup($data) {
     $pict = $data['inf_pict'];
 
     // cek username tersedia atau tidak
-    $result = mysqli_query($conn, "SELECT inf_username FROM influencer WHERE inf_username='$username'");
+    $result = mysqli_query($conn, "SELECT inf_username FROM influencer WHERE inf_username=\"$username\"");
     if( mysqli_fetch_assoc($result) ) {
         echo "
                 <script>
@@ -54,7 +54,7 @@ function addInterest($data) {
     $interest = test_input($data['interest']);
 
     // cek apakah interest sudah ada atau belum
-    $sql_check = "SELECT * FROM inf_interest WHERE inf_id = \"$id\" AND interest = \"$interest\"";
+    $sql_check = "SELECT * FROM inf_interest WHERE inf_id = $id AND interest = \"$interest\"";
     $result = mysqli_query($conn, $sql_check);
     if( mysqli_num_rows($result) > 0 ) {
         echo "
@@ -67,39 +67,21 @@ function addInterest($data) {
 
     // tambahkan interest sesuai dengan username nya
     $sql_insert = "INSERT INTO inf_interest VALUES(
-            \"$id\", \"$interest\")";
+            $id, \"$interest\")";
     mysqli_query($conn, $sql_insert);
 
     return mysqli_affected_rows($conn);
 }
 
-function check_login($conn) {
-    global $conn;
-    if(isset($_SESSION['user_id'])) {
-        $id = $_SESSION['user_id'];
-        $query = "select * from users where user_id = '$id' limit 1";
-
-        $result = mysqli_query($conn,$query);
-        if($result && mysqli_num_rows($result) > 0) {
-            $user_data = mysqli_fetch_assoc($result);
-            return $user_data;
-        }
-    }
-
-    //redirect to login 
-    header("Location: login.php");
-    die;
-}
-
 function hapusInterest($id, $interest) {
     global $conn;
-    mysqli_query($conn, "DELETE FROM inf_interest WHERE inf_id = \"$id\" AND interest = \"$interest\"");
+    mysqli_query($conn, "DELETE FROM inf_interest WHERE inf_id = $id AND interest = \"$interest\"");
     return mysqli_affected_rows($conn);
 }
 
 function hapusSns($id, $sns_type) {
     global $conn;
-    mysqli_query($conn, "DELETE FROM sns WHERE inf_id = \"$id\" AND sns_type = \"$sns_type\"");
+    mysqli_query($conn, "DELETE FROM sns WHERE inf_id = $id AND sns_type = \"$sns_type\"");
     return mysqli_affected_rows($conn);
 }
 
@@ -149,7 +131,7 @@ function updateInfProfile($data) {
                             inf_phone_number = \"$phone_number\",
                             inf_reg_date = \"$reg_date\",
                             inf_pict = \"$pict\"
-                        WHERE inf_id = \"$id\"
+                        WHERE inf_id = $id
                         ";
     }
     // jika username tidak diubah
