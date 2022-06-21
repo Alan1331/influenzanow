@@ -43,4 +43,25 @@ function signup($data) {
     return mysqli_affected_rows($conn);
 }
 
+function updateBrandProfile($data) {
+    global $conn;
+
+    $brand_name = $data['brand_name'];
+    $brand_email = test_input($data['brand_email']);
+    $brand_phone_number = test_input($data['brand_phone_number']);
+    $brand_sector = mysqli_real_escape_string($conn, $data['brand_sector']);
+    $brand_description = test_input($data['brand_description']);
+
+    $update_sql = "UPDATE brand SET
+                        brand_email = \"$brand_email\",
+                        brand_phone_number = \"$brand_phone_number\",
+                        brand_sector = \"$brand_sector\",
+                        brand_description = \"$brand_description\"
+                    WHERE brand_name = \"$brand_name\"
+                    ";
+    mysqli_query($conn, $update_sql);
+
+    return mysqli_affected_rows($conn);
+}
+
 ?>

@@ -165,7 +165,7 @@ function updateInfProfile($data) {
                             inf_phone_number = \"$phone_number\",
                             inf_reg_date = \"$reg_date\",
                             inf_pict = \"$pict\"
-                        WHERE inf_id = \"$id\"
+                        WHERE inf_id = $id
                         ";
 
     }
