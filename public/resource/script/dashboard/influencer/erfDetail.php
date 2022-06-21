@@ -152,7 +152,7 @@ if( $jumlah_cari > 0 ) {
                                 <?php endif; ?>
                                 <?php if( $applied && !isset($joined) ): ?>
                                     <i>You have applied to this campaign</i>
-                                    <a href="CancelApplyERF.php?apply_id=<?= $apply_id; ?>" class="btn btn-block btn-warning"><span class="fa fa-check"></span>&nbsp;Cancel Apply</a>
+                                    <a href="cancelApplyERF.php?apply_id=<?= $apply_id; ?>" class="btn btn-block btn-warning"><span class="fa fa-times"></span>&nbsp;Cancel Apply</a>
                                 <?php endif; ?>
                                 <?php if( isset($joined) ): ?>
                                     <i>You have joined this campaign</i>
