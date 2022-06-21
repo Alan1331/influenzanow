@@ -207,9 +207,9 @@ function get_sub_status($sub_status) {
                                         <img src="../../../images/brands/erf/<?= $erf['erf_pict']; ?>" class="img-responsive" alt="Product Picture">
                                         <div class="image-overlay"><img src="../../../images/brands/erf/<?= $erf['erf_pict']; ?>" alt=""></div>
                                         <?php if( !in_array($erf['erf_id'], $saved_erf_id_list) ): ?>
-                                            <a href="saveERF.php?erf_id=<?= $erf['erf_id']; ?>" class="gallery-link2"><i class="fa fa-shopping-cart" alt="Save ERF"></i></a>
+                                            <a href="saveERF.php?erf_id=<?= $erf['erf_id']; ?>" class="gallery-link2"><i class="fa fa-save" alt="Save ERF"></i></a>
                                         <?php endif; ?>
-                                        <a href="erfDetail.php?erf_id=<?= $erf['erf_id']; ?>" class="gallery-link"><i class="fa fa-arrow-right" alt="Learn more"></i></a>
+                                        <a href="erfDetail.php?erf_id=<?= $erf['erf_id']; ?>" class="gallery-link"><i class="fa fa-info-circle" alt="Learn more"></i></a>
                                     </div>
                                     <div class="gallery-details">
                                         <h4><?= $erf['erf_name']; ?></h4>
@@ -277,7 +277,7 @@ function get_sub_status($sub_status) {
                                         <img src="../../../images/brands/erf/<?= $erf['erf_pict']; ?>" class="img-responsive" alt="Product Picture">
                                         <div class="image-overlay"></div>
                                         <a href="saveERF.php" class="gallery-zoom"><i class="fa fa-shopping-cart" alt="Save ERF"></i></a>
-                                        <a href="erfDetail.php?erf_id=<?= $erf['erf_id']; ?>" class="gallery-link"><i class="fa fa-arrow-right" alt="Learn more"></i></a>
+                                        <a href="erfDetail.php?erf_id=<?= $erf['erf_id']; ?>" class="gallery-link"><i class="fa fa-info-circle" alt="Learn more"></i></a>
                                     </div>
                                     <div class="gallery-details">
                                         <h4><?= $erf['erf_name']; ?></h4>
